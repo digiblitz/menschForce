@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  Copyright: 2018 Menschforce Foundation www.menschforce.org/copyright/
+  
+  License: digiBlitz Public License 1.0 (DPL) administered by digiBlitz Foundation. www.digiblitz.org/dpl/
+  
+  Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
+  
+  Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
+  
+  "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
+-->
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://service.USCIS.action.immigration.db.com/" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="USCISStage5PN" targetNamespace="http://service.USCIS.action.immigration.db.com/">
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     TYPE DEFINITION - List of types participating in this BPEL process 
+     The BPEL Designer will generate default request and response types
+     but you can define or import any XML Schema type and use them as part 
+     of the message types.
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
+   
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     MESSAGE TYPE DEFINITION - Definition of the message types used as 
+     part of the port type defintions
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->  
+    
+    <plnk:partnerLinkType name="USCISStage5PLT">
+    <plnk:role name="USCISStage5Role" portType="tns:USCISStagesService"/>
+  </plnk:partnerLinkType>
+    <import location="USCISService.wsdl" namespace="http://service.USCIS.action.immigration.db.com/"/>
+    <message name="USCISStage5PNRequestMessage">
+        <part name="filePath" type="xsd:string"/>
+        <part name="createDate" type="xsd:string"/>
+        <part name="ackDate" type="xsd:string"/>
+        <part name="systemDate" type="xsd:string"/>
+        <part name="status" type="xsd:string"/>
+        <part name="documentName" type="xsd:string"/>
+        <part name="MultipleFilePath" type="xsd:string"/>
+    </message>
+    <message name="USCISStage5PNResponseMessage">
+        <part name="output" type="xsd:string"/>
+    </message>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     PORT TYPE DEFINITION - A port type groups a set of operations into
+     a logical service unit.
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
+
+    <!-- portType implemented by the USCISStage5PN BPEL process -->
+    <portType name="USCISStage5PN">
+        <operation name="USCISStage5">
+            <input message="tns:USCISStage5PNRequestMessage"/>
+            <output message="tns:USCISStage5PNResponseMessage"/>
+        </operation>
+    </portType>   
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     PARTNER LINK TYPE DEFINITION
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
+    <plnk:partnerLinkType name="USCISStage5PN">
+        <plnk:role name="USCISStage5PNProvider" portType="tns:USCISStage5PN"/>
+    </plnk:partnerLinkType>
+    
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     BINDING DEFINITION - Defines the message format and protocol details
+     for a web service.
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <binding name="USCISStage5PNBinding" type="tns:USCISStage5PN">
+    	<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    	<operation name="USCISStage5">
+    		<soap:operation soapAction="http://service.USCIS.action.immigration.db.com//process"/>
+    		<input>
+    			<soap:body namespace="http://service.USCIS.action.immigration.db.com/" use="literal"/>
+    		</input>
+    		<output>
+    			<soap:body namespace="http://service.USCIS.action.immigration.db.com/" use="literal"/>
+    		</output>
+    	</operation>
+    </binding>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     SERVICE DEFINITION - A service groups a set of ports into
+     a service unit.
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <service name="USCISStage5PNService">
+    	<port binding="tns:USCISStage5PNBinding" name="USCISStage5PNPort">
+    		<soap:address location="https://www.digiblitzonline.com:8943/ode/processes/USCISStage5PN"/>
+    	</port>
+    </service>
+</definitions>

@@ -1,0 +1,329 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+
+<link rel="stylesheet" href="css/touchTouch.css">
+     <link rel="stylesheet" href="css/owl.carousel.css">
+     <link rel="stylesheet" href="css/style.css">
+     
+       <link rel="stylesheet" href="css/gender.css">
+	   <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.css">
+	<link rel="stylesheet" href="css/jquery-ui.css" type="text/css"/>
+	<link rel="stylesheet" href="css/ui.theme.css" type="text/css"  />
+	
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+<script type="text/javascript" language="javascript">
+		
+		function getDocumentName(tempDocument){
+			var tempDocument1 = tempDocument.split("\\");
+			var size = tempDocument1.length;			
+			return tempDocument1[size-1];
+		}
+		function formatDate(date){
+			//var date_string = moment(uploadeddate, "YYYY-MM-DD").format("YYYY-MM-DD");
+			var strDate = date.toString('yyyy-MM-dd');
+			var date_string = strDate.split("T");
+			//alert('format date function '+date_string[0]);
+			return date_string[0];
+		}
+		
+		
+
+$(document).ready(function(){
+
+	
+	
+	$("#submit").click(function(){
+
+		$("#wait").show();
+		
+		 $('#resume').empty();
+		
+		var requestData = null;
+		
+		var search = $("#search").val();
+		//alert(search);
+		
+		if(search == 'all'){
+		
+		requestData = $("#jobdesc").val()+'%20AND%20'+$("#exp").val()+'%20AND%20'+$("#skillset").val()+'%20AND%20'+$("#university").val()+'%20AND%20'+$("#college").val()+'%20AND%20'+$("#degree").val()+'%20AND%20'+$("#field").val()+'%20AND%20'+$("#certification").val();			
+		//alert(requestData);
+		}else if(search == 'any'){
+		
+		requestData = $("#jobdesc").val()+','+$("#exp").val()+','+$("#skillset").val()+','+$("#university").val()+','+$("#college").val()+','+$("#degree").val()+','+$("#field").val()+','+$("#certification").val();			
+		
+		}
+		//alert(requestData);		 		
+		$.get('resumeSearch.html?cmd=getResumes', {
+        	requestData: requestData
+        }, function(response) {
+				
+			//alert(response);
+        	if(response != null){				
+        		
+				 var json = JSON.stringify(eval("(" + response + ")"));				 				
+				var obj = JSON.parse(json);
+				var temp = obj.response.docs;
+				$.each(temp, function(i, item) {					
+					 var count = 1;
+					
+			var tempDate = item.date;						
+			var uploadedDate = formatDate(tempDate);					
+			var tempModifiedDate = item.last_modified;			
+			var modifiedDate = formatDate(tempModifiedDate);
+			
+			
+			var tempDocument = item.id.replace(/\\/g, "\\\\");
+			var documents = getDocumentName(tempDocument);
+			$("#resumePath").val(tempDocument);
+			//alert(tempDocument);
+			//alert('date '+uploadedDate+' modifieddate '+modifiedDate );
+			$('.pp').show();
+            $('#resume').append($('<div class="col-md-8"><div class="form-group"><label>'+documents +'</label> </br> <label>Uploaded Date:</label>'+uploadedDate+'<br/><label>Last Modified Date:</label>'+modifiedDate+'<br/><a class="aUrl" onClick="myFunction()" href="#" > Save Resume' + '</a> </div></div></br></br>'));	
+				count++;
+				
+				//alert(count);
+				});
+				
+				
+        	}else{
+				$('.pp').show();
+            $('#resume').append($('<div class="col-md-8"><div class="form-group"><label> Sorry, No documents</label> </div></div></br></br>'));	
+			}       
+        });
+        
+	});
+
+		
+	
+$("#all").click(function(){
+	var search = $("#all").val();
+	//alert(search);
+	$("#search").val(search);	
+});
+
+$("#any").click(function(){
+	var search = $("#any").val();
+	//alert(search);
+	$("#search").val(search);	
+});
+
+
+});
+
+function myFunction(){
+	
+		var resumePath = $("#resumePath").val();
+
+		$.get('resumeSearch.html?cmd=initResumeDownload&resumePath='+resumePath), {
+        	
+        }, function(response) {
+
+			$("#wait").show();
+alert(response);
+		}
+		//alert('resumePath '+resumePath);
+		}
+	
+
+</script>
+
+</head>
+<body class="page1" id="top" >
+
+<%@ include file = "../../include/menschForceHeader.jsp" %>
+
+<div class="content">
+  <div class="container_12 "> 
+  
+
+<div class="pp" style="margin: 16px 0 16px 0;  padding: 10px;  BACKGROUND: #F2F2EB;  -moz-border-radius: 12px 12px 0 0;  -webkit-border-radius: 12px 12px 0 0;  border-radius: 12px 12px 0 0;"> 
+ <div class="ppp" style="font-family: Candara, Trebuchet MS, Verdana, Arial, Helvetica, sans-serif;  font-size: 22px;  font-weight: bold;  color: #4e4e4e;  margin-bottom: 8px;  TEXT-SHADOW: 0 1px 0 rgba(255, 255, 255, 0.85);">Resume Search</div>
+<div class="pps" style=" border: 2px SOLID #e2e2d6;  background: white;  padding: 10px;  font-size: 15px; color:black;">
+		
+		
+  
+  <section class="news-box">
+        <div class="container contN">
+		
+		
+		<form id="form" name="insert" action="" method="post" >
+		<input type="hidden" name="resumePath" id="resumePath" value="" >
+
+		<div class="row">
+												
+							<div class="col-md-10">
+                                <div class="form-group">
+                                    <label>Kind of Search:</label>
+					<input type="radio"  name="yesno" id="all" value="all" >All the Fields
+					<input type="radio"  name="yesno" id="any" value="any" >Any of the Fields                                    
+                                </div>
+                            </div>
+							
+							<input type="hidden" id="search" name="search" value="">
+							
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label>Job Description:</label>
+					<input  type="text" id="jobdesc" name="description" class="form-control" value=""  maxlength="50" >
+                                    <span class="form-validation" style="color:Red;">*</span>
+                                </div>
+                            </div>
+							
+							<div class="col-md-8">
+                                <div class="form-group">
+                                    <label>Experience:</label>
+					<input  type="text" id="exp" name="experience" class="form-control" value=""  maxlength="50" >
+                                    <span class="form-validation" style="color:Red;">*</span>
+                                </div>
+                            </div>
+							
+							<div class="col-md-8">
+                                <div class="form-group">
+                                    <label>Skill Set:</label>
+					<input  type="text" id="skillset" name="skillSet" class="form-control" value=""  maxlength="50" >
+                                    <span class="form-validation" style="color:Red;">*</span>
+                                </div>
+                            </div>
+							
+							
+							<div class="col-md-8">
+                                <div class="form-group">
+                                    <label style="color:#b70000; " >Education-</label>
+                                </div>
+                            </div>
+							
+							
+							<div class="col-md-8">
+                                <div class="form-group">
+                                    <label>University:</label>
+					<input  type="text" id="university" name="university" class="form-control" value=""  maxlength="50" >
+                                    <span class="form-validation" style="color:Red;">*</span>
+                                </div>
+                            </div>
+							
+							<div class="col-md-8">
+                                <div class="form-group">
+                                    <label>College:</label>
+					<input  type="text" id="college" name="college" class="form-control" value=""  maxlength="50" >
+                                    <span class="form-validation" style="color:Red;">*</span>
+                                </div>
+                            </div>
+																					
+							<div class="col-md-8">
+                                <div class="form-group">
+                                    <label>Degree:</label>
+					<input  type="text" id="degree" name="degree" class="form-control" value=""  maxlength="50" >
+                                    <span class="form-validation" style="color:Red;">*</span>
+                                </div>
+                            </div>
+														
+							<div class="col-md-8">
+                                <div class="form-group">
+                                    <label>Field:</label>
+					<input  type="text" id="field" name="field" class="form-control" value=""  maxlength="50" >
+                                    <span class="form-validation" style="color:Red;">*</span>
+                                </div>
+                            </div>
+														
+							<div class="col-md-8">
+                                <div class="form-group">
+                                    <label>Certification:</label>
+					<input  type="text" id="certification" name="certification" class="form-control" value=""  maxlength="50" >
+                                    <span class="form-validation" style="color:Red;">*</span>
+                                </div>
+                            </div>
+
+							<div class="col-md-8">
+                                <div class="form-group">
+                                    <label>me</label>
+					
+                                </div>
+                            </div>
+							
+													
+							 <div class="col-md-8">
+                                <label class="linksss">
+                <input type="button" name="Insert" value="Submit" class="submit" id="submit">
+				</label>
+				<label class="linkssss">
+                 <input type="button" value="Cancel" name="button" onClick="javascript:history.back(-1);" >
+				</label>
+                            </div>							
+
+
+<div id="wait" class="loading" align="center" style="padding:10px; margin-top:100px; margin-left:50px;">Processing......Please allow transaction to complete. <br />
+Clicking <strong>REFRESH or BACK </strong> in your browser could result in multiple payment requests being processed! </div>
+<div class="loading" align="center" style="padding:10px;"><img src="images/processing.gif" /></div>
+
+							
+		</div>		
+		</form>		
+		</div>		
+		</section>
+		</div></div>
+  
+<div class="pp" style="display:none; margin: 16px 0 16px 0;  padding: 10px;  BACKGROUND: #F2F2EB;  -moz-border-radius: 12px 12px 0 0;  -webkit-border-radius: 12px 12px 0 0;  border-radius: 12px 12px 0 0;"> 
+ <div class="ppp" style="font-family: Candara, Trebuchet MS, Verdana, Arial, Helvetica, sans-serif;  font-size: 22px;  font-weight: bold;  color: #4e4e4e;  margin-bottom: 8px;  TEXT-SHADOW: 0 1px 0 rgba(255, 255, 255, 0.85);">Resumes List</div>
+<div class="pps" style=" border: 2px SOLID #e2e2d6;  background: white;  padding: 10px;  font-size: 15px; color:black;">
+	
+		
+	<div class="row" id="resume" >	
+	</div>
+
+
+
+	</div>
+	</div>
+	
+
+	
+
+	</div>
+	</div>
+
+	
+
+
+
+	 <!-- <button id="click" value="Click" >Click</button> 
+	
+	<div id="select" style="background:#fff; " >
+	</div>
+	-->
+	 <!-- FOOTER STARTS HERE -->
+                        
+						<%@ include file = "../../include/menschForceFooter.jsp" %>
+                    <!-- FOOTER ENDS HERE -->
+					
+</body>
+
+   <style>   
+<!-- new form starts -->
+		.news-box h1 {
+    margin: 30px 0;
+    color: #3d84e6;
+}
+		.top-margin {
+    margin-top: 20px;
+}
+		.form-group .form-validation {
+        position: absolute;
+    top: 20px;
+    right: 6px;
+}
+
+a:hover{
+	color:#fff000;
+}
+
+<!-- new form ends -->
+</style>
+
+</html>

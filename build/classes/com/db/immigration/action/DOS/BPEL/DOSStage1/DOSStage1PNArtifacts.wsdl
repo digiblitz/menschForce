@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  Copyright: 2018 Menschforce Foundation www.menschforce.org/copyright/
+  
+  License: digiBlitz Public License 1.0 (DPL) administered by digiBlitz Foundation. www.digiblitz.org/dpl/
+  
+  Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
+  
+  Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
+  
+  "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
+-->
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://service.DOS.action.immigration.db.com/" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="DOSStage1PN" targetNamespace="http://service.DOS.action.immigration.db.com/">
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     TYPE DEFINITION - List of types participating in this BPEL process 
+     The BPEL Designer will generate default request and response types
+     but you can define or import any XML Schema type and use them as part 
+     of the message types.
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
+    
+
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     MESSAGE TYPE DEFINITION - Definition of the message types used as 
+     part of the port type defintions
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
+    <plnk:partnerLinkType name="DOSStage1PLT">
+    <plnk:role name="DOSStage1Role" portType="tns:DOSStagesService"/>
+  </plnk:partnerLinkType>
+    <import location="DOSService.wsdl" namespace="http://service.DOS.action.immigration.db.com/"/>
+    <message name="DOSStage1PNRequestMessage">
+        <part name="user_id" type="xsd:string"/>
+        <part name="file_path" type="xsd:string"/>
+        <part name="multiple_file_path" type="xsd:string"/>
+        <part name="created_date" type="xsd:string"/>
+        <part name="ack_date" type="xsd:string"/>
+        <part name="system_date" type="xsd:string"/>
+        <part name="status" type="xsd:string"/>
+    </message>
+    <message name="DOSStage1PNResponseMessage">
+       <part name="output" type="xsd:string"/>
+    </message>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     PORT TYPE DEFINITION - A port type groups a set of operations into
+     a logical service unit.
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
+
+    <!-- portType implemented by the DOSStage1PN BPEL process -->
+    <portType name="DOSStage1PN">
+        <operation name="DOSStage1">
+            <input message="tns:DOSStage1PNRequestMessage"/>
+            <output message="tns:DOSStage1PNResponseMessage"/>
+        </operation>
+    </portType>   
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     PARTNER LINK TYPE DEFINITION
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
+    <plnk:partnerLinkType name="DOSStage1PN">
+        <plnk:role name="DOSStage1PNProvider" portType="tns:DOSStage1PN"/>
+    </plnk:partnerLinkType>
+    
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     BINDING DEFINITION - Defines the message format and protocol details
+     for a web service.
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <binding name="DOSStage1PNBinding" type="tns:DOSStage1PN">
+    	<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    	<operation name="DOSStage1">
+    		<soap:operation soapAction="http://service.DOS.action.immigration.db.com//process"/>
+    		<input>
+    			<soap:body namespace="http://service.DOS.action.immigration.db.com/" use="literal"/>
+    		</input>
+    		<output>
+    			<soap:body namespace="http://service.DOS.action.immigration.db.com/" use="literal"/>
+    		</output>
+    	</operation>
+    </binding>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     SERVICE DEFINITION - A service groups a set of ports into
+     a service unit.
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <service name="DOSStage1PNService">
+    	<port binding="tns:DOSStage1PNBinding" name="DOSStage1PNPort">
+    		<soap:address location="http://www.digiblitzonline.com:8480/ode/processes/DOSStage1PN"/>
+    	</port>
+    </service>
+</definitions>

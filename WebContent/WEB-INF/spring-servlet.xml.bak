@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:p="http://www.springframework.org/schema/p"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:mvc="http://www.springframework.org/schema/mvc"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
+ 
+ <bean name="/login.html" class="com.login.action.KlgLoginAction"/>  
+ <bean name="/roles.html" class="com.role.action.KlgRoleAction"/>
+ <bean name="/user.html" class="com.user.action.KlgUserAction"/>
+  
+ <bean name="/master.html" class="com.master.action.UserMaster"/>
+ <bean name="/customerAction.html" class="com.customer.support.action.CustomerSupportAction"/>
+ <bean name="/userRole.html" class="com.user.action.MfUserRoleAction"/>
+ <bean name="/UsrSignupAjax.html" class="com.user.action.UsrSignupAjaxAction"/>
+ <bean name="/logout.html" class="com.logout.action.KlgLogoutAction"/>
+ <bean name="/SearchList.html" class="com.user.action.KlgSearchAction"/>
+ <bean name="/SysMgmt.html" class="com.hpsystinet.action.KlgHpSystinetAction"/>
+ <bean name="/ExterApp.html" class="com.external.action.ExternalApplicationAction"/>
+ <bean name="/artifactMapping.html" class="com.artifact.action.KlgArtifactAction"/>
+ <bean name="/signUp.html" class="com.artifact.action.GldSignUpAction"/>
+ <bean name="/reportList.html" class="com.report.action.GldkftReportList"/>
+ <bean name="/createSalesGraph.html" class="com.report.action.GldkftcreateSalesGraph"/>
+ <bean name="/MakeChart.html" class="com.report.action.AccTransAction"/>
+ <bean name="/areaGraph.html" class="com.report.action.GldkftareaGraph"/>
+ <bean name="/paypal.html" class="com.paypal.action.PayPalAction"/>
+ 
+  <!-- Resume Search Action -->
+ <bean name="/resumeSearch.html" class="com.resume.search.ResumeSearch"/>
+  
+  <!-- context:component-scan base-package="com.user.action"/>
+  <mvc:annotation-driven/> -->
+  <context:component-scan base-package="com.chat.action"/>
+  <context:component-scan base-package="com.jobvacancy.requirements"/>
+  <!--mvc:annotation-driven/-->
+ 
+  <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+      <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+      <property name="prefix" value="/jsp/"/>
+      <property name="suffix" value=".jsp"/>
+  </bean>
+ 
+<!--bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	<property name="host" value="smtp.gmail.com" />
+	<property name="port" value="587" />
+	<property name="username" value="dhivya.ab@gmail.com" />
+	<property name="password" value="mmbalraaj" />
+ 
+	<property name="javaMailProperties">
+	   <props>
+       	      <prop key="mail.smtp.auth">true</prop>
+       	      <prop key="mail.smtp.starttls.enable">true</prop>
+       	   </props>
+	</property>
+</bean>
+ 
+<bean id="mailMail" class="com.mkyong.common.MailMail">
+	<property name="mailSender" ref="mailSender" />
+</bean-->
+
+</beans>
