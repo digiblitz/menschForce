@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright: 2018 Menschforce Foundation www.menschforce.org/copyright/
+ * Copyright: 2018 Menschforce Foundation www.menschforce.org/copyright/.
  * 
  * License: digiBlitz Public License 1.0 (DPL) administered by digiBlitz Foundation. www.digiblitz.org/dpl/
  * 
