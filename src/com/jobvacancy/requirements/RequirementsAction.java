@@ -1,13 +1,15 @@
 /*******************************************************************************
- * Copyright: 2018 Menschforce Foundation www.menschforce.org/copyright/
- * 
- * License: digiBlitz Public License 1.0 (DPL) administered by digiBlitz Foundation. www.digiblitz.org/dpl/
- * 
- * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
- * 
- * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
- * 
- * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
+ * /*******************************************************************************
+ * * Copyright: 2019 digiBlitz Foundation
+ * * 
+ * * License: digiBlitz Public License 1.0 (DPL) 
+ * * Administered by digiBlitz Foundation. www.digiblitz.org/dpl/
+ * * 
+ * * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
+ * * 
+ * * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
+ * * 
+ * * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
  ******************************************************************************/
 package com.jobvacancy.requirements;
 
@@ -33,6 +35,8 @@ import com.db.GeneralDBAction;
 import com.hlccommon.util.Debug;
 import com.hlcform.util.HLCUserMaster;
 import com.infusionejb.session.InfusionSessionBean;
+import com.util.email.EmailContent;
+import com.util.email.MailMail;
 
 @Controller
 public class RequirementsAction {
@@ -218,7 +222,7 @@ public class RequirementsAction {
 		System.out.println("minExperience------------------->"+minExperience);
 		System.out.println("maxExperience------------------->"+maxExperience);
 		
-		
+		System.out.println("keshav -------->");
 		
 		objPostReq.setJobTitle(JobTitle);
 		//objPostReq.setrequirementId(requirementId);
@@ -315,6 +319,111 @@ boolean insertPostStatus = false;
 		 	request.setAttribute("currentPageNo", currentPageNo);
 	        request.setAttribute("allPostReqList",postReqList);
 	        request.setAttribute("pageStatus","postReqList");
+	        
+	        
+	        /*
+	        
+	        
+	        
+	        
+	    	String emailid1 = RecruiterEmail;
+			String toMailIds1[] = { emailid1 };// instance toMailds1
+			EmailContent email1 = new EmailContent();// instance email1
+			email1.setTo();
+			email1.setFrom("crm@menschforce.com");
+			email1.setSubject("Your Username");
+
+			String HtmlBody = "<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important;\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;"
+					+ "text-align: center;vertical-align: top; width: 100%;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody><tr><td align=\"center\" valign=\"top\" style=\" background-color: #2f68b4;border-radius: 4px 4px 0 0;padding-bottom: 16px; text-align: center;\">"
+					+ "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"padding-top: 16px;\"><a href=\"#\"><img style=\"height: auto; max-width: 156px;\" src=\"https://www.digiblitzonline.com:8843/menschforce/img/menschForce_logo.png\" alt=\"Logo\"/></a></td>"
+					+ " </tr></tbody></table></td></tr></tbody></table><div ><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"background-color: #fff;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>"
+					+ "<tr><td align=\"center\" valign=\"top\" style=\"  padding: 16px;text-align: center; vertical-align: top;\"><h4 style=\"font-size: 22px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: center;\">Congratulations "
+					+  "</h4><p style=\"   font-size: 19px;"
+					+ "line-height: 27px; margin-bottom: 16px;margin-top: 16px; text-align: center;\">You are registered Successfully... </p><table style=\" clear: both; margin: 0 auto;\" align=\"center\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
+					+ "<tbody> <tr> <td style=\"border-radius: 4px;padding: 12px 24px;text-align: center;vertical-align: middle;background-color: #22aaa0; font-size: 16px;\" class=\"font_default\"><h4 style=\"font-size: 22px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: center;\">Registration Details</h4></td>"
+					+ "</tr> </tbody> </table> <p>&nbsp; </p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> <table  width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody> <tr> <td align=\"center\" valign=\"top\" style=\"background-color: #fff;  padding: 16px; text-align: center; vertical-align: top;\">"
+					+ "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody> <tr> <td style=\"color: #888;\" align=\"center\" valign=\"top\" style=\" padding: 16px; text-align: center; vertical-align: top;\">"
+					+ " <p style=\" line-height: 23px; margin-bottom: 24px; margin-top: 16px;font-size: 15px;\">"
+					+ "<strong>E-mail ID :</strong><br /> " 
+					+ "</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+					+ "<strong>Visit the Site :</strong><br /> <a href=\"http://40.71.224.84:8380/menschforce\" target=\"_blank\">www.menschforce.com</a></p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+					+ "<strong>User Name :</strong><br /> " 
+					+ "</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+					+ "<strong>Password :</strong><br /> "
+					+ "</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+					+ "<strong> Id :</strong><br /> " 
+					+ "</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+					+ "</td> </tr> </tbody></table></td></tr></tbody></table></div></div></div></div></body></html>";
+			String textBody = "<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important;\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;"
+					+ "text-align: center;vertical-align: top; width: 100%;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody><tr><td align=\"center\" valign=\"top\" style=\" background-color: #2f68b4;border-radius: 4px 4px 0 0;padding-bottom: 16px; text-align: center;\">"
+					+ "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"padding-top: 16px;\"><a href=\"#\"><img style=\"height: auto; max-width: 156px;\" src=\"https://www.digiblitzonline.com:8843/menschforce/img/menschForce_logo.png\" alt=\"Logo\"/></a></td>"
+					+ " </tr></tbody></table></td></tr></tbody></table><div ><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"background-color: #fff;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>"
+					+ "<tr><td align=\"center\" valign=\"top\" style=\"  padding: 16px;text-align: center; vertical-align: top;\"><h4 style=\"font-size: 22px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: center;\">Congratulations "
+					+  "</h4><p style=\"   font-size: 19px;"
+					+ "line-height: 27px; margin-bottom: 16px;margin-top: 16px; text-align: center;\">You are registered Successfully... </p><table style=\" clear: both; margin: 0 auto;\" align=\"center\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
+					+ "<tbody> <tr> <td style=\"border-radius: 4px;padding: 12px 24px;text-align: center;vertical-align: middle;background-color: #22aaa0; font-size: 16px;\" class=\"font_default\"><h4 style=\"font-size: 22px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: center;\">Registration Details</h4></td>"
+					+ "</tr> </tbody> </table> <p>&nbsp; </p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> <table  width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody> <tr> <td align=\"center\" valign=\"top\" style=\"background-color: #fff;  padding: 16px; text-align: center; vertical-align: top;\">"
+					+ "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody> <tr> <td style=\"color: #888;\" align=\"center\" valign=\"top\" style=\" padding: 16px; text-align: center; vertical-align: top;\">"
+					+ " <p style=\" line-height: 23px; margin-bottom: 24px; margin-top: 16px;font-size: 15px;\">"
+					+ "<strong>E-mail ID :</strong><br /> "
+					+ "</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+					+ "<strong>Visit the Site :</strong><br /> <a href=\"http://40.71.224.84:8380/menschforce\" target=\"_blank\">www.menschforce.com</a></p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+					+ "<strong>User Name :</strong><br /> " 
+					+ "</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+					+ "<strong>Password :</strong><br /> " 
+					+ "</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+					+ "<strong> Id :</strong><br /> " 
+					+ "</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+					+ "</td> </tr> </tbody></table></td></tr></tbody></table></div></div></div></div></body></html>";
+
+			// System.out.println("infusion soft property values: ----> "+fromAddress+"
+			// toAddress "+toAddress+" subject "+subject+" htmlBody "+" textBody
+			// "+textBody);
+			// System.out.println("ccAddresses "+ccAddresses+" bccAddresses "+bccAddresses);
+			// Infusion Soft mail starts
+
+			// obj1.sendEmail(properties.getProperty("infusionMail.fromAddress"), usrEmail,
+			// properties.getProperty("infusionMail.ccAddresses"),
+			// properties.getProperty("infusionMail.bccAddresses"),
+			// properties.getProperty("infusionMail.contentType"),
+			// properties.getProperty("infusionMail.subject"),
+			// properties.getProperty("infusionMail.htmlBody"),
+			// properties.getProperty("infusionMail.textBody"));
+
+			/*
+			 * 
+			 * try { obj1.createAndCheckDuplicateContact(fName, lName, toAddress);
+			 * obj1.optin_outEmail(toAddress); obj1.sendEmail(fromAddress, toAddress,
+			 * ccAddresses, bccAddresses, contentType, subject, htmlBody, textBody); } catch
+			 * (XmlRpcException e) { // TODO Auto-generated catch block e.printStackTrace();
+			 * }
+			 * 
+			 * System.out.println("Mail has been send successfully");
+			 * 
+			 * 
+			 */
+			// Infusion Soft mail ends
+
+		/*	email1.setBody(htmlBody);// content=htmlBoady
+			// email.setAttachments();
+
+			/*
+			 * EmailEngine mail1 = new EmailEngine(); boolean emailFlag1 =
+			 * mail1.sendMimeEmail(email1);
+			 */
+		/*	MailMail mail = new MailMail();
+			boolean emailFlag1 = mail.sendMimeEmail(email1);
+			Debug.print("Email sent sucessfully :" + emailFlag1);
+	        
+	        */
+	        
+	        
+	        
+	        
+	        
+	        
+	        
+	        
 			return new ModelAndView("requirements/listPostReq");
 		}
 	}
@@ -1218,28 +1327,4 @@ System.out.println("Update Job Post ------------>"+insertPostStatus);
 	  return new ModelAndView ("requirements/frmHomeforTrial");
 	 }
 	
-	@RequestMapping("DeletePostRequirementByUniqueID.html")
-	 public ModelAndView DeletePostRequirementByUniqueID(HttpServletRequest request,
-	   HttpServletResponse response) throws Exception{
-	 HttpSession session=request.getSession(true); 
-	 Debug.print("PayrollAction.empDeletePayroll()");
-	 GeneralDBAction db=new GeneralDBAction();
-
-		String Req_Id = null;
-		
-		Req_Id = request.getParameter("requirementId");
-		
-		System.out.println("requirementId from delete method------------->"+Req_Id);
-		
-		
-		boolean deleteStatus = false;
-		if(Req_Id == null || Req_Id == ""){
-			throw new Exception("Requirement Not Found!");
-		}else{
-			boolean deletePostById = db.deletePostRequirementByID(Req_Id);
-			
-		}
-		
-	  return new ModelAndView ("requirements/listPostReq");
-	 }
 }

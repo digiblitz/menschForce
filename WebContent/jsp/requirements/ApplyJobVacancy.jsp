@@ -1,14 +1,16 @@
-<!--
-Copyright: 2018 Menschforce Foundation www.menschforce.org/copyright/
-
-License: digiBlitz Public License 1.0 (DPL) administered by digiBlitz Foundation. www.digiblitz.org/dpl/
-
-Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
-
-Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
-
-"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
- --> 
+#-------------------------------------------------------------------------------
+# /*******************************************************************************
+# * Copyright: 2019 digiBlitz Foundation
+# * 
+# * License: digiBlitz Public License 1.0 (DPL) 
+# * Administered by digiBlitz Foundation. www.digiblitz.org/dpl/
+# * 
+# * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
+# * 
+# * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
+# * 
+# * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
+#-------------------------------------------------------------------------------
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@ page import = "javax.sql.*" %>
@@ -20,10 +22,12 @@ Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
 	  
         
         <%
+        
+        String encode = (String)request.getAttribute("email");
         String RID = (String)request.getAttribute("RID");
         String applyStatus = null;
         applyStatus = (String)request.getAttribute("applyStatus");
-        
+        System.out.println("keshav "+encode);
         HLCContactDetails objContact = new HLCContactDetails();
 	    HLCUserMaster objUserMaster = new HLCUserMaster();
 	    objUserMaster = (HLCUserMaster)request.getAttribute("objUserMaster");
@@ -67,9 +71,10 @@ Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
                     <div class="thumb-pad1">
                         <div class="thumbnail">
                             <div class="caption" >
-                               <form method="post" name="frmapplyjobvacancy" id="frmapplyjobvacancy" action="GetApplyJobVacancy.html?RID=<%=RID%>" id="aspnetForm" >
+                               <form method="post" name="frmapplyjobvacancy" id="frmapplyjobvacancy" action="GetApplyJobVacancy.html?RID=<%=RID%>&User=<%=encode%>" id="aspnetForm" >
         						<input type="hidden" name="appliedUserId" id="appliedUserId" value="<%=objUserMaster.getUserId()%>" />
-       
+                                 
+                                 
         
         <div id="">
             <div id="">
@@ -682,6 +687,19 @@ adding information you can submit the candidate </p>
         <input name="txtlastname" value="" type="text" id="txtlastname" class="form-control"  />
     </div>
 </div>
+
+
+
+<div class="col-md-4">
+    <div class="form-group-sm">
+       
+     <input type="hidden" name="email" id="encode" value="<%=encode%>" />  
+      
+        
+    </div>
+</div>
+
+
 <div class="col-md-4">
     <div class="form-group-sm">
         <label>Date of Birth :</label>
@@ -706,7 +724,13 @@ adding information you can submit the candidate </p>
         <label>Email Address :</label>
         <span style="color:red">*</span>
         <span id="emailerror" style="color:red"></span>
+       
+       
+       
         <input name="txtemailaddress" value="" type="text" id="txtemailaddress" class="form-control"  />
+  
+    
+    
     </div>
 </div>
 <div class="col-md-4">
@@ -722,6 +746,8 @@ adding information you can submit the candidate </p>
         <span style="color:red">*</span>
         <span id="contacterror" style="color:red"></span>
         <input name="txtcontactnumber" value="" type="text" id="txtcontactnumber" class="form-control"  onBlur="addDashes(this)" />
+   
+   
     </div>
 </div>
 <div class="col-md-4">

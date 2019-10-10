@@ -75,11 +75,10 @@ public final class EmailEngine {
          
      
     public boolean sendEmail(EmailContent emailContent)  {    
-    	System.out.println("testing..................................................");
       boolean success = false;
-      String hostName = "smtp.gmail.com";
-      String userName = "jprakashjp@gmail.com";
-      String passWord = "Jprakaz@123"; 
+      String hostName = properties.getProperty("mail.host");
+      String userName = properties.getProperty("mail.username");
+      String passWord = properties.getProperty("mail.password"); 
       Debug.print("Mail Configuration :\n"+"HostName :"+hostName+" " +
           "UserName:"+userName+" Password:"+passWord); 
        //Debug.print("Email Content :"+emailContent);
@@ -111,16 +110,9 @@ public final class EmailEngine {
     
      public boolean sendMimeEmail(EmailContent emailContent)  {    
       boolean success = false;
-      
-      System.out.println("Checking Mail============="+emailContent.getTo());
-      
-      
       String hostName = properties.getProperty("mail.host");
-      String userName = properties.getProperty("mail.user");
-     String passWord = properties.getProperty("mail.password"); 
-     // String hostName ="menschforce.io";
-      //String userName ="contact@menschforce.io";
-      //String passWord ="dBUSA**889";
+      String userName = properties.getProperty("mail.username");
+      String passWord = properties.getProperty("mail.password"); 
        Debug.print("Mail Configuration :\n"+"HostName :"+hostName+" " +
           "UserName:"+userName+" Password:"+passWord); 
       // Debug.print("Email Content :"+emailContent);
@@ -136,10 +128,9 @@ public final class EmailEngine {
             email.setAuthentication(userName,passWord); 
            
             for (int i = 0; i < emailContent.getTo().length; i++) {
-            	System.out.println("emailContent.getcheckingto()"+emailContent.getTo());
+            	System.out.println("emailContent.getTo()"+emailContent.getTo());
                 email.addTo(emailContent.getTo()[i]);
             }                   
-            System.out.println("Testing Mail Sending=========================================");
             email.setFrom(emailContent.getFrom());
             email.setSubject(emailContent.getSubject());
             email.setSentDate(new Date());
@@ -217,18 +208,18 @@ public final class EmailEngine {
      
      public static void main(String[] args) throws Exception{
       //sending simple email
-      /*
+      
          EmailContent emailContent = new EmailContent();
          emailContent.setSubject("Test Mail");
-         emailContent.setFrom("guru_devp@yahoo.com");
-         emailContent.setTo(new String[]{"spidershiva@gmail.com","guru_devp@yahoo.com"} );
-         emailContent.setBody("Test mail from shiva ...............");
+         emailContent.setFrom("prabhu3406@gmail.com");
+         emailContent.setTo(new String[]{"jeyaprakash.sankarraj@menschforce.com","jprakazjp@gmail.com"} );
+         emailContent.setBody("Test mail from menschForce ...............");
          EmailEngine emailEngine = new EmailEngine();
          boolean flag = emailEngine.sendEmail(emailContent);
          System.out.println("Mail sent Successfully . Status="+flag );
-       */
+       
        //sending email with attachment
-       List attachmentList = new ArrayList();
+       /*List attachmentList = new ArrayList();
        EmailAttachment attachment = new EmailAttachment();
        attachment.setURL(new URL("http://www.apache.org/images/asf_logo_wide.gif"));
        //attachment.setPath("d:/Ad_Hoc_Query_Tool_3-26-02.ppt");
@@ -248,7 +239,7 @@ public final class EmailEngine {
        emailContent.setAttachments(attachmentList);
        EmailEngine emailEngine = new EmailEngine();
        boolean flag = emailEngine.sendEmailWithAttachment(emailContent);
-       System.out.println("Mail sent Successfully . Status="+flag);
+       System.out.println("Mail sent Successfully . Status="+flag);*/
        
 
          

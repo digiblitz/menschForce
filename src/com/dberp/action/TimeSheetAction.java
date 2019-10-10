@@ -1,13 +1,15 @@
 /*******************************************************************************
- * Copyright: 2018 Menschforce Foundation www.menschforce.org/copyright/
- * 
- * License: digiBlitz Public License 1.0 (DPL) administered by digiBlitz Foundation. www.digiblitz.org/dpl/
- * 
- * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
- * 
- * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
- * 
- * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
+ * /*******************************************************************************
+ * * Copyright: 2019 digiBlitz Foundation
+ * * 
+ * * License: digiBlitz Public License 1.0 (DPL) 
+ * * Administered by digiBlitz Foundation. www.digiblitz.org/dpl/
+ * * 
+ * * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
+ * * 
+ * * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
+ * * 
+ * * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
  ******************************************************************************/
 package com.dberp.action;
 
@@ -533,7 +535,7 @@ public class TimeSheetAction {
 			 
 	        System.out.println("name form timesheet"+name);
 	        
-				//Email to HR    
+				    
 	        
 			String htmlbodytocandidate = "<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important;\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;" +
                     "text-align: center;vertical-align: top; width: 100%;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody><tr><td align=\"center\" valign=\"top\" style=\" background-color: #2f68b4;border-radius: 4px 4px 0 0;padding-bottom: 16px; text-align: center;\">" +
@@ -553,7 +555,6 @@ public class TimeSheetAction {
 					        String ManagerEmailId= TempList[2];
 			     System.out.println("ManagerEmailId=============="+ManagerEmailId);
 				        obj1.createAndCheckDuplicateContact("", "", ManagerEmailId);
-				       
 				        obj1.sendEmail("timesheet@menschforce.com",ManagerEmailId,"", "priya.karunanidhi@digiblitz.in", "Html", "Timesheet is waiting for approval",htmlbodytocandidate,"" );
 				   
 					    }

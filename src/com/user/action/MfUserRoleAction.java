@@ -1,15 +1,18 @@
 /*******************************************************************************
- * Copyright: 2018 Menschforce Foundation www.menschforce.org/copyright/
- * 
- * License: digiBlitz Public License 1.0 (DPL) administered by digiBlitz Foundation. www.digiblitz.org/dpl/
- * 
- * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
- * 
- * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
- * 
- * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
+ * /*******************************************************************************
+ * * Copyright: 2019 digiBlitz Foundation
+ * * 
+ * * License: digiBlitz Public License 1.0 (DPL) 
+ * * Administered by digiBlitz Foundation. www.digiblitz.org/dpl/
+ * * 
+ * * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
+ * * 
+ * * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
+ * * 
+ * * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
  ******************************************************************************/
 package com.user.action;
+import java.util.Base64; 
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,6 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.xml.sax.SAXException;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -63,6 +67,7 @@ import com.oreilly.servlet.multipart.Part;
 import com.util.email.EmailContent;
 import com.util.email.EmailEngine;
 import com.util.email.MailMail;
+
 
 //@Controller
 //@RequestMapping("/HelloPrabhu")
@@ -166,7 +171,7 @@ public class MfUserRoleAction implements Controller {
 	        	 String paddCountry = null;
 	        	 String paddState = null;
 	        	 String paddZip = null;
-	        	 String paddCntryPhn = null;
+	        	 String paddCntryPhn = null;  
 	        	 String paddAreaPhone = null;
 	        	 String paddNoPhone = null;
 	        	 String paddCntryMob = null;
@@ -196,11 +201,7 @@ public class MfUserRoleAction implements Controller {
 	        	 String NonUseaMail = null;
 	        	 String fileLocation = null;
 	        
-	        	 
-
-	     
-	  	                	 
-	  	                	
+	        	 	  	                	
 	  	                	 System.out.println("1");
 	  	                	 System.out.println("2");
 	  	                	 
@@ -575,7 +576,7 @@ public class MfUserRoleAction implements Controller {
 	                // boolean addUsrToGroupStatus = nu.addUserToGroup();
 	         		//boolean status = nu.deleteUser("kamal123");
 	         		//nu.assignUser("kamal123", "JavaSample");
-	         		if (addUsrStatus == true){
+	         		if (addUsrStatus == false){
 	         			System.out.println("user created in Active Directory succcessfully");	
 	         		
 	/*------------------------------------PRABHU END HERE-------------------------------------------------*/
@@ -922,71 +923,150 @@ public class MfUserRoleAction implements Controller {
 	                  * ====================================*/
 	                  
 	                //String fromAddress = "prabhu.pandi@digiblitz.in";
-	                  String fromAddress = properties.getProperty("infusionMail.fromAddress");
-	                  String toAddress = usrEmail;
-	                  String ccAddresses = "";
-	                  ccAddresses = properties.getProperty("infusionMail.ccAddress");
-	                  String bccAddresses = "";
-	                  bccAddresses = properties.getProperty("infusionMail.bccAddress");
-	                  String contentType = "HTML";
-	                  String subject = "Your Username";
-	                  String htmlBody = "<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important;\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;" +
-	                          "text-align: center;vertical-align: top; width: 100%;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody><tr><td align=\"center\" valign=\"top\" style=\" background-color: #2f68b4;border-radius: 4px 4px 0 0;padding-bottom: 16px; text-align: center;\">" +
-	                          "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"padding-top: 16px;\"><a href=\"#\"><img style=\"height: auto; max-width: 156px;\" src=\"https://www.digiblitzonline.com:8843/menschforce/img/menschForce_logo.png\" alt=\"Logo\"/></a></td>" +
-	                          " </tr></tbody></table></td></tr></tbody></table><div ><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"background-color: #fff;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>" +
-	                          "<tr><td align=\"center\" valign=\"top\" style=\"  padding: 16px;text-align: center; vertical-align: top;\"><h4 style=\"font-size: 22px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: center;\">Congratulations "+fName+" "+lName+"</h4><p style=\"   font-size: 19px;" +
-	                            "line-height: 27px; margin-bottom: 16px;margin-top: 16px; text-align: center;\">You are registered Successfully... </p><table style=\" clear: both; margin: 0 auto;\" align=\"center\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">" +
-	                            "<tbody> <tr> <td style=\"border-radius: 4px;padding: 12px 24px;text-align: center;vertical-align: middle;background-color: #22aaa0; font-size: 16px;\" class=\"font_default\"><h4 style=\"font-size: 22px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: center;\">Registration Details</h4></td>" +
-	                            "</tr> </tbody> </table> <p>&nbsp; </p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> <table  width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody> <tr> <td align=\"center\" valign=\"top\" style=\"background-color: #fff;  padding: 16px; text-align: center; vertical-align: top;\">" +
-	                            "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody> <tr> <td style=\"color: #888;\" align=\"center\" valign=\"top\" style=\" padding: 16px; text-align: center; vertical-align: top;\">" +
-	                            " <p style=\" line-height: 23px; margin-bottom: 24px; margin-top: 16px;font-size: 15px;\">" +
-	 							"<strong>E-mail ID :</strong><br /> "+usrEmail+"</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> " +
-	 							"<strong>Visit the Site :</strong><br /> <a href=\"http://www.menschforce.com\" target=\"_blank\">www.menschforce.com</a></p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> " +
-	 							"<strong>User Name :</strong><br /> "+usrName+"</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> " +
-	                            "<strong>Password :</strong><br /> "+usrCnfPwd+"</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> " +
-	                            "<strong>"+usrCategory+" Id :</strong><br /> "+usrCompanyDetails+"</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> " +
-	                            "</td> </tr> </tbody></table></td></tr></tbody></table></div></div></div></div></body></html>";
-	                  String textBody = "<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important;\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;" +
-	                          "text-align: center;vertical-align: top; width: 100%;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody><tr><td align=\"center\" valign=\"top\" style=\" background-color: #2f68b4;border-radius: 4px 4px 0 0;padding-bottom: 16px; text-align: center;\">" +
-	                          "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"padding-top: 16px;\"><a href=\"#\"><img style=\"height: auto; max-width: 156px;\" src=\"https://www.digiblitzonline.com:8843/menschforce/img/menschForce_logo.png\" alt=\"Logo\"/></a></td>" +
-	                          " </tr></tbody></table></td></tr></tbody></table><div ><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"background-color: #fff;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>" +
-	                          "<tr><td align=\"center\" valign=\"top\" style=\"  padding: 16px;text-align: center; vertical-align: top;\"><h4 style=\"font-size: 22px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: center;\">Congratulations "+fName+" "+lName+"</h4><p style=\"   font-size: 19px;" +
-	                            "line-height: 27px; margin-bottom: 16px;margin-top: 16px; text-align: center;\">You are registered Successfully... </p><table style=\" clear: both; margin: 0 auto;\" align=\"center\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">" +
-	                            "<tbody> <tr> <td style=\"border-radius: 4px;padding: 12px 24px;text-align: center;vertical-align: middle;background-color: #22aaa0; font-size: 16px;\" class=\"font_default\"><h4 style=\"font-size: 22px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: center;\">Registration Details</h4></td>" +
-	                            "</tr> </tbody> </table> <p>&nbsp; </p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> <table  width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody> <tr> <td align=\"center\" valign=\"top\" style=\"background-color: #fff;  padding: 16px; text-align: center; vertical-align: top;\">" +
-	                            "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody> <tr> <td style=\"color: #888;\" align=\"center\" valign=\"top\" style=\" padding: 16px; text-align: center; vertical-align: top;\">" +
-	                            " <p style=\" line-height: 23px; margin-bottom: 24px; margin-top: 16px;font-size: 15px;\">" +
-	 							"<strong>E-mail ID :</strong><br /> "+usrEmail+"</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> " +
-	 							"<strong>Visit the Site :</strong><br /> <a href=\"http://www.menschforce.com\" target=\"_blank\">www.menschforce.com</a></p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> " +
-	 							"<strong>User Name :</strong><br /> "+usrName+"</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> " +
-	                            "<strong>Password :</strong><br /> "+usrCnfPwd+"</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> " +
-	                            "<strong>"+usrCategory+" Id :</strong><br /> "+usrCompanyDetails+"</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> " +
-	                            "</td> </tr> </tbody></table></td></tr></tbody></table></div></div></div></div></body></html>";
+	                 // String fromAddress = properties.getProperty("infusionMail.fromAddress");
+	                //  String toAddress = usrEmail;
+	                 // String ccAddresses = "";
+	                 // ccAddresses = properties.getProperty("infusionMail.ccAddress");
+	                 // String bccAddresses = "";
+	                 // bccAddresses = properties.getProperty("infusionMail.bccAddress");
+	                 // String contentType = "HTML";
+	                 // String subject = "Your Username";
+	                 // String htmlBody = "<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important;\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;" +
+	                        //  "text-align: center;vertical-align: top; width: 100%;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody><tr><td align=\"center\" valign=\"top\" style=\" background-color: #2f68b4;border-radius: 4px 4px 0 0;padding-bottom: 16px; text-align: center;\">" +
+	                        //  "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"padding-top: 16px;\"><a href=\"#\"><img style=\"height: auto; max-width: 156px;\" src=\"https://www.digiblitzonline.com:8843/menschforce/img/menschForce_logo.png\" alt=\"Logo\"/></a></td>" +
+	                        //  " </tr></tbody></table></td></tr></tbody></table><div ><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"background-color: #fff;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>" +
+	                        //  "<tr><td align=\"center\" valign=\"top\" style=\"  padding: 16px;text-align: center; vertical-align: top;\"><h4 style=\"font-size: 22px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: center;\">Congratulations "+fName+" "+lName+"</h4><p style=\"   font-size: 19px;" +
+	                         //   "line-height: 27px; margin-bottom: 16px;margin-top: 16px; text-align: center;\">You are registered Successfully... </p><table style=\" clear: both; margin: 0 auto;\" align=\"center\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">" +
+	                         //   "<tbody> <tr> <td style=\"border-radius: 4px;padding: 12px 24px;text-align: center;vertical-align: middle;background-color: #22aaa0; font-size: 16px;\" class=\"font_default\"><h4 style=\"font-size: 22px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: center;\">Registration Details</h4></td>" +
+	                         //   "</tr> </tbody> </table> <p>&nbsp; </p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> <table  width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody> <tr> <td align=\"center\" valign=\"top\" style=\"background-color: #fff;  padding: 16px; text-align: center; vertical-align: top;\">" +
+	                        //    "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody> <tr> <td style=\"color: #888;\" align=\"center\" valign=\"top\" style=\" padding: 16px; text-align: center; vertical-align: top;\">" +
+	                        //    " <p style=\" line-height: 23px; margin-bottom: 24px; margin-top: 16px;font-size: 15px;\">" +
+	 						//	"<strong>E-mail ID :</strong><br /> "+usrEmail+"</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> " +
+	 						//	"<strong>Visit the Site :</strong><br /> <a href=\"http://www.menschforce.com\" target=\"_blank\">www.menschforce.com</a></p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> " +
+	 						//	"<strong>User Name :</strong><br /> "+usrName+"</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> " +
+	                          //  "<strong>Password :</strong><br /> "+usrCnfPwd+"</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> " +
+	                          //  "<strong>"+usrCategory+" Id :</strong><br /> "+usrCompanyDetails+"</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> " +
+	                          //  "</td> </tr> </tbody></table></td></tr></tbody></table></div></div></div></div></body></html>";
+	                 // String textBody = "<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important;\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;" +
+	                        //  "text-align: center;vertical-align: top; width: 100%;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody><tr><td align=\"center\" valign=\"top\" style=\" background-color: #2f68b4;border-radius: 4px 4px 0 0;padding-bottom: 16px; text-align: center;\">" +
+	                       //   "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"padding-top: 16px;\"><a href=\"#\"><img style=\"height: auto; max-width: 156px;\" src=\"https://www.digiblitzonline.com:8843/menschforce/img/menschForce_logo.png\" alt=\"Logo\"/></a></td>" +
+	                       //   " </tr></tbody></table></td></tr></tbody></table><div ><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"background-color: #fff;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>" +
+	                       //   "<tr><td align=\"center\" valign=\"top\" style=\"  padding: 16px;text-align: center; vertical-align: top;\"><h4 style=\"font-size: 22px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: center;\">Congratulations "+fName+" "+lName+"</h4><p style=\"   font-size: 19px;" +
+	                        //    "line-height: 27px; margin-bottom: 16px;margin-top: 16px; text-align: center;\">You are registered Successfully... </p><table style=\" clear: both; margin: 0 auto;\" align=\"center\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">" +
+	                        //    "<tbody> <tr> <td style=\"border-radius: 4px;padding: 12px 24px;text-align: center;vertical-align: middle;background-color: #22aaa0; font-size: 16px;\" class=\"font_default\"><h4 style=\"font-size: 22px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: center;\">Registration Details</h4></td>" +
+	                          //  "</tr> </tbody> </table> <p>&nbsp; </p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> <table  width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody> <tr> <td align=\"center\" valign=\"top\" style=\"background-color: #fff;  padding: 16px; text-align: center; vertical-align: top;\">" +
+	                         //   "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody> <tr> <td style=\"color: #888;\" align=\"center\" valign=\"top\" style=\" padding: 16px; text-align: center; vertical-align: top;\">" +
+	                         //   " <p style=\" line-height: 23px; margin-bottom: 24px; margin-top: 16px;font-size: 15px;\">" +
+	 						//	"<strong>E-mail ID :</strong><br /> "+usrEmail+"</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> " +
+	 						//	"<strong>Visit the Site :</strong><br /> <a href=\"http://www.menschforce.com\" target=\"_blank\">www.menschforce.com</a></p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> " +
+	 						//	"<strong>User Name :</strong><br /> "+usrName+"</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> " +
+	                         //   "<strong>Password :</strong><br /> "+usrCnfPwd+"</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> " +
+	                          //  "<strong>"+usrCategory+" Id :</strong><br /> "+usrCompanyDetails+"</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> " +
+	                          //  "</td> </tr> </tbody></table></td></tr></tbody></table></div></div></div></div></body></html>";
 	                  
-	                  System.out.println("infusion soft property values: ----> "+fromAddress+" toAddress "+toAddress+" subject "+subject+" htmlBody "+" textBody "+textBody);
-	                  System.out.println("ccAddresses "+ccAddresses+" bccAddresses "+bccAddresses);
+	                 // System.out.println("infusion soft property values: ----> "+fromAddress+" toAddress "+toAddress+" subject "+subject+" htmlBody "+" textBody "+textBody);
+	                //  System.out.println("ccAddresses "+ccAddresses+" bccAddresses "+bccAddresses);
 	                  //Infusion Soft mail starts
 	                                   
 	         //obj1.sendEmail(properties.getProperty("infusionMail.fromAddress"), usrEmail, properties.getProperty("infusionMail.ccAddresses"), properties.getProperty("infusionMail.bccAddresses"), properties.getProperty("infusionMail.contentType"), properties.getProperty("infusionMail.subject"), properties.getProperty("infusionMail.htmlBody"), properties.getProperty("infusionMail.textBody"));
-	              try {
-	             	 obj1.createAndCheckDuplicateContact(fName, lName, toAddress);
-	             	 obj1.optin_outEmail(toAddress);
-	 				obj1.sendEmail(fromAddress, toAddress, ccAddresses, bccAddresses, contentType, subject, htmlBody, textBody);
-	 			} catch (XmlRpcException e) {
+	             // try {
+	             //// obj1.createAndCheckDuplicateContact(fName, lName, toAddress);
+	             	// obj1.optin_outEmail(toAddress);
+	 				//obj1.sendEmail(fromAddress, toAddress, ccAddresses, bccAddresses, contentType, subject, htmlBody, textBody);
+	 			//} catch (XmlRpcException e) {
 	 			// TODO Auto-generated catch block
-	 				e.printStackTrace();
-	 			}
+	 				//e.printStackTrace();
+	 			//}
                               
-                              System.out.println("Mail has been send successfully");                                 
+                            //  System.out.println("Mail has been send successfully");                                 
                      //Infusion Soft mail ends
+	                  
+	               /* String emailid1 = usrEmail;
+	  				String toMailIds1[] = { emailid1 };// instance toMailds1
+	  				EmailContent email1 = new EmailContent();// instance email1
+	  				email1.setTo(toMailIds1);
+	  				email1.setFrom("crm@menschforce.com");
+	  				email1.setSubject("Your Username");
+
+	  				String htmlBody = "<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important;\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;"
+	  						+ "text-align: center;vertical-align: top; width: 100%;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody><tr><td align=\"center\" valign=\"top\" style=\" background-color: #2f68b4;border-radius: 4px 4px 0 0;padding-bottom: 16px; text-align: center;\">"
+	  						+ "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"padding-top: 16px;\"><a href=\"#\"><img style=\"height: auto; max-width: 156px;\" src=\"https://www.digiblitzonline.com:8843/menschforce/img/menschForce_logo.png\" alt=\"Logo\"/></a></td>"
+	  						+ " </tr></tbody></table></td></tr></tbody></table><div ><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"background-color: #fff;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>"
+	  						+ "<tr><td align=\"center\" valign=\"top\" style=\"  padding: 16px;text-align: center; vertical-align: top;\"><h4 style=\"font-size: 22px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: center;\">Congratulations "
+	  						+ fName + " " + lName + "</h4><p style=\"   font-size: 19px;"
+	  						+ "line-height: 27px; margin-bottom: 16px;margin-top: 16px; text-align: center;\">You are registered Successfully... </p><table style=\" clear: both; margin: 0 auto;\" align=\"center\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
+	  						+ "<tbody> <tr> <td style=\"border-radius: 4px;padding: 12px 24px;text-align: center;vertical-align: middle;background-color: #22aaa0; font-size: 16px;\" class=\"font_default\"><h4 style=\"font-size: 22px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: center;\">Registration Details</h4></td>"
+	  						+ "</tr> </tbody> </table> <p>&nbsp; </p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> <table  width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody> <tr> <td align=\"center\" valign=\"top\" style=\"background-color: #fff;  padding: 16px; text-align: center; vertical-align: top;\">"
+	  						+ "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody> <tr> <td style=\"color: #888;\" align=\"center\" valign=\"top\" style=\" padding: 16px; text-align: center; vertical-align: top;\">"
+	  						+ " <p style=\" line-height: 23px; margin-bottom: 24px; margin-top: 16px;font-size: 15px;\">"
+	  						+ "<strong>E-mail ID :</strong><br /> " + usrEmail
+	  						+ "</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+	  						+ "<strong>Visit the Site :</strong><br /> <a href=\"http://40.71.224.84:8380/menschforce\" target=\"_blank\">www.menschforce.com</a></p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+	  						+ "<strong>User Name :</strong><br /> " + usrName
+	  						+ "</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+	  						+ "<strong>password :</strong><br /> " + usrCnfPwd
+	  						+ "</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+	  						+ "<strong>" + usrCategory + " Id :</strong><br /> " + usrCompanyDetails
+	  						+ "</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+	  						+ "</td> </tr> </tbody></table></td></tr></tbody></table></div></div></div></div></body></html>";
+	  				String textBody = "<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important;\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;"
+	  						+ "text-align: center;vertical-align: top; width: 100%;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody><tr><td align=\"center\" valign=\"top\" style=\" background-color: #2f68b4;border-radius: 4px 4px 0 0;padding-bottom: 16px; text-align: center;\">"
+	  						+ "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"padding-top: 16px;\"><a href=\"#\"><img style=\"height: auto; max-width: 156px;\" src=\"https://www.digiblitzonline.com:8843/menschforce/img/menschForce_logo.png\" alt=\"Logo\"/></a></td>"
+	  						+ " </tr></tbody></table></td></tr></tbody></table><div ><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"background-color: #fff;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>"
+	  						+ "<tr><td align=\"center\" valign=\"top\" style=\"  padding: 16px;text-align: center; vertical-align: top;\"><h4 style=\"font-size: 22px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: center;\">Congratulations "
+	  						+ fName + " " + lName + "</h4><p style=\"   font-size: 19px;"
+	  						+ "line-height: 27px; margin-bottom: 16px;margin-top: 16px; text-align: center;\">You are registered Successfully... </p><table style=\" clear: both; margin: 0 auto;\" align=\"center\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
+	  						+ "<tbody> <tr> <td style=\"border-radius: 4px;padding: 12px 24px;text-align: center;vertical-align: middle;background-color: #22aaa0; font-size: 16px;\" class=\"font_default\"><h4 style=\"font-size: 22px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: center;\">Registration Details</h4></td>"
+	  						+ "</tr> </tbody> </table> <p>&nbsp; </p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> <table  width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody> <tr> <td align=\"center\" valign=\"top\" style=\"background-color: #fff;  padding: 16px; text-align: center; vertical-align: top;\">"
+	  						+ "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody> <tr> <td style=\"color: #888;\" align=\"center\" valign=\"top\" style=\" padding: 16px; text-align: center; vertical-align: top;\">"
+	  						+ " <p style=\" line-height: 23px; margin-bottom: 24px; margin-top: 16px;font-size: 15px;\">"
+	  						+ "<strong>E-mail ID :</strong><br /> " + usrEmail
+	  						+ "</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+	  						+ "<strong>Visit the Site :</strong><br /> <a href=\"http://40.71.224.84:8380/menschforce\" target=\"_blank\">www.menschforce.com</a></p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+	  						+ "<strong>User Name :</strong><br /> " + usrName
+	  						+ "</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+	  						+ "<strong>password :</strong><br /> " + usrCnfPwd
+	  						+ "</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+	  						+ "<strong>" + usrCategory + " Id :</strong><br /> " + usrCompanyDetails
+	  						+ "</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+	  						+ "</td> </tr> </tbody></table></td></tr></tbody></table></div></div></div></div></body></html>";*/
+
+	  				// System.out.println("infusion soft property values: ----> "+fromAddress+"
+	  				// toAddress "+toAddress+" subject "+subject+" htmlBody "+" textBody
+	  				// "+textBody);
+	  				// System.out.println("ccAddresses "+ccAddresses+" bccAddresses "+bccAddresses);
+	  				// Infusion Soft mail starts
+
+	  				// obj1.sendEmail(properties.getProperty("infusionMail.fromAddress"), usrEmail,
+	  				// properties.getProperty("infusionMail.ccAddresses"),
+	  				// properties.getProperty("infusionMail.bccAddresses"),
+	  				// properties.getProperty("infusionMail.contentType"),
+	  				// properties.getProperty("infusionMail.subject"),
+	  				// properties.getProperty("infusionMail.htmlBody"),
+	  				// properties.getProperty("infusionMail.textBody"));
+
+	  				/*
+	  				 * 
+	  				 * try { obj1.createAndCheckDuplicateContact(fName, lName, toAddress);
+	  				 * obj1.optin_outEmail(toAddress); obj1.sendEmail(fromAddress, toAddress,
+	  				 * ccAddresses, bccAddresses, contentType, subject, htmlBody, textBody); } catch
+	  				 * (XmlRpcException e) { // TODO Auto-generated catch block e.printStackTrace();
+	  				 * }
+	  				 * 
+	  				 * System.out.println("Mail has been send successfully");
+	  				 * 
+	  				 * 
+	  				 */
+	  				// Infusion Soft mail ends
 	                  
 	                  
 	                 String emailid = usrEmail;
 	                 String toMailIds[] = {emailid};
 	                 EmailContent email = new EmailContent();
 	                 email.setTo(toMailIds);
-	                 email.setFrom("dhivya@digiblitz.in");
+	                 email.setFrom("crm@menschforce.com");
 	                 email.setSubject("Your Account Info !");
+	                 
 
 	                 String content = "<table width=\"526\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\" style=\"border:1px solid #999;\"> " +
 	                         " <tr>" +
@@ -1005,12 +1085,107 @@ public class MfUserRoleAction implements Controller {
 	                         "</tr>" +
 	                         "<tr>" +
 	                         "<td valign=\"top\" background=\"images/left.jpg\">&nbsp;</td>" +
+	                         "<td valign=\"top\" bgcolor=\"#FBF2F2\">" + "<tr><td align=\"center\" valign=\"top\" style=\"  padding: 16px;text-align: center; vertical-align: top;\"><h4 style=\"font-size: 22px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: center;\">Congratulations "
+	 						+ fName + " " + lName + "</h4><p style=\"   font-size: 19px;" 
+	 						+ "line-height: 27px; margin-bottom: 16px;margin-top: 16px; text-align: center;\">You are registered Successfully... </p><table style=\" clear: both; margin: 0 auto;\" align=\"center\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
+	 						+ "<tbody> <tr> <td style=\"border-radius: 4px;padding: 12px 24px;text-align: center;vertical-align: middle;background-color: #22aaa0; font-size: 16px;\" class=\"font_default\"><h4 style=\"font-size: 22px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: center;\">Registration Details</h4></td>"
+	                       /* + "<p>Please save this email for your records. Your account information is as follows:.<p>" + "<p>----------------------------<p>" + "<p>UserName :" + usrName + "<p> password: " +usrCnfPwd + "<p> ----------------------------<p>" */
+	                        + "</tr> </tbody> </table> <p>&nbsp; </p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> <table  width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody> <tr> <td align=\"center\" valign=\"top\" style=\"background-color: #fff;  padding: 16px; text-align: center; vertical-align: top;\">"
+							+ "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody> <tr> <td style=\"color: #888;\" align=\"center\" valign=\"top\" style=\" padding: 16px; text-align: center; vertical-align: top;\">"
+							+ " <p style=\" line-height: 23px; margin-bottom: 24px; margin-top: 16px;font-size: 15px;\">"
+							+ "<strong>E-mail ID :</strong><br /> " + usrEmail
+							+ "</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+							+ "<strong>Visit the Site :</strong><br /> <a href=\"http://40.71.224.84:8380/menschforce\" target=\"_blank\">www.menschforce.com</a></p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+							+ "<strong>User Name :</strong><br /> " + usrName
+							+ "</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+							+ "<strong>Password :</strong><br /> " + usrCnfPwd
+							+ "</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+							+ "<strong>" + usrCategory + " Id :</strong><br /> " + usrCompanyDetails
+							+ "</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+							+ "</td> </tr> </tbody></table></td></tr></tbody></table></div></div></div></div></body></html>"; /*"<p>Your account would be activated through your confirmation by visiting the following link: <p>"+
+	                         "<a href=http://192.168.3.98:8090/dashboad-war/uservalidate.do?email="+request.getParameter("email")+"> Click Here to Activate your Account </a>"+*/
+	                         
+	                     
+	                 email.setBody(content);
+	                 //email.setAttachments();
+
+	                 MailMail mail = new MailMail();
+	                 boolean emailFlag = mail.sendMimeEmail(email);
+	                 Debug.print("Email sent sucessfully :" + emailFlag);
+	                 request.setAttribute("source", source);  
+	                 
+	/*---------------------------------mail to sender--Start*--------------------------------------------------------------*/
+	                  
+	 		        
+	                 
+	                 String emailid2 = "jprakazjp@gmail.com";
+	                 String toMailIds2[] = { emailid2};
+	                 EmailContent email2 = new EmailContent();
+	                 email2.setTo(toMailIds2);
+	                 email2.setFrom("crm@menschforce.com");
+	                 email2.setSubject("New Workseekr Details !");
+	                 
+	                 
+	                 String content1 = "<table width=\"526\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\" style=\"border:1px solid #999;\"> " +
+	                         " <tr>" +
+	                         " <td height=\"463\" valign=\"top\" bgcolor=\"#FCFBF0\" style=\"padding-top:10px; padding-bottom:10px; padding-left:10px; padding-right:10px;\">" +
+	                         " <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> " +
+	                         "<tr>" +
+	                         "<td height=\"70\" valign=\"top\"><img src=\"images/emailHeader.jpg\" alt=\"HLC Online Services Dashboard Email Template\" width=\"515\" height=\"55\" /></td> " +
+	                         " </tr>" +
+	                         "  <tr>" +
+	                         "<td valign=\"top\">" +
+	                         "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">" +
+	                         "<tr>" +
+	                         "<td width=\"13\" height=\"12\" valign=\"top\"><img src=\"images/cornerTopLeft.jpg\" width=\"13\" height=\"12\" /></td> " +
+	                         "<td valign=\"top\" bgcolor=\"#FBF2F2\"></td>" +
+	                         "<td width=\"13\" height=\"12\" valign=\"top\"><img src=\"images/cornerTopRght.jpg\" width=\"13\" height=\"12\" /></td>" +
+	                         "</tr>" +
+	                         "<tr>" +
+	                         "<td valign=\"top\" background=\"images/left.jpg\">&nbsp;</td>" +
+	                         "<td valign=\"top\" bgcolor=\"#FBF2F2\">" + "<tr><td align=\"center\" valign=\"top\" style=\"  padding: 16px;text-align: center; vertical-align: top;\"><h4 style=\"font-size: 22px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: center;\">Congratulations "
+	 						+ fName + " " + lName + "</h4><p style=\"   font-size: 19px;" 
+	 						+ "line-height: 27px; margin-bottom: 16px;margin-top: 16px; text-align: center;\">You are registered Successfully... </p><table style=\" clear: both; margin: 0 auto;\" align=\"center\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
+	 						+ "<tbody> <tr> <td style=\"border-radius: 4px;padding: 12px 24px;text-align: center;vertical-align: middle;background-color: #22aaa0; font-size: 16px;\" class=\"font_default\"><h4 style=\"font-size: 22px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: center;\">Registration Details</h4></td>"
+	                       /* + "<p>Please save this email for your records. Your account information is as follows:.<p>" + "<p>----------------------------<p>" + "<p>UserName :" + usrName + "<p> password: " +usrCnfPwd + "<p> ----------------------------<p>" */
+	                        + "</tr> </tbody> </table> <p>&nbsp; </p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> <table  width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody> <tr> <td align=\"center\" valign=\"top\" style=\"background-color: #fff;  padding: 16px; text-align: center; vertical-align: top;\">"
+							+ "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody> <tr> <td style=\"color: #888;\" align=\"center\" valign=\"top\" style=\" padding: 16px; text-align: center; vertical-align: top;\">"
+							+ " <p style=\" line-height: 23px; margin-bottom: 24px; margin-top: 16px;font-size: 15px;\">"
+							+ "<strong>E-mail ID :</strong><br /> " + usrEmail
+							+ "</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+							+ "<strong>Visit the Site :</strong><br /> <a href=\"http://40.71.224.84:8380/menschforce\" target=\"_blank\">www.menschforce.com</a></p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+							+ "<strong>User Name :</strong><br /> " + usrName
+							+ "</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+							+ "<strong>Password :</strong><br /> " + usrCnfPwd
+							+ "</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+							+ "<strong>" + usrCategory + " Id :</strong><br /> " + usrCompanyDetails
+							+ "</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> "
+							+ "</td> </tr> </tbody></table></td></tr></tbody></table></div></div></div></div></body></html>"; /*"<p>Your account would be activated through your confirmation by visiting the following link: <p>"+
+	                         "<a href=http://192.168.3.98:8090/dashboad-war/uservalidate.do?email="+request.getParameter("email")+"> Click Here to Activate your Account </a>"+*/
+	                         
+	               /*  String content2 = "<table width=\"526\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\" style=\"border:1px solid #999;\"> " +
+	                         " <tr>" +
+	                         " <td height=\"463\" valign=\"top\" bgcolor=\"#FCFBF0\" style=\"padding-top:10px; padding-bottom:10px; padding-left:10px; padding-right:10px;\">" +
+	                         " <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> " +
+	                         "<tr>" +
+	                         "<td height=\"70\" valign=\"top\"><img src=\"images/emailHeader.jpg\" alt=\"HLC Online Services Dashboard Email Template\" width=\"515\" height=\"55\" /></td> " +
+	                         " </tr>" +
+	                         "  <tr>" +
+	                         "<td valign=\"top\">" +
+	                         "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">" +
+	                         "<tr>" +
+	                         "<td width=\"13\" height=\"12\" valign=\"top\"><img src=\"images/cornerTopLeft.jpg\" width=\"13\" height=\"12\" /></td> " +
+	                         "<td valign=\"top\" bgcolor=\"#FBF2F2\"></td>" +
+	                         "<td width=\"13\" height=\"12\" valign=\"top\"><img src=\"images/cornerTopRght.jpg\" width=\"13\" height=\"12\" /></td>" +
+	                         "</tr>" +
+	                         "<tr>" +
+	                         "<td valign=\"top\" background=\"images/left.jpg\">&nbsp;</td>" +
 	                         "<td valign=\"top\" bgcolor=\"#FBF2F2\">" +
-	                         "<span class=\"boldTxt\">Dear " + fName + "</span>,<br /><br />" +
-	                         "<p>Please save this email for your records. Your account information is as follows:.<p>" + "<p>----------------------------<p>" + "<p>UserName :" + request.getParameter("usrname") + "<p> password: " + request.getParameter("cpwd") + "<p> ----------------------------<p>" +
+	                         "<span class=\"boldTxt\">Dear " + "sender" + "</span>,<br /><br />" +
+	                         "<p>Mail sent Successfully to<p>" +fName + "<p>----------------------------<p>" +
 	                         /*"<p>Your account would be activated through your confirmation by visiting the following link: <p>"+
 	                         "<a href=http://192.168.3.98:8090/dashboad-war/uservalidate.do?email="+request.getParameter("email")+"> Click Here to Activate your Account </a>"+*/
-	                         "Thank you for using the service provided by <span class=\"boldTxt\">United States Eventing Association</span>.</p>" +
+	                        /* "Thank you for using the service provided by <span class=\"boldTxt\">United States Eventing Association</span>.</p>" +
 	                         "Thank You <br />" +
 	                         "------------------ <br />" +
 	                         "<span class=\"boldRedTxt\">HLC Team</span></td>" +
@@ -1020,47 +1195,20 @@ public class MfUserRoleAction implements Controller {
 	                         "<td valign=\"top\" background=\"images/cornerBot.jpg\">&nbsp;</td>" +
 	                         "<td valign=\"top\" background=\"images/cornerBotRght.jpg\">&nbsp;</td>" +
 	                         "</tr>" +
-	                         " </table>" +
-	                         "</td></tr>" +
-	                         "+<tr>" +
-	                         "<td valign=\"top\" style=\"padding:10px;\">" +
-	                         "<img src=\"images/pic.jpg\" width=\"272\" height=\"76\" style=\"float:right; padding-left:8px; padding-bottom:8px;\" />" +
-	                         "<p>The easiest way to access your day to day HLC activities online or offline where ever you are and when ever you want." +
-	                         "</p>If you are a NEW VISITOR, register now and ENJOY the following privileges:" +
-	                         "<ul>" +
-	                         "<li>Unlimited shopping online.</li>" +
-	                         "<li>Place advertisements online and/or on-site.</li>" +
-	                         "<li>Sponsor competitions held by HLC.</li>" +
-	                         "</ul>" +
-	                         "Also, REGISTER NOW! and become a member of HLC to access and 	enjoy the following privileges as per your Membership Type and as " +
-	                         "per your �Role� assigned:" +
-	                         "<ul>" +
-	                         "<li>Compete in Equestrian Events held by HLC.</li>" +
-	                         "<li>Take part in other events like; Annual Meetings, Educational events," +
-	                         "Activity Meetings held by HLC etc.</li>" +
-	                         "<li>Send Messages to other members.</li>" +
-	                         "<li>Create your own Distribution Lists.</li>" +
-	                         "<li>Create/Join a group and share your thoughts and common ideas.</li>" +
-	                         " <li>Unlimited Shopping online.</li>" +
-	                         " <li>Place advertisements online and/or on-site.</li>" +
-	                         " <li>Sponsor competitions held by HLC.</li>" +
-	                         "</ul>" +
-	                         "and much more..." +
-	                         "So go ahead and <a href=http://dashboard.useventing.com/>LOGIN NOW!</a></td>" +
-	                         "</tr>" +
-	                         " <tr>" +
-	                         "<td style=\"border-top:1px solid #CC3333; padding-top:8px;\" align=\"right\"><img src=\"images/logo-eMailFooter.jpg\" width=\"63\" height=\"65\" /></td>" +
-	                         "</tr>" +
-	                         "</table>";
+	                         "</table>"; */
 
 
-	                 email.setBody(content);
+	                 email2.setBody(content1);
 	                 //email.setAttachments();
 
-	                 MailMail mail = new MailMail();
-	                 boolean emailFlag = mail.sendMimeEmail(email);
-	                 Debug.print("Email sent sucessfully :" + emailFlag);
-	                 request.setAttribute("source", source);  
+	                 MailMail mail2 = new MailMail();
+	                 boolean emailFlag2 = mail2.sendMimeEmail(email2);
+	                 Debug.print("Email sent sucessfully :" + emailFlag2);
+	                 request.setAttribute("source", source); 
+	 		       
+	                 
+	                 
+	/*---------------------------------mail to sender--End-----------------------------------------------------------------*/
 	                
 	/*-----------------------------------Auto role asign start here--------------------------------------------------*/
 
@@ -1091,7 +1239,7 @@ public class MfUserRoleAction implements Controller {
 	                request.setAttribute("lastName", last_Name);
 	                System.out.println("Last name in servlet : "+last_Name);
 	                
-	                //String user_Name = request.getParameter("username");
+	                //String user_Name = request.getParameter("userName");
 	                String user_Name = usrName;
 	                userId = db.getUserIDByUserName(user_Name);
 	                System.out.println("User name in servlet : "+user_Name);
@@ -1260,3 +1408,4 @@ public class MfUserRoleAction implements Controller {
 	}
 	*/
 }
+

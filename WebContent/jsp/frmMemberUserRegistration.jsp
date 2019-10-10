@@ -1,14 +1,16 @@
-<!--
-Copyright: 2018 Menschforce Foundation www.menschforce.org/copyright/
-
-License: digiBlitz Public License 1.0 (DPL) administered by digiBlitz Foundation. www.digiblitz.org/dpl/
-
-Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
-
-Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
-
-"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
- --> 
+#-------------------------------------------------------------------------------
+# /*******************************************************************************
+# * Copyright: 2019 digiBlitz Foundation
+# * 
+# * License: digiBlitz Public License 1.0 (DPL) 
+# * Administered by digiBlitz Foundation. www.digiblitz.org/dpl/
+# * 
+# * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
+# * 
+# * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
+# * 
+# * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
+#-------------------------------------------------------------------------------
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
    
@@ -248,32 +250,14 @@ $(document).ready(function() {
 			var b = a.trim();
 			$("#plotNo").val(b);
 		});
-		$("#buildNo").blur(function(){  
-			var a = $("#buildNo").val();
-			var b = a.trim();
-			$("#buildNo").val(b);
-		});
-		$("#floorNo").blur(function(){  
-			var a = $("#floorNo").val();
-			var b = a.trim();
-			$("#floorNo").val(b);
-		});
+		
 		$("#street").blur(function(){  
 			var a = $("#street").val();
 			var b = a.trim();
 			$("#street").val(b);
 		});
 
-		$("#lane").blur(function(){  
-			var a = $("#lane").val();
-			var b = a.trim();
-			$("#lane").val(b);
-		});
-		$("#area").blur(function(){  
-			var a = $("#area").val();
-			var b = a.trim();
-			$("#area").val(b);
-		});
+				
 		$("#frmMembRegi_pcity_txt").blur(function(){  
 			var a = $("#frmMembRegi_pcity_txt").val();
 			var b = a.trim();
@@ -464,28 +448,16 @@ function isNumber(evt) {
 				},
 				padd_txt_plotNo:
 				{
-					required:true
+					required:false
 				},
-				padd_txt_buildNo:
-				{
-					required:true
-				},
-				padd_txt_floorNo:
-				{
-					required: true
-				},
+				
+				
 				padd_txt_strtAddr:
 				{
-					required:true
+					required:false
 				},
-				padd_txt_lane:
-				{
-					required:true
-				},
-				padd_txt_area:
-				{
-					required:true
-				},
+				
+				
 				pcity_txt:
 				{
 					required:true
@@ -505,26 +477,22 @@ function isNumber(evt) {
 					mobile:true,
 					maxlength:6
 				},
-				area_phone_txt:
-				{
-					required:true,
-					mobile:true
-				},
+				
 				no_phone_txt:
 				{
-					required:true,
-					mobile:true,
+					required:false,
+					mobile:false,
 					maxlength:15
 				},
 				area_fax_txt:
 				{
-					required:true,
-					mobile:true
+					required:false,
+					mobile:false
 				},
 				no_fax_txt:
 				{
-					required:true,
-					mobile:true,
+					required:false,
+					mobile:false,
 					maxlength:15
 				},
 				sadd_txt:
@@ -533,16 +501,10 @@ function isNumber(evt) {
 				},
 				sadd_txt_strt_addr:
 				{
-					required:true
+					required:false
 				},
-				sadd_txt_laneNo:
-				{
-					required:true
-				},
-				sadd_txt_area:
-				{
-					required:true
-				},
+				
+				
 				scity_txt:
 				{
 					required:true
@@ -564,24 +526,24 @@ function isNumber(evt) {
 				},
 				s_area_phone_txt:
 				{
-					required:true,
-					mobile:true
+					required:false,
+					mobile:false
 				},
 				s_no_phone_txt:
 				{
-					required:true,
-					mobile:true,
+					required:false,
+					mobile:false,
 					maxlength:15
 				},
 				s_area_fax_txt:
 				{
-					required:true,
-					mobile:true
+					required:false,
+					mobile:false
 				},
 				s_no_fax_txt:
 				{
-					required:true,
-					mobile:true,
+					required:false,
+					mobile:false,
 					maxlength:15
 				}
 				
@@ -621,30 +583,12 @@ function isNumber(evt) {
 						
 						required:"Please fill the answer"
 					},
-					padd_txt_plotNo:
-					{
-						required:"Enter Plot No"
-					},
-					padd_txt_buildNo:
-					{
-						required:"Enter Building No"
-					},
-					padd_txt_floorNo:
-					{
-						required:"Enter Floor No"
-					},
-					padd_txt_strtAddr:
-					{
-						required:"Enter Street Address"
-					},
-					padd_txt_lane:
-					{
-						required:"Enter Lane Name"
-					},
-					padd_txt_area:
-					{
-						required:"Enter Area Name"
-					},
+					
+					
+					
+					
+					
+					
 					pcity_txt:
 					{
 						required:"Enter City Name"
@@ -662,44 +606,15 @@ function isNumber(evt) {
 						required:"Enter ZipCode",
 						mobile:"only numbers are allowed"
 					},
-					area_phone_txt:
-					{
-						required:"Enter Area Code",
-					mobile:"Only numbers are allowed"
+								
 					
-					},
-					no_phone_txt:
-					{
-						required:"Enter Phone Number",
-						mobile:"Only numbers are allowed",
-						
-					},
-					area_fax_txt:
-					{
-					required:"Enter Area code",
-					mobile:"Only numbers are allowed"
-					},
-					no_fax_txt:
-					{
-						required:"Enter Fax number",
-						mobile:"Only number are allowed"
-					},
-					sadd_txt:
-					{
-						required:"Enter Plot No/Building No/Floor No"
-					},
+					
 					sadd_txt_strt_addr:
 					{
 						required:"Enter Street Address"
 					},
-					sadd_txt_laneNo:
-					{
-						required:"Enter Lane Name"
-					},
-					sadd_txt_area:
-					{
-						required:"Enter Area Name"
-					},
+					
+					
 					scity_txt:
 					{
 						required:"Enter City Name"
@@ -1126,7 +1041,7 @@ function isNumber(evt) {
 			  			<div class="col-lg-12 col-md-12 col-sm-12">
 							<div class="col-lg-2 col-md-2 col-sm-2 col-sm-offset-3">
 								 <label class="name form-div-6">
-									Plot No. <span class="asterisk">*</span>
+									Plot No. 
 								</label>
 							</div>
 							<div class="col-lg-3 col-md-3 col-sm-3">
@@ -1141,37 +1056,12 @@ function isNumber(evt) {
 							&nbsp;
 						</div>
 						
-						<div class="col-lg-12 col-md-12 col-sm-12">
-							<div class="col-lg-2 col-md-2 col-sm-2 col-sm-offset-3">
-								 <label class="name form-div-6">
-									Building No.<span class="asterisk">*</span>
-								</label>
-							</div>
-							<div class="col-lg-3 col-md-3 col-sm-3">
-							
-							 <input type="text" name="padd_txt_buildNo" id="buildNo" class="form-control" placeholder="Building No." />
-							<font color="#FF0000"><span id="buildno"></span></font>
-							</div>
-							
-						</div>
+						
 						
 						 <div class="col-lg-12 col-md-12 col-sm-12">	
 							&nbsp;
 						</div>
 						
-						<div class="col-lg-12 col-md-12 col-sm-12">
-							<div class="col-lg-2 col-md-2 col-sm-2 col-sm-offset-3">
-								 <label class="name form-div-6">
-									Floor No. <span class="asterisk">*</span>
-								</label>
-							</div>
-							<div class="col-lg-3 col-md-3 col-sm-3">
-							
-							  <input type="text" name="padd_txt_floorNo" id="floorNo" class="form-control" placeholder="Floor No." />
-								<font color="#FF0000"><span id="floorno"></span></font>
-							</div>
-
-						</div>
 						
 						 <div class="col-lg-12 col-md-12 col-sm-12">	
 							&nbsp;
@@ -1192,7 +1082,7 @@ function isNumber(evt) {
 						<div class="col-lg-12 col-md-12 col-sm-12">
 							<div class="col-lg-2 col-md-2 col-sm-2 col-sm-offset-3">
 								 <label class="name form-div-6">
-									Street Address <span class="asterisk">*</span>
+									Street Address 
 								</label>
 							</div>
 							<div class="col-lg-3 col-md-3 col-sm-3">
@@ -1220,23 +1110,6 @@ function isNumber(evt) {
               </tr>
 			-->
 			
-						<div class="col-lg-12 col-md-12 col-sm-12">
-							<div class="col-lg-2 col-md-2 col-sm-2 col-sm-offset-3">
-								 <label class="name form-div-6">
-									Lane <span class="asterisk">*</span>
-								</label>
-							</div>
-							<div class="col-lg-3 col-md-3 col-sm-3">
-							
-							 <input type="text" name="padd_txt_lane" id="lane" value="" class="form-control" placeholder="Lane" />
-								<font color="#FF0000"><span id="Lane"></span></font>
-							</div>
-							
-						</div>
-						
-						 <div class="col-lg-12 col-md-12 col-sm-12">	
-							&nbsp;
-						</div>
 			
 <!-------------------------------------------------------------------------------------------------------------------------->			  
 			<!--   <tr>
@@ -1246,23 +1119,7 @@ function isNumber(evt) {
                 </span></span></td>
               </tr-->
 			  
-			  		<div class="col-lg-12 col-md-12 col-sm-12">
-						<div class="col-lg-2 col-md-2 col-sm-2 col-sm-offset-3">
-								 <label class="name form-div-6">
-									Area <span class="asterisk">*</span>
-								</label>
-							</div>
-							<div class="col-lg-3 col-md-3 col-sm-3">
-							
-							 <input type="text" name="padd_txt_area" id="area" value="" class="form-control" placeholder="Area"/>
-							<font color="#FF0000"><span id="Area"></span></font>
-							</div>
-							
-						</div>
-						
-						 <div class="col-lg-12 col-md-12 col-sm-12">	
-							&nbsp;
-						</div>
+			  		
               
 		
 		
@@ -1354,7 +1211,7 @@ function isNumber(evt) {
 						<div class="col-lg-12 col-md-12 col-sm-12">
 							<div class="col-lg-2 col-md-2 col-sm-2 col-sm-offset-3">
 								 <label class="name form-div-6">
-									Phone <span class="asterisk">*</span>
+									Phone 
 								</label>
 							</div>
 							<div class="col-lg-1 col-md-1 col-sm-1">
@@ -1404,7 +1261,7 @@ function isNumber(evt) {
 						<div class="col-lg-12 col-md-12 col-sm-12">
 							<div class="col-lg-2 col-md-2 col-sm-2 col-sm-offset-3">
 								 <label class="name form-div-6">
-									Fax <span class="asterisk">*</span>
+									Fax 
 								</label>
 							</div>
 							<div class="col-lg-1 col-md-1 col-sm-1">
@@ -1465,20 +1322,7 @@ function isNumber(evt) {
 							&nbsp;
 						</div>
 							 
-							 
-						<div class="col-lg-12 col-md-12 col-sm-12">
-							<div class="col-lg-2 col-md-2 col-sm-2 col-sm-offset-3">
-								 <label class="name form-div-6">
-									Plot No / Building No. <span class="asterisk">*</span>
-								</label>
-							</div>
-							<div class="col-lg-3 col-md-3 col-sm-3">
-							
-							  <input type="text" value="" name="sadd_txt" id="frmMembRegi_sadd_txt" class="form-control"  placeholder="Plot No/Building No/Floor No" />
-							  <font color="#FF0000"><span id="sadd_txt"></span></font>
-							</div>
-							
-						</div>
+						
 						
 						 <div class="col-lg-12 col-md-12 col-sm-12">	
 							&nbsp;
@@ -1488,7 +1332,7 @@ function isNumber(evt) {
 						<div class="col-lg-12 col-md-12 col-sm-12">
 							<div class="col-lg-2 col-md-2 col-sm-2 col-sm-offset-3">
 								 <label class="name form-div-6">
-									Street Address<span class="asterisk">*</span>
+									Street Address
 								</label>
 							</div>
 							<div class="col-lg-3 col-md-3 col-sm-3">
@@ -1503,37 +1347,15 @@ function isNumber(evt) {
 							&nbsp;
 						</div>
 						
-						<div class="col-lg-12 col-md-12 col-sm-12">
-							<div class="col-lg-2 col-md-2 col-sm-2 col-sm-offset-3">
-								 <label class="name form-div-6">
-									Lane
-								</label>
-							</div>
-							<div class="col-lg-3 col-md-3 col-sm-3">
-							
-							  <input type="text" value="" name="sadd_txt_laneNo" id="sadd_txt2" class="form-control"  placeholder="Lane No" />
-							  <span id="sAdd3_txt"></span>
-							</div>
-							
-						</div>
+						
 						
 						 <div class="col-lg-12 col-md-12 col-sm-12">	
 							&nbsp;
 						</div>
 						
-						<div class="col-lg-12 col-md-12 col-sm-12">
-							<div class="col-lg-2 col-md-2 col-sm-2 col-sm-offset-3">
-								 <label class="name form-div-6">
-									Area
-								</label>
-							</div>
-							<div class="col-lg-3 col-md-3 col-sm-3">
-							
-							    <input type="text" value="" name="sadd_txt_area" id="sadd_txt3" class="form-control" placeholder="Area" />
-								<span id="sAdd4_txt"></span>
-							</div>
 						
-						</div>
+							
+						
 						
 						 <div class="col-lg-12 col-md-12 col-sm-12">	
 							&nbsp;
@@ -1621,7 +1443,7 @@ function isNumber(evt) {
 						<div class="col-lg-12 col-md-12 col-sm-12">
 							<div class="col-lg-2 col-md-2 col-sm-2 col-sm-offset-3">
 								 <label class="name form-div-6">
-									Phone <span class="asterisk">*</span>
+									Phone 
 								</label>
 							</div>
 							<div class="col-lg-1 col-md-1 col-sm-1">

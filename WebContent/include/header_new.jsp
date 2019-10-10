@@ -1,14 +1,16 @@
-<!--
-Copyright: 2018 Menschforce Foundation www.menschforce.org/copyright/
-
-License: digiBlitz Public License 1.0 (DPL) administered by digiBlitz Foundation. www.digiblitz.org/dpl/
-
-Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
-
-Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
-
-"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
- --> 
+#-------------------------------------------------------------------------------
+# /*******************************************************************************
+# * Copyright: 2019 digiBlitz Foundation
+# * 
+# * License: digiBlitz Public License 1.0 (DPL) 
+# * Administered by digiBlitz Foundation. www.digiblitz.org/dpl/
+# * 
+# * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
+# * 
+# * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
+# * 
+# * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
+#-------------------------------------------------------------------------------
 <%@page import="com.hlccommon.util.HLCMenuListVO"%>
 <%@ page import="java.util.*"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -928,10 +930,7 @@ System.out.println("UserId in headerProcess : "+userId);
     <div class="follow-box">
         <div class="container"> 
             <ul class="address_icon">
-                <li><img src="img/page1_icon1.png" alt="">13241 WOODLAND PARK ROAD, SUITE 110, HERNDON, VIRGINIA 20171, USA</li>
-                <li><img src="img/page1_icon2.png" alt=""> <a href="#loginmodal3" id="modaltrigger3" onClick="test4();">sales@menschforce.com</a></li>
-                <li><img src="img/page1_icon3.png" alt=""> <a id='__imgButtonClickToCall' href='#'  onclick="window.open('https://acctmgr.evoice.com/AcctMgr/ClickToCall/ClickToConnectSession.aspx?key=4a3541af-cf22-42df-9031-09e547aae7f9','','width=570,height=280, left=40, top=100, resizable=no,scroll=yes,status=no,titlebar=no,toolbar=no,addressbar=no,copyhistory=no,navigationtoolbar=no')"  style='cursor:pointer;border:none'>+1 703-956-2540</a></li>
-				<li> <a href="user.html?cmd=demorequest">CLICK FOR DEMO REQUEST!</a></li>
+               
 				<li><a href="ViewChatBox.html?cmd=openChatBox" style="font-weight:600;color:#f03639" class="hov" ><img src="jsp/LavlitaChatApp/images/Lavlita-AI_verysmall.jpg" style="border-radius:50%;height:45px;width:45px;margin-top: -10px;">Chat with Lavlita.AI</a></li>
             </ul>
             <ul class="follow_icon">
@@ -960,7 +959,7 @@ System.out.println("UserId in headerProcess : "+userId);
                     <ul class="submenu">
         				<li><a href="#loginmodal" id="modaltrigger" onClick="test1();">Vendor</a></li>
 						<li><a href="#loginmodal1" id="modaltrigger1" onClick="test2();">Buyer</a></li>
-						<!-- <li><a href="#loginmodal2" id="modaltrigger2" onClick="test3();">Work Seeker</a></li> -->
+						<li><a href="#loginmodal2" id="modaltrigger2" onClick="test3();">Work Seeker</a></li>
         			</ul>
               </li>
             </ul>

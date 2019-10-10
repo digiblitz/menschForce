@@ -1,13 +1,15 @@
 /*******************************************************************************
- * Copyright: 2018 Menschforce Foundation www.menschforce.org/copyright/
- * 
- * License: digiBlitz Public License 1.0 (DPL) administered by digiBlitz Foundation. www.digiblitz.org/dpl/
- * 
- * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
- * 
- * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
- * 
- * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
+ * /*******************************************************************************
+ * * Copyright: 2019 digiBlitz Foundation
+ * * 
+ * * License: digiBlitz Public License 1.0 (DPL) 
+ * * Administered by digiBlitz Foundation. www.digiblitz.org/dpl/
+ * * 
+ * * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
+ * * 
+ * * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
+ * * 
+ * * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
  ******************************************************************************/
 package com.db;
 
@@ -16702,33 +16704,6 @@ public boolean updatePartnerEmailStatus (String emailstatus, String scheduledid)
         releaseConnection();
         Debug.print("General Exception  in GeneralDBAction.updatePartnerEmailStatus():" + e.getMessage());
     }
-    return result;
-}
-
-public boolean deletePostRequirementByID(String Req_Id) {
-    Debug.print("GeneralDBAction.deletePostRequirementByID()" +Req_Id);
-    boolean result = false;
-    makeConnection();
-    try{
-    	
-    	
-    	  String deleteStatement = "delete from tblMFPostRequirements where requirement_id = ? ";
-          Debug.print("GeneralDBAction.deleteEmployeePayrollDetailsByUniqueId():" + "\n" + deleteStatement + ":" +  Req_Id);
-          PreparedStatement prepStmt = con.prepareStatement(deleteStatement);
-          prepStmt.setString(1, Req_Id);
-          prepStmt.executeUpdate();
-          prepStmt.close();
-          releaseConnection();
-          result = true;
-    }
-    catch(SQLException sql){
-       releaseConnection();
-       Debug.print("SQL Exception in GeneralDBAction deleteEmployeePayrollDetailsByUniqueId:" + sql.getMessage());
-    }
-    catch(Exception e){
-        releaseConnection();
-        Debug.print("General Exception  in  GeneralDBAction deleteEmployeePayrollDetailsByUniqueId:" + e.getMessage());
-    }        
     return result;
 }
 

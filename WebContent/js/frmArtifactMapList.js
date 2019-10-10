@@ -1,14 +1,79 @@
-//
-//Copyright: 2018 Menschforce Foundation www.menschforce.org/copyright/
-//
-//License: digiBlitz Public License 1.0 (DPL) administered by digiBlitz Foundation. www.digiblitz.org/dpl/
-//
-//Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
-//
-//Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
-//
-//"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
-//
+#-------------------------------------------------------------------------------
+# /*******************************************************************************
+# * Copyright: 2019 digiBlitz Foundation
+# * 
+# * License: digiBlitz Public License 1.0 (DPL) 
+# * Administered by digiBlitz Foundation. www.digiblitz.org/dpl/
+# * 
+# * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
+# * 
+# * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
+# * 
+# * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
+#-------------------------------------------------------------------------------
+//------------------------------ Ajax Script for LOBs loading-------------------------
+ 
+ 
+var req;
+  
+function retrieveURL(methodName,param) {  
+  if(param.value.length>0 && param.value!="") {
+ 
+ var paramName = param.name;
+  var url = null;
+
+ if(paramName=='viewPntId'){
+     url = "UsrSignupAjax.html?cmd="+escape(methodName)+"&viewPntId="+escape(param.value);   
+  }else if(paramName=='grpId'){
+  var lobId=document.frmArtifactMap.lobId.value;
+  var viewPntId=document.frmArtifactMap.viewPntId.value;
+    url = "UsrSignupAjax.html?cmd="+escape(methodName)+"&viewPntId="+escape(viewPntId)+"&lobId="+escape(lobId)+"&grpId="+escape(param.value);   
+  }
+      if (window.XMLHttpRequest) {
+           req = new XMLHttpRequest();
+		   
+       } else if (window.ActiveXObject) {
+           req = new ActiveXObject("Microsoft.XMLHTTP");
+       }
+     if(paramName=='viewPntId'){
+           req.onreadystatechange = displayLobsList;
+		 }else if(paramName=='grpId'){
+		 req.onreadystatechange = displayProcDomList;
+		 }
+           
+       req.open("GET", url, true);
+       req.send(null);
+
+    } else { 
+		
+	    setToDefault('lobId');
+       
+    }
+  }  
+  
+  
+  function displayLobsList() {
+    if (req.readyState == 4) { // Complete
+      if (req.status == 200) { // OK response  
+       var xmlDoc = req.responseXML.documentElement;
+	   var xRows= xmlDoc.getElementsByTagName('entry');
+	    var objDDL = document.getElementById("lobId");  
+	    objDDL.innerHTML="";
+		
+			var rootObj=document.createElement("option");	
+		var attrib=document.createAttribute("value");	
+			attrib.value="";
+		rootObj.setAttributeNode(attrib);	
+		newtext=document.createTextNode('Select One');
+		rootObj.appendChild(newtext);
+		objDDL.appendChild(rootObj);
+			
+	    for (var i=0; i<xRows.length; i++) {
+			var nameNodes = xRows[i].getElementsByTagName("optionValue");
+			var valueNodes = xRows[i].getElementsByTagName("optionText");
+			if (nameNodes.length > 0 && valueNodes.length > 0) {
+			  var theValue = nameNodes[0].firstChild.nodeValue;
+			  var theText = valueNodes[0].firstChild.nodeValue;          
 			}
 			var option = new Option(theText,theValue);
 			 try {

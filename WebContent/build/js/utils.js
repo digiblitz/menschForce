@@ -1,14 +1,16 @@
-//
-//Copyright: 2018 Menschforce Foundation www.menschforce.org/copyright/
-//
-//License: digiBlitz Public License 1.0 (DPL) administered by digiBlitz Foundation. www.digiblitz.org/dpl/
-//
-//Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
-//
-//Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
-//
-//"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
-//
+#-------------------------------------------------------------------------------
+# /*******************************************************************************
+# * Copyright: 2019 digiBlitz Foundation
+# * 
+# * License: digiBlitz Public License 1.0 (DPL) 
+# * Administered by digiBlitz Foundation. www.digiblitz.org/dpl/
+# * 
+# * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
+# * 
+# * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
+# * 
+# * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
+#-------------------------------------------------------------------------------
 (function(){var k,aa=this;function m(a,b){var c=a.split("."),d=aa;c[0]in d||!d.execScript||d.execScript("var "+c[0]);for(var e;c.length&&(e=c.shift());)c.length||void 0===b?d=d[e]?d[e]:d[e]={}:d[e]=b}function n(a,b){function c(){}c.prototype=b.prototype;a.ba=b.prototype;a.prototype=new c;a.prototype.constructor=a;a.ha=function(a,c,f){for(var g=Array(arguments.length-2),h=2;h<arguments.length;h++)g[h-2]=arguments[h];return b.prototype[c].apply(a,g)}};function ba(a,b){a.sort(b||ca)}function ca(a,b){return a>b?1:a<b?-1:0};function q(a,b,c){this.e=b;this.s=c.name;this.o=!!c.u;this.i=c.a;this.t=c.type;this.p=!1;switch(this.i){case da:case ea:case fa:case ga:case ha:case ia:case ja:this.p=!0}this.k=c.defaultValue}var ja=1,ia=2,da=3,ea=4,fa=6,ga=16,ha=18;q.prototype.getName=function(){return this.s};function ka(a){var b=[],c=0,d;for(d in a)b[c++]=a[d];return b};function r(a,b,c){this.w=a;this.s=b.name||null;this.h={};for(a=0;a<c.length;a++)b=c[a],this.h[b.e]=b}r.prototype.getName=function(){return this.s};function la(a){a=ka(a.h);ba(a,function(a,c){return a.e-c.e});return a};function t(){this.b={};this.h=this.c().h;this.d=this.r=null}k=t.prototype;k.c=function(){var a=this.constructor;return a.aa||(a.aa=u(a,a.ia))};k.has=function(a){return null!=this.b[a.e]};k.get=function(a,b){return w(this,a.e,b)};k.set=function(a,b){x(this,a.e,b)};k.add=function(a,b){ma(this,a.e,b)};k.clear=function(a){na(this,a.e)};
 function pa(a,b){for(var c=la(a.c()),d=0;d<c.length;d++){var e=c[d],f=e.e;if(null!=b.b[f]){a.d&&delete a.d[e.e];var g=11==e.i||10==e.i;if(e.o)for(var e=y(b,f)||[],h=0;h<e.length;h++)ma(a,f,g?e[h].clone():e[h]);else e=y(b,f),g?(g=y(a,f))?pa(g,e):x(a,f,e.clone()):x(a,f,e)}}}k.clone=function(){var a=new this.constructor;a!=this&&(a.b={},a.d&&(a.d={}),pa(a,this));return a};
 function y(a,b){var c=a.b[b];if(null==c)return null;if(a.r){if(!(b in a.d)){var d=a.r,e=a.h[b];if(null!=c)if(e.o){for(var f=[],g=0;g<c.length;g++)f[g]=d.n(e,c[g]);c=f}else c=d.n(e,c);return a.d[b]=c}return a.d[b]}return c}function w(a,b,c){var d=y(a,b);return a.h[b].o?d[c||0]:d}function z(a,b){var c;if(null!=a.b[b])c=w(a,b,void 0);else a:{c=a.h[b];if(void 0===c.k){var d=c.t;if(d===Boolean)c.k=!1;else if(d===Number)c.k=0;else if(d===String)c.k=c.p?"0":"";else{c=new d;break a}}c=c.k}return c}

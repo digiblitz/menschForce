@@ -1,14 +1,16 @@
-<!--
-Copyright: 2018 Menschforce Foundation www.menschforce.org/copyright/
-
-License: digiBlitz Public License 1.0 (DPL) administered by digiBlitz Foundation. www.digiblitz.org/dpl/
-
-Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
-
-Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
-
-"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
- --> 
+#-------------------------------------------------------------------------------
+# /*******************************************************************************
+# * Copyright: 2019 digiBlitz Foundation
+# * 
+# * License: digiBlitz Public License 1.0 (DPL) 
+# * Administered by digiBlitz Foundation. www.digiblitz.org/dpl/
+# * 
+# * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
+# * 
+# * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
+# * 
+# * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
+#-------------------------------------------------------------------------------
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@ page import = "javax.sql.*" %>
@@ -32,8 +34,10 @@ Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
 		
 		String RID = (String)request.getAttribute("RID");
 		
-		System.out.println("RID--------------->"+RID);
+		String email = (String)request.getAttribute("recEmail");
 		
+		System.out.println("RID--------------->"+RID);
+		System.out.println("recEmail--------------->"+email);
 		String txtmiddlename = null;
 		String txtdateofbirth = null;
 		String txttotalexperience = null;
@@ -173,7 +177,7 @@ background-color: red;
             <input type="hidden" name="txtskills" id="txtskills" value="<%=txtskills%>"/>
             <input type="hidden" name="txtempmailID" id="txtempmailID" value="<%=txtempmailID%>"/>
             
-       
+         <input type="hidden" name="email" id="email" value="<%=email%>"/>
        
       
         <div id="">

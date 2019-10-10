@@ -1,14 +1,16 @@
-<!--
-Copyright: 2018 Menschforce Foundation www.menschforce.org/copyright/
-
-License: digiBlitz Public License 1.0 (DPL) administered by digiBlitz Foundation. www.digiblitz.org/dpl/
-
-Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
-
-Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
-
-"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
- --> 
+#-------------------------------------------------------------------------------
+# /*******************************************************************************
+# * Copyright: 2019 digiBlitz Foundation
+# * 
+# * License: digiBlitz Public License 1.0 (DPL) 
+# * Administered by digiBlitz Foundation. www.digiblitz.org/dpl/
+# * 
+# * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
+# * 
+# * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
+# * 
+# * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
+#-------------------------------------------------------------------------------
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -115,7 +117,7 @@ String Customerpassword = (String)request.getAttribute("Customerpassword");
 String coupon_code = (String)request.getAttribute("coupon_code");
 String coupon_valid = (String)request.getAttribute("coupon_valid");
 %>
-<!--<%if(coupon_code != null && coupon_valid != null && coupon_valid.equalsIgnoreCase("3")){%>
+<%if(coupon_code != null && coupon_valid != null && coupon_valid.equalsIgnoreCase("3")){%>
 <form accept-charset="UTF-8" action="https://ho192.infusionsoft.com/app/form/process/67926189c51da0a2d279b399f4fcc56b" class="infusion-form" method="POST" id="form" style="display:none">
     <input name="inf_form_xid" type="hidden" value="67926189c51da0a2d279b399f4fcc56b" />
     <input name="inf_form_name" type="hidden" value="Coupon Code Success new" />
@@ -270,7 +272,7 @@ String coupon_valid = (String)request.getAttribute("coupon_valid");
     </div>
 </form>
 <%} %>
---->
+
 <section id="content">
 <div class="content">
     

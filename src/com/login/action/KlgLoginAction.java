@@ -1,13 +1,15 @@
 /*******************************************************************************
- * Copyright: 2018 Menschforce Foundation www.menschforce.org/copyright/
- * 
- * License: digiBlitz Public License 1.0 (DPL) administered by digiBlitz Foundation. www.digiblitz.org/dpl/
- * 
- * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
- * 
- * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
- * 
- * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
+ * /*******************************************************************************
+ * * Copyright: 2019 digiBlitz Foundation
+ * * 
+ * * License: digiBlitz Public License 1.0 (DPL) 
+ * * Administered by digiBlitz Foundation. www.digiblitz.org/dpl/
+ * * 
+ * * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
+ * * 
+ * * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
+ * * 
+ * * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
  ******************************************************************************/
 package com.login.action;
 
@@ -291,7 +293,7 @@ public class KlgLoginAction {
            if(login != null && login.trim().length() != 0 && pass != null && pass.trim().length() != 0 && org_password !=null && org_password.equals(pass) && org_username !=null && org_username.equals(login)){
 			try {
 				
-/* --------------------------ACTIVE DIRECTORY CODE START HERE---------------------------------------------------*/
+/* --------------------------ACTIVE DIRECTORY CODE START HERE---------------------------------------------------
 				
 				NewUser nu = new NewUser();
 				ADchk = nu.active(login,pass);
@@ -299,7 +301,7 @@ public class KlgLoginAction {
 				
 
 			if (ADchk == true){
-/* --------------------------ACTIVE DIRECTORY CODE END HERE---------------------------------------------------*/
+ --------------------------ACTIVE DIRECTORY CODE END HERE---------------------------------------------------
 				vObj = humanMemb.getLoginStatus(login, pass);
 				String user_id=db.getuser_status(login); 
 				System.out.println("user id in getuser_status:::::::::::::"+user_id);
@@ -355,8 +357,84 @@ public class KlgLoginAction {
             return new ModelAndView("frmMemberUserSignup");
            // return mapping.findForward("ReLogin");   
           }
-          
+      */
+				
+/* --------------------------ACTIVE DIRECTORY CODE START HERE---------------------------------------------------
+				
+				NewUser nu = new NewUser();
+				ADchk = nu.active(login,pass);
+				System.out.println("ACTIVE DIRECTORY RESULT HERE : "+ADchk);
+				
 
+			if (ADchk == true){
+/* --------------------------ACTIVE DIRECTORY CODE END HERE---------------------------------------------------*/
+				vObj = humanMemb.getLoginStatus(login, pass);
+				
+				String user_id=db.getuser_status(login); 
+				System.out.println("user id in getuser_status:::::::::::::"+user_id);
+				 //session.setAttribute("userId",user_id);
+				// String usrIIID = (String)session.getAttribute("userId");
+				 //System.out.println("user id in getuser_status:::::::::::::"+usrIIID);
+	               if(user_id != null){
+	                file_path=db.getpicture_path(user_id);
+	               }
+	               
+	               try
+					 {
+					 FileInputStream inpStream = new FileInputStream(file_path);
+					 byte[] bytearr= IOUtils.toByteArray(inpStream);
+					 byte byteImageData[]  =com.bea.xbean.util.Base64.encode(bytearr);
+					  imagedata= new String(byteImageData);
+					 System.out.println("sdvvv==>"+imagedata);
+					 }
+					 catch(Exception e)
+					 {
+						request.setAttribute("response_status","fail");
+					 System.out.println("Exception Occured"+e.toString());
+					 }      
+	               
+	               
+	               
+/*			} else{
+				System.out.println("LDAP Authentication faild");
+			}
+*/
+	               session.setAttribute("imagedata",imagedata);	
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+          // session.setAttribute("viewVal", viewVal);
+           }  
+			else{
+	        	   request.setAttribute("response_status","fail");
+	        	   status="loginfail";
+	               request.setAttribute("status",status);
+	              // session.removeAttribute("adminUserId");
+	               request.setAttribute("custStatus",customerType);
+	               return new ModelAndView("frmHome");
+	        	   
+	           }
+          }
+          
+          else
+          {
+        	  
+        	  request.setAttribute("response_status","fail");
+              status="expired";
+              request.setAttribute("status",status);
+              session.removeAttribute("adminUserId");
+              return new ModelAndView("frmMemberUserSignup");
+              
+            /*status="expired";
+            request.setAttribute("status",status);
+            session.removeAttribute("adminUserId");
+            return new ModelAndView("frmHome");*/
+            
+            
+           // return mapping.findForward("ReLogin");   
+          }				
+				
           if(vObj != null && (vObj.size() != 0)) {
              String[] logdet=null;
 
@@ -427,7 +505,9 @@ public class KlgLoginAction {
                 session.setAttribute("firstName",logdet[3]);
                 session.setAttribute("userName",login);
                 session.setAttribute("userPassword",pass);
-/*-------------------------------------login Name and password Encrypted start here-----------------------------------------*/
+                session.setAttribute("matchCompanyDet", matchCompanyName);
+                
+/*-------------------------------------login Name and password Encrypted start here-----------------------------------------
                 BasicTextEncryptor textEncryptor = new BasicTextEncryptor();
                 textEncryptor.setPassword("sa");
 //                String encryptedLogin = textEncryptor.encrypt(login);
@@ -445,12 +525,7 @@ public class KlgLoginAction {
 					encryptedPass = ccc.encrypt(pass,"digiblitz");
 					 //String fName = (String) session.getAttribute("fname");
 			        // String lName = (String) session.getAttribute("lname");
-				/*	String cnName = logdet[3]+" "+logdet[8];
-					System.out.println("fName in LoginAction::::::::::::::::::::::::::::::"+logdet[3]);
-					System.out.println("lName in LoginAction::::::::::::::::::::::::::::::"+logdet[8]);
-					System.out.println("cName in LoginAction::::::::::::::::::::::::::::::"+cnName);
-					encPass = ccc.encrypt(pass+"-sep-"+cnName, "digiblitz");
-					*/
+				
 				} catch (InvalidKeyException e1) {
 					request.setAttribute("response_status","fail");
 					e1.printStackTrace();
@@ -471,11 +546,11 @@ public class KlgLoginAction {
 					e1.printStackTrace();
 				}
             	System.out.println("encOutput::::::::::::::::::::::::::::::"+encryptedPass);
-/*                String PassAndCategory = pass+"-sep-"+companyCategory;
-                String encryptedPassAndCategory = encp.encrypt(PassAndCategory);		*/
+
                 session.setAttribute("encryptedPass",encryptedPass);
 //                session.setAttribute("encryptedPassAndCategory",encryptedPassAndCategory);
-/*-------------------------------------login Name and password Encrypted end here-----------------------------------------*/
+-------------------------------------login Name and password Encrypted end here-----------------------------------------*/
+           
                 status="success";
                 request.setAttribute("status",status);
                  try {
@@ -627,7 +702,7 @@ public class KlgLoginAction {
                          BasicTextEncryptor textEncryptor1 = new BasicTextEncryptor();
                          textEncryptor1.setPassword("sa");
 //                         String encryptedroleName = textEncryptor1.encrypt(roleName);
-                         String encryptedroleName = encp.encrypt(roleName);
+                         String encryptedroleName = textEncryptor1.encrypt(roleName);
                          session.setAttribute("encryptedroleName",encryptedroleName);
                          session.setAttribute("sploginname", login);
                          session.setAttribute("sprolename", roleName);
@@ -665,12 +740,12 @@ public class KlgLoginAction {
                      
                      System.out.println("userId ::1"+userIdVal);
                      session.setAttribute("userId",userIdVal);
-                     String url = userCode.toLowerCase();
+                    /* String url = userCode.toLowerCase();
                      
                      String companyURLInProperties = properties.getProperty("companyDetails."+url);
                      System.out.println("companyURLInProperties:::::::::::::::::::"+companyURLInProperties);
                      request.setAttribute("companyURLInProperties",companyURLInProperties);
-                     session.setAttribute("companyURLInProperties",companyURLInProperties);
+                     session.setAttribute("companyURLInProperties",companyURLInProperties);*/
                      request.setAttribute("userCode",userCode);
                      String usrEmailId= db.getEmailIdByPassword(userIdVal);
                      String mySqlEmail = db.selectCustomerEmailandPass(usrEmailId);
@@ -679,7 +754,7 @@ public class KlgLoginAction {
                      
                      session.setAttribute("jobPostUserEmailID",usrEmailId);
                      
-                     String defaultRoleName = "loginAuth";
+                   /*  String defaultRoleName = "loginAuth";
                      String sppassRole = pass+"-sep-"+defaultRoleName;
                      String passRoleAuth = null;
                      try {
@@ -703,8 +778,13 @@ public class KlgLoginAction {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-                     String result = "UN="+encryptedUserNameWithRole+"&PWD="+passRoleAuth;
-                     response.sendRedirect("https://www.digiblitzonline.com/sp-portal/dbconsult/_layouts/15/dBVMSLogin/VMSLoginGeneral.aspx?"+result);
+                    String result = "UN="+encryptedUserNameWithRole+"&PWD="+passRoleAuth;
+                    response.sendRedirect("https://www.digiblitzonline.com/sp-portal/dbconsult/_layouts/15/dBVMSLogin/VMSLoginGeneral.aspx?"+result);
+                     
+                     */
+                     session.setAttribute("memberId",logdet[6]);
+                     return new ModelAndView("dashboard");         
+                     
                      //return new ModelAndView("dashboard");
                      //return mapping.findForward("LoginSuccess");
                  }
@@ -739,10 +819,10 @@ public class KlgLoginAction {
                      //return mapping.findForward("LoginSuccessNoRole");
                  }
                  session.setAttribute("userId",userIdVal);
-                 System.out.println("userId ::2"+userId);
+                // System.out.println("userId ::2"+userId);
                  request.setAttribute("response_status","success");
                   
-                 //
+                 /*
                  if(contextURL != null && contextURL != ""){
                 	 System.out.println("contextURL --> "+contextURL);
                 	 log.info("contextURL --> "+contextURL);
@@ -752,7 +832,10 @@ public class KlgLoginAction {
                 	 return new ModelAndView("dashboard");
                  }
                 
-               // return mapping.findForward("callMainBoard");
+               return mapping.findForward("callMainBoard");*/
+                 session.setAttribute("memberId",logdet[6]);
+                 System.out.println("userId ::2"+userId);
+                  return new ModelAndView("dashboard");  
 
              }
              else  {

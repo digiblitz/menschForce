@@ -202,7 +202,7 @@ public class PayPalPayments {
 		                "&" +
 		                "LASTNAME=" + URLEncoder.encode(lName,"UTF-8");
 
-        System.out.println("==========="+content+"========================");
+        
        
                 urlConn.setRequestProperty("Content-Length", content.length() + "");
 
@@ -280,7 +280,6 @@ public class PayPalPayments {
         StringTokenizer st = new StringTokenizer(paypal_back, "&");
 
         int numberofvalues = st.countTokens();
-        //System.out.println("numberofvalues:" + numberofvalues);
         String[] resultnames = new String[numberofvalues];
         String[] resultvalues = new String[numberofvalues];
 

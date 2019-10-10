@@ -1,14 +1,16 @@
-<!--
-Copyright: 2018 Menschforce Foundation www.menschforce.org/copyright/
-
-License: digiBlitz Public License 1.0 (DPL) administered by digiBlitz Foundation. www.digiblitz.org/dpl/
-
-Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
-
-Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
-
-"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
- --> 
+#-------------------------------------------------------------------------------
+# /*******************************************************************************
+# * Copyright: 2019 digiBlitz Foundation
+# * 
+# * License: digiBlitz Public License 1.0 (DPL) 
+# * Administered by digiBlitz Foundation. www.digiblitz.org/dpl/
+# * 
+# * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
+# * 
+# * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
+# * 
+# * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
+#-------------------------------------------------------------------------------
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,15 +35,8 @@ Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
     </div>
     <div class="thumb-box14">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <h3>Get in Touch</h3>
-                    <div class="info">
-                        <h4>Address:</h4>
-                        <p>20130 Lakeview Center Plaza, Suite 400.Ashburn, VA 20147, USA</p>
-                        <p><a>Telephone:</a> +1-571-297-2288.</p>
-                    </div>
-                </div>
+            
+             
                 <div class="col-lg-8 col-md-8 col-sm-8">
                     <h3>Write to us</h3>
                     <form id="contact-form">

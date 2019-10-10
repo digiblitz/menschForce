@@ -1,14 +1,16 @@
-<!--
-Copyright: 2018 Menschforce Foundation www.menschforce.org/copyright/
-
-License: digiBlitz Public License 1.0 (DPL) administered by digiBlitz Foundation. www.digiblitz.org/dpl/
-
-Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
-
-Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
-
-"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
- --> 
+#-------------------------------------------------------------------------------
+# /*******************************************************************************
+# * Copyright: 2019 digiBlitz Foundation
+# * 
+# * License: digiBlitz Public License 1.0 (DPL) 
+# * Administered by digiBlitz Foundation. www.digiblitz.org/dpl/
+# * 
+# * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
+# * 
+# * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
+# * 
+# * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
+#-------------------------------------------------------------------------------
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -193,9 +195,7 @@ form.appendChild(javaEnabled);">
 <div>
 <div class="title" style="text-align:left">
 <div class="title" contentid="title" style="text-align: left;">
-<div>
-<span style="color: #993300;">Get in Touch</span>
-</div>
+
 </div>
 </div>
 </div>
@@ -303,18 +303,7 @@ form.appendChild(javaEnabled);">
     <div class="thumb-box14">
         <div class="container">
             <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <h3>Get in Touch</h3>
-                    <div class="info">
-                        <h4>Address:</h4>
-                        
-                        <p>13241 WOODLAND PARK ROAD, SUITE 110, HERNDON, VIRGINIA 20171, USA</p>
-                        <p>Sales - sales@menschforce.com</p>
-						<p>Billing & Finance - billing@menschforce.com</p>
-						<p>Customer Service - support@menschforce.com</p>
-						<p><img src="img/page1_icon3.png" alt=""><a id='__imgButtonClickToCall' href='#'  onclick="window.open('https://acctmgr.evoice.com/AcctMgr/ClickToCall/ClickToConnectSession.aspx?key=4a3541af-cf22-42df-9031-09e547aae7f9','','width=570,height=280, left=40, top=100, resizable=no,scroll=yes,status=no,titlebar=no,toolbar=no,addressbar=no,copyhistory=no,navigationtoolbar=no')"  style='cursor:pointer;border:none'><img  src='https://acctmgr.evoice.com/AcctMgr/Brands/eVoice/Images/ClickToCall/SystemImages4_h.jpg' alt='Click to open call me page' id='__imgClickToCall' style='border:0px;' />&nbsp;+1 703-956-2540</a></p>
-                    </div>
-                </div>
+                
 				<%String dbStatus = (String)request.getAttribute("status");
 				System.out.println("inside jsp::::::::::::::::::::::");%>
 				<%

@@ -23,7 +23,6 @@ public class EmailContent {
     
     private String from;
     private String[] to;
-    private String checkingto;
     private String subject;
     private String body;
     private boolean debug;
@@ -45,18 +44,11 @@ public class EmailContent {
     public String[] getTo() {
         return to;
     }
-    
-    public String getcheckingto() {
-        return checkingto;
-    }
 
     public void setFrom(String from) {
         this.from = from;
     }
 
-    public void setcheckingto(String checkingto) {
-        this.checkingto = checkingto;
-    }
     public void setTo(String[] to) {
         this.to = to;
     }

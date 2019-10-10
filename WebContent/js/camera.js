@@ -1,14 +1,259 @@
-//
-//Copyright: 2018 Menschforce Foundation www.menschforce.org/copyright/
-//
-//License: digiBlitz Public License 1.0 (DPL) administered by digiBlitz Foundation. www.digiblitz.org/dpl/
-//
-//Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
-//
-//Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
-//
-//"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
-//
+#-------------------------------------------------------------------------------
+# /*******************************************************************************
+# * Copyright: 2019 digiBlitz Foundation
+# * 
+# * License: digiBlitz Public License 1.0 (DPL) 
+# * Administered by digiBlitz Foundation. www.digiblitz.org/dpl/
+# * 
+# * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
+# * 
+# * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
+# * 
+# * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
+#-------------------------------------------------------------------------------
+// Camera slideshow v1.3.3 - a jQuery slideshow with many effects, transitions, easy to customize, using canvas and mobile ready, based on jQuery 1.4+
+// Copyright (c) 2012 by Manuel Masia - www.pixedelic.com
+// Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+;(function($){$.fn.camera = function(opts, callback) {
+	
+	var defaults = {
+		alignment			: 'topCenter', //topLeft, topCenter, topRight, centerLeft, center, centerRight, bottomLeft, bottomCenter, bottomRight		
+		autoAdvance			: true,	//true, false		
+		mobileAutoAdvance	: true, //true, false. Auto-advancing for mobile devices		
+		barDirection		: 'leftToRight',	//'leftToRight', 'rightToLeft', 'topToBottom', 'bottomToTop'		
+		barPosition			: 'bottom',	//'bottom', 'left', 'top', 'right'		
+		cols				: 6,		
+		easing				: 'easeInOutSine',	//for the complete list http://jqueryui.com/demos/effect/easing.html		
+		mobileEasing		: '',	//leave empty if you want to display the same easing on mobile devices and on desktop etc.		
+		fx					: 'simpleFade',	//'random','simpleFade', 'curtainTopLeft', 'curtainTopRight', 'curtainBottomLeft', 'curtainBottomRight', 'curtainSliceLeft', 'curtainSliceRight', 'blindCurtainTopLeft', 'blindCurtainTopRight', 'blindCurtainBottomLeft', 'blindCurtainBottomRight', 'blindCurtainSliceBottom', 'blindCurtainSliceTop', 'stampede', 'mosaic', 'mosaicReverse', 'mosaicRandom', 'mosaicSpiral', 'mosaicSpiralReverse', 'topLeftBottomRight', 'bottomRightTopLeft', 'bottomLeftTopRight', 'bottomLeftTopRight'
+										//you can also use more than one effect, just separate them with commas: 'simpleFade, scrollRight, scrollBottom'
+		mobileFx			: '',	//leave empty if you want to display the same effect on mobile devices and on desktop etc.
+		gridDifference		: 250,	//to make the grid blocks slower than the slices, this value must be smaller than transPeriod		
+		height				: '35.78%',	//here you can type pixels (for instance '300px'), a percentage (relative to the width of the slideshow, for instance '50%') or 'auto'		
+		imagePath			: 'img/',	//he path to the image folder (it serves for the blank.gif, when you want to display videos)		
+		hover				: false,	//true, false. Puase on state hover. Not available for mobile devices				
+		loader				: false,	//pie, bar, none (even if you choose "pie", old browsers like IE8- can't display it... they will display always a loading bar)		
+		loaderColor			: '#eeeeee', 		
+		loaderBgColor		: '#222222', 		
+		loaderOpacity		: .8,	//0, .1, .2, .3, .4, .5, .6, .7, .8, .9, 1		
+		loaderPadding		: 2,	//how many empty pixels you want to display between the loader and its background		
+		loaderStroke		: 7,	//the thickness both of the pie loader and of the bar loader. Remember: for the pie, the loader thickness must be less than a half of the pie diameter				
+		minHeight			: '450px',	//you can also leave it blank		
+		navigation			: false,	//true or false, to display or not the navigation buttons		
+		navigationHover		: false,	//if true the navigation button (prev, next and play/stop buttons) will be visible on hover state only, if false they will be visible always		
+		mobileNavHover		: false,	//same as above, but only for mobile devices		
+		opacityOnGrid		: false,	//true, false. Decide to apply a fade effect to blocks and slices: if your slideshow is fullscreen or simply big, I recommend to set it false to have a smoother effect 		
+		overlayer			: false,	//a layer on the images to prevent the users grab them simply by clicking the right button of their mouse (.camera_overlayer)		
+		pagination			: true,		
+		playPause			: false,	//true or false, to display or not the play/pause buttons		
+		pauseOnClick		: false,	//true, false. It stops the slideshow when you click the sliders.		
+		pieDiameter			: 38,		
+		piePosition			: 'rightTop',	//'rightTop', 'leftTop', 'leftBottom', 'rightBottom'		
+		portrait			: false, //true, false. Select true if you don't want that your images are cropped		
+		rows				: 4,		
+		slicedCols			: 12,	//if 0 the same value of cols		
+		slicedRows			: 8,	//if 0 the same value of rows		
+		slideOn				: 'random',	//next, prev, random: decide if the transition effect will be applied to the current (prev) or the next slide		
+		thumbnails			: false,		
+		time				: 7000,	//milliseconds between the end of the sliding effect and the start of the nex one		
+		transPeriod			: 800,	//lenght of the sliding effect in milliseconds		
+////////callbacks
+		onEndTransition		: function() {  },	//this callback is invoked when the transition effect ends
+		onLoaded			: function() {  },	//this callback is invoked when the image on a slide has completely loaded		
+		onStartLoading		: function() {  },	//this callback is invoked when the image on a slide start loading		
+		onStartTransition	: function() {  }	//this callback is invoked when the transition effect starts
+
+    };
+	
+	
+	function isMobile() {
+		if( navigator.userAgent.match(/Android/i) ||
+			navigator.userAgent.match(/webOS/i) ||
+			navigator.userAgent.match(/iPad/i) ||
+			navigator.userAgent.match(/iPhone/i) ||
+			navigator.userAgent.match(/iPod/i)
+			){
+				return true;
+		}
+	}
+
+	var opts = $.extend({}, defaults, opts);
+	
+	var wrap = $(this).addClass('camera_wrap');
+	
+	wrap.wrapInner(
+        '<div class="camera_src" />'
+		).wrapInner(
+	    '<div class="camera_fakehover" />'
+		);
+		
+	var fakeHover = $('.camera_fakehover',wrap);
+	
+	fakeHover.append(
+		'<div class="camera_target"></div>'
+		);
+	if(opts.overlayer == true){
+		fakeHover.append(
+			'<div class="camera_overlayer"></div>'
+			)
+	}
+		fakeHover.append(
+        '<div class="camera_target_content"></div>'
+		);
+		
+	var loader;
+	
+	if(opts.loader=='pie' && $.browser.msie && $.browser.version < 9){
+		loader = 'bar';
+	} else {
+		loader = opts.loader;
+	}
+	
+	if(loader == 'pie'){
+		fakeHover.append(
+			'<div class="camera_pie"></div>'
+			)
+	} else if (loader == 'bar') {
+		fakeHover.append(
+			'<div class="camera_bar"></div>'
+			)
+	} else {
+		fakeHover.append(
+			'<div class="camera_bar" style="display:none"></div>'
+			)
+	}
+	
+	if(opts.playPause==true){
+		fakeHover.append(
+        '<div class="camera_commands"></div>'
+		)
+	}
+		
+	if(opts.navigation==true){
+		fakeHover.append(
+			'<div class="camera_prev"><span></span></div>'
+			).append(
+			'<div class="camera_next"><span></span></div>'
+			);
+	}
+		
+	if(opts.thumbnails==true){
+		wrap.append(
+			'<div class="camera_thumbs_cont" />'
+			);
+	}
+	
+	if(opts.thumbnails==true && opts.pagination!=true){
+		$('.camera_thumbs_cont',wrap).wrap(
+			'<div />'
+			).wrap(
+				'<div class="camera_thumbs" />'
+			).wrap(
+				'<div />'
+			).wrap(
+				'<div class="camera_command_wrap" />'
+			);
+	}
+		
+	if(opts.pagination==true){
+		wrap.append(
+			'<div class="camera_pag"></div>'
+			);
+	}
+		
+	wrap.append(
+		'<div class="camera_loader"></div>'
+		);
+		
+	$('.camera_caption',wrap).each(function(){
+		$(this).wrapInner('<div />');
+	});
+		
+                
+	var pieID = 'pie_'+wrap.index(),
+		elem = $('.camera_src',wrap),
+		target = $('.camera_target',wrap),
+		content = $('.camera_target_content',wrap),
+		pieContainer = $('.camera_pie',wrap),
+		barContainer = $('.camera_bar',wrap),
+		prevNav = $('.camera_prev',wrap),
+		nextNav = $('.camera_next',wrap),
+		commands = $('.camera_commands',wrap),
+		pagination = $('.camera_pag',wrap),
+		thumbs = $('.camera_thumbs_cont',wrap);	
+
+	
+	var w,
+		h;
+
+
+	var allImg = new Array();
+	$('> div', elem).each( function() { 
+		allImg.push($(this).attr('data-src'));
+	});
+	
+	var allLinks = new Array();
+	$('> div', elem).each( function() {
+		if($(this).attr('data-link')){
+			allLinks.push($(this).attr('data-link'));
+		} else {
+			allLinks.push('');
+		}
+	});
+	
+	var allTargets = new Array();
+	$('> div', elem).each( function() {
+		if($(this).attr('data-target')){
+			allTargets.push($(this).attr('data-target'));
+		} else {
+			allTargets.push('');
+		}
+	});
+	
+	var allPor = new Array();
+	$('> div', elem).each( function() {
+		if($(this).attr('data-portrait')){
+			allPor.push($(this).attr('data-portrait'));
+		} else {
+			allPor.push('');
+		}
+	});
+	
+	var allAlign= new Array();
+	$('> div', elem).each( function() { 
+		if($(this).attr('data-alignment')){
+			allAlign.push($(this).attr('data-alignment'));
+		} else {
+			allAlign.push('');
+		}
+	});
+	
+		
+	var allThumbs = new Array();
+	$('> div', elem).each( function() { 
+		if($(this).attr('data-thumb')){
+			allThumbs.push($(this).attr('data-thumb'));
+		} else {
+			allThumbs.push('');
+		}
+	});
+	
+	var amountSlide = allImg.length;
+
+	$(content).append('<div class="cameraContents" />');
+	var loopMove;
+	for (loopMove=0;loopMove<amountSlide;loopMove++)
+	{
+		$('.cameraContents',content).append('<div class="cameraContent" />');
+		if(allLinks[loopMove]!=''){
+			//only for Wordpress plugin
+			var dataBox = $('> div ',elem).eq(loopMove).attr('data-box');
+			if(typeof dataBox !== 'undefined' && dataBox !== false && dataBox != '') {
+				dataBox = 'data-box="'+$('> div ',elem).eq(loopMove).attr('data-box')+'"';
+			} else {
+				dataBox = '';
+			}
+			//
 			$('.camera_target_content .cameraContent:eq('+loopMove+')',wrap).append('<a class="camera_link" href="'+allLinks[loopMove]+'" '+dataBox+' target="'+allTargets[loopMove]+'"></a>');
 		}
 

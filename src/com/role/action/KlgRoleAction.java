@@ -1,13 +1,15 @@
 /*******************************************************************************
- * Copyright: 2018 Menschforce Foundation www.menschforce.org/copyright/
- * 
- * License: digiBlitz Public License 1.0 (DPL) administered by digiBlitz Foundation. www.digiblitz.org/dpl/
- * 
- * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
- * 
- * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
- * 
- * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
+ * /*******************************************************************************
+ * * Copyright: 2019 digiBlitz Foundation
+ * * 
+ * * License: digiBlitz Public License 1.0 (DPL) 
+ * * Administered by digiBlitz Foundation. www.digiblitz.org/dpl/
+ * * 
+ * * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
+ * * 
+ * * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
+ * * 
+ * * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
  ******************************************************************************/
 package com.role.action;
 
@@ -183,7 +185,7 @@ public class KlgRoleAction implements Controller {
         	 
          }
          else if(roleProcess.equals("mapUserRoles")){
-        	 boolean addUsrToGroupStatus = false;
+        	 /*boolean addUsrToGroupStatus = false;
         	 try{
         	 String roleId = request.getParameter("roleIds");
         	 System.out.println("roleId in servlet::::::::::::::::::::::::::::::::::::"+roleId);
@@ -205,7 +207,7 @@ public class KlgRoleAction implements Controller {
              System.out.println("User name in servlet : "+user_Name);
              
              
-/*----------------Ofbiz map security code end here-----------------------*/             
+----------------Ofbiz map security code end here-----------------------             
            //mapping security group id to role in ofbiz
              System.out.println("mapping security group");    
                  SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
@@ -229,7 +231,7 @@ public class KlgRoleAction implements Controller {
                  String mapSecurityGroupStatus = ofbizServices.mapSecurityGroup(user_Name, securityGroupId, fromDate, lastDate, loginUserName, loginPassword);
                  System.out.println("mapSecurityGroupStatus "+mapSecurityGroupStatus);
                  
- /*----------------Ofbiz map security code end here-----------------------*/
+ ----------------Ofbiz map security code end here-----------------------
              
              NewUser nu = new NewUser();
              addUsrToGroupStatus = nu.addUserToGroup(first_Name, last_Name, roleName, user_Name);
@@ -239,7 +241,7 @@ public class KlgRoleAction implements Controller {
                  Debug.print("Failed to Map User with Role in Active Directory:" + eLDAP);
         	 }
              if(addUsrToGroupStatus == true){
-                 System.out.println("Successfully user mapped with Role in Active Directory ::");
+                 System.out.println("Successfully user mapped with Role in Active Directory ::"); */
                  
                  
 
@@ -353,7 +355,7 @@ public class KlgRoleAction implements Controller {
             return new ModelAndView("frmRolAssignCnf"); 
             
             
-             }
+             //}
         	
        }
          

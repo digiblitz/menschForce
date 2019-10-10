@@ -117,9 +117,7 @@ import org.apache.log4j.PropertyConfigurator;
        InputStream in = this.getClass().getClassLoader().getResourceAsStream("/paypal.properties");
        try {               
        	properties.load(PayPalAction.class.getResourceAsStream("/paypal.properties"));
-       //	properties.load(getClass().getClassLoader().getResourceAsStream("/infusionMail.properties"));
-       	
-       	properties.load(getClass().getClassLoader().getResourceAsStream("/mail.properties"));
+       	properties.load(getClass().getClassLoader().getResourceAsStream("/infusionMail.properties"));
        	
        	System.out.println("Property file loaded successfully");
            } catch (Exception e) {
@@ -191,7 +189,7 @@ import org.apache.log4j.PropertyConfigurator;
         String Customer_Reg_Id = request.getParameter("CUSTOMER_REGISTERID");
 
         try {
-        	System.out.println("Inside PayPalAction Environ-------------->"+Environ);
+        	
         	System.out.println("Inside PayPalAction STREET-------------->"+street);
         	System.out.println("Inside PayPalAction CITY-------------->"+city);
         	System.out.println("Inside PayPalAction STATE-------------->"+state);
@@ -223,17 +221,11 @@ import org.apache.log4j.PropertyConfigurator;
             
             boolean updatePaymentStatus= false;
             
-            // smtp email format
-            
-            boolean emailFlagTesting = false;
-    		
-    		String htmlbodytocandidate = null;
-          /*=========================Create Contact in infusion soft=================================*/
-          /*  boolean email_optinStatus = false;
+            /*=========================Create Contact in infusion soft=================================*/
+            boolean email_optinStatus = false;
         	obj1.createContactInfusion(pay_firstname, pay_lastname, pay_e_mail);
         	email_optinStatus = obj1.optin_outEmail(pay_e_mail);
-        	System.out.println("Email optin status in infusionsoft---------------->"+email_optinStatus); */
-            
+        	System.out.println("Email optin status in infusionsoft---------------->"+email_optinStatus);
         	/*=========================Create Contact in infusion soft=================================*/
         	
         	GeneralDBAction db = new GeneralDBAction();
@@ -311,8 +303,8 @@ import org.apache.log4j.PropertyConfigurator;
                 String sslResultMessage = (String) results[0];
                 String finalSslAvsResponse = "";
                 String finalSslCvv2Response = "";
-               
-                if(statusId3.equalsIgnoreCase("Failure")|| transactionId3 == null || transactionId3.equalsIgnoreCase("null")){
+                
+                if(statusId3.equalsIgnoreCase("Failure") || transactionId3 == null || transactionId3.equalsIgnoreCase("null")){
                 	request.setAttribute("cardstatus","success");
 			        request.setAttribute("cvvstatus","success");
 			        request.setAttribute("fName",pay_firstname);
@@ -342,28 +334,13 @@ import org.apache.log4j.PropertyConfigurator;
 				        log.info("Payment status was not updated on database---------------->");
 		            }
 		        
-		      // infusion mailing      
-		            
-				      /*  String fromAddress = properties.getProperty("infusionMail.fromAddress");
+				        String fromAddress = properties.getProperty("infusionMail.fromAddress");
 		                String toAddress = pay_e_mail;
-		               String ccAddresses = properties.getProperty("infusionMail.ccPaymentAddress");
-		               String bccAddresses = properties.getProperty("infusionMail.bccPaymentAddress");
+		                String ccAddresses = properties.getProperty("infusionMail.ccPaymentAddress");
+		                String bccAddresses = properties.getProperty("infusionMail.bccPaymentAddress");
 		                String contentType = "HTML";
-		                String Failsubject = "Payment Declined!"; */
-		            
-		            // smtp mail sending
-		              
-		            try{
-		            
-		            EmailContent sendemail=new EmailContent();
-		   	     String emailid = pay_e_mail;
-		   	     String toMailIds[] = {emailid};
-		   	  System.out.println(pay_e_mail+"=============================");
-		   	     sendemail.setTo(toMailIds);
-		   	     sendemail.setFrom("contact@menschforce.io");
-		   	     sendemail.setSubject("Payment Declined!");
-		            
-		            
+		                String Failsubject = "Payment Declined!";
+		                
 		                String htmlBody = "<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important;\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;" +
                         "text-align: center;vertical-align: top; width: 100%;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody><tr><td align=\"center\" valign=\"top\" style=\" background-color: #2f68b4;border-radius: 4px 4px 0 0;padding-bottom: 16px; text-align: center;\">" +
                         "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"padding-top: 16px;\"><a href=\"#\"><img style=\"height: auto; max-width: 156px;\" src=\"https://www.digiblitzonline.com:8843/menschforce/img/menschForce_logo.png\" alt=\"Logo\"/></a></td>" +
@@ -389,29 +366,11 @@ import org.apache.log4j.PropertyConfigurator;
 		                //Infusion Soft mail starts
                                  
 		                //obj1.sendEmail(properties.getProperty("infusionMail.fromAddress"), usrEmail, properties.getProperty("infusionMail.ccAddresses"), properties.getProperty("infusionMail.bccAddresses"), properties.getProperty("infusionMail.contentType"), properties.getProperty("infusionMail.subject"), properties.getProperty("infusionMail.htmlBody"), properties.getProperty("infusionMail.textBody"));
-		              
-		                /*
-		                 
 		                try {
 		                	obj1.sendEmail(fromAddress, toAddress, ccAddresses, bccAddresses, contentType, Failsubject, htmlBody, textBody);
 		                } catch (XmlRpcException e) {
 		                	e.printStackTrace();
 		                }
-		                
-		                
-		                */
-		                
-		                sendemail.setBody(htmlBody);
-		                
-		                
-		                EmailEngine emailEngine = new EmailEngine();
-		       	     emailFlagTesting = emailEngine.sendMimeEmail(sendemail);
-		       	     System.out.println("Email sent sucessfully Testing :" + emailFlagTesting);
-		       		
-		       		}catch(Exception e){
-		       			e.printStackTrace();
-		       		}
-		                
 		                return new ModelAndView("signUpFail");
                 }
 
@@ -463,7 +422,7 @@ import org.apache.log4j.PropertyConfigurator;
                // String Environ1 = "sandbox";
                 String payAction1 = "Authorization";
                 String method2 = "DoAuthorization";
-                //Success
+                
                 if (statusId3.equalsIgnoreCase("Success")) {
                     //String authorRes[] = payPalPayments.DoAuthorizationCode(API_username, API_password, API_Signature, method2, amount1, version1, Environ1, transactionId3, currCode1);
                     if (results != null) {
@@ -486,11 +445,11 @@ import org.apache.log4j.PropertyConfigurator;
                             }
                             //System.out.println("Inside Paypal ACtion "+finalSslAvsResponse+"  "+finalSslCvv2Response);
                            // String emailToUSEA=mr.getMessage("hlc.emailid");
-                            String emailToUSEA="jeyaprakash.sankarraj@digiblitz.com";
+                            String emailToUSEA="parasu88@gmail.com";
                             String toMailIds[] = {emailToUSEA, emailId};
                             EmailContent email = new EmailContent();
                             email.setTo(toMailIds);
-                            email.setFrom("contact@menschforce.io");// info@digiblitz.com
+                            email.setFrom("info@digiblitz.com");
                             String subject=null;
                             if (purpose.trim().equalsIgnoreCase("newhorseregistration")) {
                             	subject="Horse Registration Decline";
@@ -521,7 +480,7 @@ import org.apache.log4j.PropertyConfigurator;
                             } else if(purpose.trim().equalsIgnoreCase("endorsedRetryForm")){
                               
                             }
-                            System.out.println("====================Sucessmail testing===================");
+                            
                             email.setSubject(subject);
                             String content = "<table width=\"526\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\" style=\"border:1px solid #999;\"> " +
                                     " <tr>" +
@@ -568,7 +527,7 @@ import org.apache.log4j.PropertyConfigurator;
                                     "</tr>" +
                                     "</table>";
                             email.setBody(content);
-                            EmailEngine mail = new EmailEngine();
+                            MailMail mail = new MailMail();
                             boolean emailFlag = mail.sendMimeEmail(email);
                             Debug.print("Email sent sucessfully :" + emailFlag);
                             request.setAttribute("msg", "Payment Declined");
@@ -606,21 +565,12 @@ import org.apache.log4j.PropertyConfigurator;
             		        }
             		        
                             
-                       /*     String fromAddress = properties.getProperty("infusionMail.fromAddress");
+                            String fromAddress = properties.getProperty("infusionMail.fromAddress");
                             String toAddress = pay_e_mail;
                             String ccAddresses = properties.getProperty("infusionMail.ccPaymentAddress");
                             String bccAddresses = properties.getProperty("infusionMail.bccPaymentAddress");
                             String contentType = "HTML";
                             String Failsubject = "Payment Declined";
-                            */
-                            
-            		        String emailId1=pay_e_mail;
-                            String toMailIds1[] = { emailId1};
-                            EmailContent email1 = new EmailContent();
-                            email1.setTo(toMailIds1);
-                            email1.setFrom("contact@menschforce.in");
-                            email1.setSubject("Payment Declined");
-                            System.out.println("====================Sucessmail testing001===================");
                             String htmlBody = "<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important;\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;" +
                                     "text-align: center;vertical-align: top; width: 100%;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody><tr><td align=\"center\" valign=\"top\" style=\" background-color: #2f68b4;border-radius: 4px 4px 0 0;padding-bottom: 16px; text-align: center;\">" +
                                     "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"padding-top: 16px;\"><a href=\"#\"><img style=\"height: auto; max-width: 156px;\" src=\"https://www.digiblitzonline.com:8843/menschforce/img/menschForce_logo.png\" alt=\"Logo\"/></a></td>" +
@@ -646,17 +596,12 @@ import org.apache.log4j.PropertyConfigurator;
                             //Infusion Soft mail starts
                                              
                             //obj1.sendEmail(properties.getProperty("infusionMail.fromAddress"), usrEmail, properties.getProperty("infusionMail.ccAddresses"), properties.getProperty("infusionMail.bccAddresses"), properties.getProperty("infusionMail.contentType"), properties.getProperty("infusionMail.subject"), properties.getProperty("infusionMail.htmlBody"), properties.getProperty("infusionMail.textBody"));
-                           /*
-                            *  try {
+                            try {
                             	obj1.sendEmail(fromAddress, toAddress, ccAddresses, bccAddresses, contentType, Failsubject, htmlBody, textBody);
                             } catch (XmlRpcException e) {
                             	e.printStackTrace();
                             }
-                            */
-                            email1.setBody(htmlBody);
-                            EmailEngine emailEngine = new EmailEngine();
-       		       	     emailFlagTesting = emailEngine.sendMimeEmail(email1);
-       		       	     System.out.println("Email sent sucessfully Testing :" + emailFlagTesting);
+                            
                             System.out.println("Mail had been send successfully");  
                             request.setAttribute("cardstatus","success");
       			          	request.setAttribute("cvvstatus","success");
@@ -819,14 +764,13 @@ import org.apache.log4j.PropertyConfigurator;
                         }*/
                          
                         //String emailToUSEA=mr.getMessage("hlc.emailid");
-                        String emailToUSEA="jeyaprakash.sankarraj@digiblitz.com";
+                        String emailToUSEA="parasu88@gmail.com";
                         String toMailIds[] = {emailToUSEA,emailId};
                         EmailContent email = new EmailContent();
                         email.setTo(toMailIds);
-                        email.setFrom("contact@menschforce.io");//info@digiblitz.com
+                        email.setFrom("info@digiblitz.com");
                         email.setSubject("Payment Details");
-                        System.out.println("====================Sucessmail testing002===================");
-                     /*   String content = "<table width=\"526\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\" style=\"border:1px solid #999;\"> " +
+                        String content = "<table width=\"526\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\" style=\"border:1px solid #999;\"> " +
                         " <tr>" +
                         " <td height=\"463\" valign=\"top\" bgcolor=\"#FCFBF0\" style=\"padding-top:10px; padding-bottom:10px; padding-left:10px; padding-right:10px;\">" +
                         " <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> " +
@@ -869,34 +813,18 @@ import org.apache.log4j.PropertyConfigurator;
                         " <tr>" +
                         "<td style=\"border-top:1px solid #CC3333; padding-top:8px;\" align=\"right\"><img src=\"images/logo-eMailFooter.jpg\" width=\"63\" height=\"65\" /></td>" +
                         "</tr>" +
-                        "</table>"; */
-                        
-                        String content ="<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: left-side;\"><div style=\"max-width: 580px; text-align: left-side;margin: 0 auto;width: 100%; display: inline-block;text-align: left-side;vertical-align: top; width: 100%;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"left-side\" valign=\"top\" style=\" background-color: #2f68b4;border-radius: 4px 4px 0 0;padding-bottom: 16px; text-align: left-side;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"padding-top: 16px;\"><a href=\"#\"><img style=\"height: auto; max-width: 156px;\" src=\"https://www.digiblitzonline.com:8843/menschforce/img/menschForce_logo.png\" alt=\"Logo\"/></a></td>"+
-                        		"</tr></tbody></table></td></tr></tbody></table><div ><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"left-side\" valign=\"top\" style=\"background-color: #fff;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"left-side\" valign=\"top\" style=\"  padding: 16px;text-align: left-side; vertical-align: top;\"><h4 style=\"font-size: 22px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: left-side;\">Dear "+pay_firstname+" "+pay_lastname+"</h4><p style=\" font-size: 16px; line-height: 27px; margin-bottom: 16px;margin-top: 16px; text-align: left-side;\">Thank you for showing interest in menschForce. Your Payment has been made successfully and the details are as follows:</p> <table  width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody> <tr> <td align=\"left-side\" valign=\"top\" style=\"background-color: #fff;  padding: 16px; text-align: left-side; vertical-align: top;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody> <tr> <td style=\"color: #888;\" align=\"left-side\" valign=\"top\" style=\" padding: 16px; text-align: left-side; vertical-align: top;\">"+
-                        		"<p style=\" line-height: 23px; margin-bottom: 24px; margin-top: 16px;font-size: 18px;\"><strong>Payment Details:</strong><br /></p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"><strong>Payment Date:</strong>"+ payDt +"</p> <p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"><strong>Invoice ID: </strong>"+ inVoiceId3 +"</p> <p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"><strong>Amount:</strong>"+ amount1 +"</p> <p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\">"+
-                        		"<strong>Fee Amount:</strong>"+ ppFeeAmt +"</p> <p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"><strong>cc Name: </strong>"+ ccType +"</p> <p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"><strong>cc Number: </strong>"+ acct+ "</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"><strong>Email ID: </strong>"+ emailId +"</p><table style=\"width:100%; border: 1px solid black; border-collapse: collapse; padding: 15px;\"><tr  style=\"border: 1px solid black; border-collapse: collapse; padding: 15px;\">"+
-                        		"<th colspan=\"2\" align=\"left\" style=\"padding: 15px;\" >e-Receipt </th>"+    
-                        		"</tr><tr style=\"border: 1px solid black; border-collapse: collapse; padding: 15px;\"><td style=\"border: 1px solid black; border-collapse: collapse; padding: 15px;\">Membership subscription fee</td><td style=\"border: 1px solid black; border-collapse: collapse; padding: 15px;\">$891</td>"+
-                        		  "</tr><tr style=\"border: 1px solid black; border-collapse: collapse; padding: 15px;\"><td style=\"border: 1px solid black; border-collapse: collapse; padding: 15px;\">One time setup cost</td><td style=\"border: 1px solid black; border-collapse: collapse; padding: 15px;\">$1100</td>"+
-                        		  "</tr><tr style=\"border: 1px solid black; border-collapse: collapse; padding: 15px;\"><td style=\"border: 1px solid black; border-collapse: collapse; padding: 15px;\">Total</td><td style=\"border: 1px solid black; border-collapse: collapse; padding: 15px;\">$1991</td></tr>"+
-                        		"</table><br>" +
-                        		"<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tr><td style=\"color: #888;\" align=\"left-side\" valign=\"top\" style=\" padding: 16px; text-align: left-side; vertical-align: top;\"><p style=\" line-height: 1px;  margin-top: 16px;\">Regards<br /></p><p style=\" line-height: 1px; margin-top: 16px;\">Menschforce.io</p><br><p style=\" line-height: 10px; margin-bottom: 24px; margin-top: 6px;\">If you have any quires, you can write a email to contact@menschforce.io</p><br></td></tr></table>" + 
-                        		"</td> </tr> </tbody></table></td> </tr> </tbody></table></td></tr></tbody></table></div></div></div></div></body><body></html>";
+                        "</table>";
                         email.setBody(content);
-                        EmailEngine mail = new EmailEngine();
+                        MailMail mail = new MailMail();
                         boolean emailFlag = mail.sendMimeEmail(email);
                         Debug.print("Email sent sucessfully :" + emailFlag);
                         
                         
                         /*-----------WELCOME MAIL----------*/
-                        /*===================================================kesavan
                         EmailContent welcome_email = new EmailContent();
-                        String toMailIds1[] = {emailId};
-                        welcome_email.setTo(toMailIds1);
-                        welcome_email.setFrom("contact@menschforce.io");//info@digiblitz.com
+                        welcome_email.setTo(toMailIds);
+                        welcome_email.setFrom("info@digiblitz.com");
                         welcome_email.setSubject("Welcome");
-                        System.out.println("====================Sucessmail testing003===================");
-                        
                         String welcome_content = "<table align=\"center\" width=\"500px\" cellspacing=\"5\" bgcolor =\"#CCCCCC\">"+
                                 "<tr>"+
                         		"<td height=\"122\" colspan=\"3\" align=\"left\">"+
@@ -987,36 +915,14 @@ import org.apache.log4j.PropertyConfigurator;
                                
                                        "</td>"+"</tr>"+
                                       "</table>";
-                                      
-                                      ======================================================================kesavan
-                                      */
-                        
-                   /*     String welcome_content ="<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important;\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;"+
-                        "text-align: center;vertical-align: top; width: 100%;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>"+
-                        		"<tr><td align=\"center\" valign=\"top\" style=\" background-color: #2f68b4;border-radius: 4px 4px 0 0;padding-bottom: 16px; text-align: center;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
-                        				+"<tbody><tr><td align=\"center\" valign=\"top\" style=\"padding-top: 16px;\"><a href=\"#\"><img style=\"height: auto; max-width: 156px;\" src=\"https://www.digiblitzonline.com:8843/menschforce/img/menschForce_logo.png\" alt=\"Logo\"/></a></td></tr>"+
-                        						"</tbody></table></td></tr></tbody></table><div ><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"+
-                        				"<tbody><tr><td align=\"center\" valign=\"top\" style=\"background-color: #fff;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>"+
-                                                "<tr><td align=\"center\" valign=\"top\" style=\"  padding: 16px;text-align: center; vertical-align: top;\"><h4 style=\"font-size: 22px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: center;\">Dear "+pay_firstname+" "+pay_firstname+"</h4><p style=\" font-size: 19px; line-height: 27px; margin-bottom: 16px;margin-top: 16px; text-align: center;\">Your payment has been declined..</p>"+
-                        				"<table style=\" clear: both; margin: 0 auto;\" align=\"center\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody> <tr> <td style=\"border-radius: 4px;padding: 12px 24px;text-align: center;vertical-align: middle;background-color: #22aaa0; font-size: 16px;\" class=\"font_default\"><a style=\"font-weight: 700; color:#fff;\" href=\"https://www.digiblitzonline.com:8843/menschforce\" target=\"_blank\"><span style=\" display: block;text-align: center; color: #fff;\">Please Click here to login</span></a></td>"+ 
-                        				"</tr><tr> <td style=\"border-radius: 4px;padding: 12px 24px;text-align: center;vertical-align: middle;background-color: #22aaa0; font-size: 16px;\" class=\"font_default\"><h4 style=\"font-size: 22px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: center;\">Welcome..</h4></td></tr>"+ 
-                        						  "</tbody> </table> <p>&nbsp; </p> </td> </tr> </tbody></table> </td> </tr> </tbody> </table> <table  width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody> <tr> <td align=\"center\" valign=\"top\" style=\"background-color: #fff;  padding: 16px; text-align: center; vertical-align: top;\">"+
-                                        "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody> <tr> <td style=\"color: #888;\" align=\"right-side\" valign=\"top\" style=\" padding: 16px; text-align: center; vertical-align: top;\"><p style=\" line-height: 23px; margin-bottom: 24px; margin-top: 16px;font-size: 15px;\">"+
-                        							"<strong>You're ready to start using menschFoce Online Edition</strong><br /></p>  <p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"><strong>Name:</strong>"+pay_firstname+" "+pay_firstname+"</p>"+
-                                        "<p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"><strong>E-mail: </strong>"+emailId+"</p> <p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"><strong>User Name:</strong>"+CustomerUserName+"</p>"+
-                        						  "<p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"><strong>password:</strong>"+Customerpassword+"</p> <p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"><strong>Registration Id: </strong>"+registrationId+"</p>"+ 
-                                                  "</td> </tr> </tbody></table></td></tr></tbody></table></div></div></div></div></body></html>"; */
-                        		
-                        /*		
-                        		======================================================================kesavan
                         welcome_email.setBody(welcome_content);
-                        EmailEngine wel_mail = new EmailEngine();
+                        MailMail wel_mail = new MailMail();
                         boolean wel_emailFlag = wel_mail.sendMimeEmail(welcome_email);
                         Debug.print("Email sent sucessfully :" + wel_emailFlag);
                         
-                        ======================================================================kesavan
                         
-                       */
+                        
+                       
                         
                         /*request.setAttribute("correlationId", correlationId);
                         request.setAttribute("transactionId", transactionId);
@@ -1197,39 +1103,17 @@ import org.apache.log4j.PropertyConfigurator;
                         System.out.println("instituteId in Prabhu here-------------->"+instituteId);
                         System.out.println("customerOrderId in Prabhu here-------------->"+customerOrderId);
                         
-                        //======================================================kesavan here===========================
-                        String registrationId = db.selectRegistrationId(pay_e_mail, Customer_Reg_Id);
-                        request.setAttribute("registrationId", registrationId);
-                        String CustomerUserName = db.selectCustomerUserName(pay_e_mail, Customer_Reg_Id);
-                        request.setAttribute("CustomerUserName", CustomerUserName);
-                        String Customerpassword = db.selectCustomerpassword(pay_e_mail, Customer_Reg_Id);
-                        request.setAttribute("Customerpassword", Customerpassword);
-                        String instituteId1 = db.selectBuyInstitutionId(emailId, Customer_Reg_Id);
-                        request.setAttribute("instituteID", instituteId1);
-                        request.setAttribute("instituteName", instituteName);
-                        String customerOrderId1 = db.selectCustomerOrderId(emailId, Customer_Reg_Id);
-                        request.setAttribute("customerOrderId", customerOrderId1);
+                        
                         
                        
                         
                       //String fromAddress = "prabhu.pandi@digiblitz.in";
-                       /*
                         String fromAddress = properties.getProperty("infusionMail.fromAddress");
                         String toAddress = emailId;
                         String ccAddresses = properties.getProperty("infusionMail.ccPaymentAddress");
                         String bccAddresses = properties.getProperty("infusionMail.bccPaymentAddress");
                         String contentType = "HTML";
                         String subject = "Payment Success";
-                        */
-                        
-                        String emailId1=emailId;
-                        String toMailIds2[] = { emailId1};
-                        EmailContent email1 = new EmailContent();
-                        email1.setTo(toMailIds2);
-                        email1.setFrom("contact@menschforce.in");
-                        email1.setSubject("Payment Success");
-                        System.out.println("====================Sucessmail testing004===================");
-                        /*
                         String htmlBody = "<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important;\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;" +
                                 "text-align: center;vertical-align: top; width: 100%;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody><tr><td align=\"center\" valign=\"top\" style=\" background-color: #2f68b4;border-radius: 4px 4px 0 0;padding-bottom: 16px; text-align: center;\">" +
                                 "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"padding-top: 16px;\"><a href=\"#\"><img style=\"height: auto; max-width: 156px;\" src=\"https://www.digiblitzonline.com:8843/menschforce/img/menschForce_logo.png\" alt=\"Logo\"/></a></td>" +
@@ -1249,7 +1133,6 @@ import org.apache.log4j.PropertyConfigurator;
                                   "<strong>Customer Order ID</strong><br /> "+customerOrderId+"</p><p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"> " +
                                   "</td> </tr> </tbody></table></td></tr></tbody></table></div></div></div></div></body></html>";
                         
-                        */
                         String textBody = "congratulations! "+fName+" "+lName+" Your payment has accepted and you are registered successfully... \n" +
                         		"Your transaction id is :"+transactionId+"\n"+
                         		"Timestamp : "+tmStmpSuccess;
@@ -1257,8 +1140,7 @@ import org.apache.log4j.PropertyConfigurator;
                         //Infusion Soft mail starts
                                          
                //obj1.sendEmail(properties.getProperty("infusionMail.fromAddress"), usrEmail, properties.getProperty("infusionMail.ccAddresses"), properties.getProperty("infusionMail.bccAddresses"), properties.getProperty("infusionMail.contentType"), properties.getProperty("infusionMail.subject"), properties.getProperty("infusionMail.htmlBody"), properties.getProperty("infusionMail.textBody"));
-                  /*
-                        try {
+                    try {
            			obj1.sendEmail(fromAddress, toAddress, ccAddresses, bccAddresses, contentType, subject, htmlBody, textBody);
            			System.out.println("Mail had been send successfully"); 
            		} catch (XmlRpcException e) {
@@ -1266,33 +1148,11 @@ import org.apache.log4j.PropertyConfigurator;
            			e.printStackTrace();
            		}
                                 
-                 */                                               
+                                                                
                        //Infusion Soft mail ends
                         
                         //}
-                            
-                        String htmlBody ="<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important;\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;"+
-                        "text-align: center;vertical-align: top; width: 100%;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>"+
-                        		"<tr><td align=\"center\" valign=\"top\" style=\" background-color: #2f68b4;border-radius: 4px 4px 0 0;padding-bottom: 16px; text-align: center;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
-                        				+"<tbody><tr><td align=\"center\" valign=\"top\" style=\"padding-top: 16px;\"><a href=\"#\"><img style=\"height: auto; max-width: 156px;\" src=\"https://www.digiblitzonline.com:8843/menschforce/img/menschForce_logo.png\" alt=\"Logo\"/></a></td></tr>"+
-                        						"</tbody></table></td></tr></tbody></table><div ><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"+
-                        				"<tbody><tr><td align=\"center\" valign=\"top\" style=\"background-color: #fff;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>"+
-                                                "<tr><td align=\"center\" valign=\"top\" style=\"  padding: 16px;text-align: center; vertical-align: top;\"><h4 style=\"font-size: 22px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: center;\">Dear "+pay_firstname+" "+pay_firstname+"</h4><p style=\" font-size: 19px; line-height: 27px; margin-bottom: 16px;margin-top: 16px; text-align: center;\">Your payment has been declined..</p>"+
-                        				"<table style=\" clear: both; margin: 0 auto;\" align=\"center\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody> <tr> <td style=\"border-radius: 4px;padding: 12px 24px;text-align: center;vertical-align: middle;background-color: #22aaa0; font-size: 16px;\" class=\"font_default\"><a style=\"font-weight: 700; color:#fff;\" href=\"https://www.digiblitzonline.com:8843/menschforce\" target=\"_blank\"><span style=\" display: block;text-align: center; color: #fff;\">Please Click here to login</span></a></td>"+ 
-                        				"</tr><tr> <td style=\"border-radius: 4px;padding: 12px 24px;text-align: center;vertical-align: middle;background-color: #22aaa0; font-size: 16px;\" class=\"font_default\"><h4 style=\"font-size: 22px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: center;\">Welcome..</h4></td></tr>"+ 
-                        						  "</tbody> </table> <p>&nbsp; </p> </td> </tr> </tbody></table> </td> </tr> </tbody> </table> <table  width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody> <tr> <td align=\"center\" valign=\"top\" style=\"background-color: #fff;  padding: 16px; text-align: center; vertical-align: top;\">"+
-                                        "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody> <tr> <td style=\"color: #888;\" align=\"right-side\" valign=\"top\" style=\" padding: 16px; text-align: center; vertical-align: top;\"><p style=\" line-height: 23px; margin-bottom: 24px; margin-top: 16px;font-size: 15px;\">"+
-                        							"<strong>You're ready to start using menschFoce Online Edition</strong><br /></p>  <p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"><strong>Name:</strong>"+pay_firstname+" "+pay_firstname+"</p>"+
-                                        "<p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"><strong>E-mail: </strong>"+emailId+"</p> <p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"><strong>User Name:</strong>"+CustomerUserName+"</p>"+
-                        						  "<p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"><strong>password:</strong>"+Customerpassword+"</p> <p style=\" line-height: 23px;margin-bottom: 24px; margin-top: 16px;font-size: 15px;\"><strong>Registration Id: </strong>"+registrationId+"</p>"+ 
-                                                  "</td> </tr> </tbody></table></td></tr></tbody></table></div></div></div></div></body></html>";
-                        email1.setBody(htmlBody);
-                        EmailEngine emailEngine = new EmailEngine();
-   		       	     emailFlagTesting = emailEngine.sendMimeEmail(email1);
-   		       	     System.out.println("Email sent sucessfully Testing :" + emailFlagTesting);
-                        
-                        
-                        
+                                
                        
                         return new ModelAndView(forwardPage); 
                        
@@ -1387,11 +1247,11 @@ import org.apache.log4j.PropertyConfigurator;
                     session.setAttribute("statusId3", statusId3);
                     //System.out.println("Inside Paypal ACtion "+finalSslAvsResponse+"  "+finalSslCvv2Response);
                     // String emailToUSEA=mr.getMessage("hlc.emailid");
-                     String emailToUSEA="jeyaprakash.sankarraj@digiblitz.com";
+                     String emailToUSEA="parasu88@gmail.com";
                      String toMailIds[] = {emailToUSEA, emailId};
                     EmailContent email = new EmailContent();
                     email.setTo(toMailIds);
-                    email.setFrom("contact@menschforce.io");//info@digiblitz.com
+                    email.setFrom("info@digiblitz.com");
                     String subject=null;
                               if (purpose.trim().equalsIgnoreCase("newhorseregistration")) {
                             subject="Horse Registration Decline";
@@ -1478,8 +1338,7 @@ import org.apache.log4j.PropertyConfigurator;
                     "</tr>" +
                     "</table>";
                     email.setBody(content);
-                    EmailEngine mail = new EmailEngine();
-                    System.out.println("====================Sucessmail testing005===================");
+                    MailMail mail = new MailMail();
                     boolean emailFlag = mail.sendMimeEmail(email);
                     Debug.print("Email sent sucessfully :" + emailFlag);
                     /* session.removeAttribute("API_username1");
@@ -1627,14 +1486,14 @@ import org.apache.log4j.PropertyConfigurator;
             e.printStackTrace();
             //return new ModelAndView("payDecline"); 
             System.out.println("outside the try :::::::::::::::::::::::::::::::::::");
-            String emailToUSEA="jeyaprakash.sankarraj@digiblitz.com";
+            String emailToUSEA="parasu88@gmail.com";
             String toMailIds[] = {emailToUSEA, emailId};
             EmailContent email = new EmailContent();
             email.setTo(toMailIds);
-            email.setFrom("contact@menschforce.io");//info@digiblitz.com
+            email.setFrom("info@digiblitz.com");
             String subject=null;
              
-            System.out.println("====================Sucessmail testing006===================");
+            
             email.setSubject(subject);
             String content = "<table width=\"526\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\" style=\"border:1px solid #999;\"> " +
                     " <tr>" +
@@ -1676,7 +1535,7 @@ import org.apache.log4j.PropertyConfigurator;
                     "</tr>" +
                     "</table>";
             email.setBody(content);
-            EmailEngine mail = new EmailEngine();
+            MailMail mail = new MailMail();
             boolean emailFlag = mail.sendMimeEmail(email);
             Debug.print("Email sent sucessfully :" + emailFlag);
             request.setAttribute("cardstatus","success");

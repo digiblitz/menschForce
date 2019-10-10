@@ -1,14 +1,16 @@
-<!--
-Copyright: 2018 Menschforce Foundation www.menschforce.org/copyright/
-
-License: digiBlitz Public License 1.0 (DPL) administered by digiBlitz Foundation. www.digiblitz.org/dpl/
-
-Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
-
-Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
-
-"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
- --> 
+#-------------------------------------------------------------------------------
+# /*******************************************************************************
+# * Copyright: 2019 digiBlitz Foundation
+# * 
+# * License: digiBlitz Public License 1.0 (DPL) 
+# * Administered by digiBlitz Foundation. www.digiblitz.org/dpl/
+# * 
+# * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
+# * 
+# * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
+# * 
+# * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
+#-------------------------------------------------------------------------------
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 pageEncoding="ISO-8859-1"%>
   <!DOCTYPE html>
@@ -151,7 +153,7 @@ CONTENT
 			"mobile",
 			function(value, element) {
 				// put your own logic here, this is just a (crappy) example
-			return value.match(/^[0-9]*(+-)$/);
+			return value.match(/^[0-9]*$/);
 			},
 			"alphabets are not accepted"
 			);
@@ -181,20 +183,20 @@ CONTENT
 			{
 				required:true,
 				mobile:true,
-				minlength:16
+				minlength:10
 
 			},
 			institutionName:
 			{
-				// required:true,
-			//	checkspecialcharacter:true	
+				required:true,
+				checkspecialcharacter:true	
 
 
 			},
 			street:
 			{
 				required:true,
-				//checkspecialcharacter:true	
+				checkspecialcharacter:true	
 
 
 			},
@@ -294,7 +296,7 @@ CONTENT
 					},
 					street:{
 						required:"Enter your street name",
-					checkspecialcharacter:"Special Characters are not allowed"
+						checkspecialcharacter:"Special Characters are not allowed"
 
 						
 					    
@@ -455,7 +457,7 @@ CONTENT
         if($('#Productplan').val()=="Basic"){
 		var a = 99;
           productPrice=99;
-		var oneTimeCost = 1100;
+		var oneTimeCost = 0;
 		  if($("input[type='radio'].radioBtnClass").is(':checked')) {
     subtype = $("input[type='radio'].radioBtnClass:checked").val();
     //alert(subtype);
@@ -499,7 +501,7 @@ CONTENT
         if($('#Productplan1').val()=="Silver"){
 		  var a = 299;
           productPrice=299;
-		  var oneTimeCost = 1100;
+		  var oneTimeCost = 999;
 
 		  if($("input[type='radio'].radioBtnClass").is(':checked')) {
     subtype = $("input[type='radio'].radioBtnClass:checked").val();
@@ -668,7 +670,7 @@ CONTENT
        // document.getElementById("info").innerHTML = "scroll fully";
 		//document.form.check.disabled="false";
 		//alert(div.scrollTop);
-		    if(div.scrollTop>=1000){
+		    if(div.scrollTop>=2500){
 			        var x = document.getElementById ("selectAccept").disabled = false ;
 			}
 		}
@@ -776,28 +778,27 @@ CONTENT
 							<%}else if (purchase.equalsIgnoreCase("try_now") && purchase != null && coupon_code == null){%>
                             <label class="phone form-div-6" align="left">
 							<span id="Nmobileno" style="color: red;"></span>
-                              <input type="text" name="mobileno" id="mobileno" placeholder="Mobile No with country code:" value="" data-constraints="@Required " /><!-- @JustNumbers -->
+                              <input type="text" name="mobileno" id="mobileno" placeholder="Mobile No:" value="" data-constraints="@Required @JustNumbers" />
                               <span class="empty-message">*This field is required.</span>
                               <span class="error-message">*This is not a valid phone.</span>
                             </label>
 							<label class="name form-div-6" align="left">
 							<span id="NinstitutionName" style="color: red;"></span>
-                              <input type="text" name="institutionName" id="institutionName" placeholder="Organization Name:" value=""   />
-                              <!--   data-constraints="@Required @JustLetters"
+                              <input type="text" name="institutionName" id="institutionName" placeholder="Organization Name:" value="" data-constraints="@Required @JustLetters"  />
                               <span class="empty-message">*This field is required.</span>
-                              <span class="error-message">*This is not a valid name.</span>   -->
+                              <span class="error-message">*This is not a valid name.</span>
                             </label>
 							
 							
                             <label class="name form-div-6" align="left">
 							<span id="Nstreet" style="color: red;"></span>
-                              <input type="text" name="street" id="street" placeholder="Street Name:" value="" data-constraints="@Required "   /> <!-- @JustLetters -->
+                              <input type="text" name="street" id="street" placeholder="Street Name:" value="" data-constraints="@Required @JustLetters"   />
                               <span class="empty-message">*This field is required.</span>
                               <span class="error-message">*This is not a valid name.</span>
                             </label>
                             <label class="name form-div-6" align="left">
 							<span id="Ncity" style="color: red;"></span>
-                              <input type="text" name="city" id="city" placeholder="City:" value="" data-constraints="@Required "  /> <!-- @JustLetters -->
+                              <input type="text" name="city" id="city" placeholder="City:" value="" data-constraints="@Required @JustLetters"  />
                               <span class="empty-message">*This field is required.</span>
                               <span class="error-message">*This is not a valid name.</span>
                             </label>
@@ -849,20 +850,19 @@ CONTENT
 							<%}else{%>
 							<label class="phone form-div-6" align="left">
 							<span id="Nmobileno" style="color: red;"></span>
-                              <input type="text" name="mobileno" id="mobileno" placeholder="Mobile No with country code:" value="" data-constraints="@Required " /> <!-- @JustNumbers -->
+                              <input type="text" name="mobileno" id="mobileno" placeholder="Mobile No:" value="" data-constraints="@Required @JustNumbers" />
                               <span class="empty-message">*This field is required.</span>
                               <span class="error-message">*This is not a valid phone.</span>
                             </label>
 							<label class="name form-div-6" align="left">
 							<span id="NinstitutionName" style="color: red;"></span>
-                              <input type="text" name="institutionName" id="institutionName" placeholder="Organization Name:" value="" data-constraints=""  /><!-- @Required @JustLetters -->
-                             
+                              <input type="text" name="institutionName" id="institutionName" placeholder="Organization Name:" value="" data-constraints="@Required @JustLetters"  />
                               <span class="empty-message">*This field is required.</span>
                               <span class="error-message">*This is not a valid name.</span>
                             </label>
 							<label class="name form-div-6" align="left">
 							<span id="Nstreet" style="color: red;"></span>
-                              <input type="text" name="street" id="street" placeholder="Street Name:" value="" data-constraints="@Required " /><!-- @JustLetters  -->
+                              <input type="text" name="street" id="street" placeholder="Street Name:" value="" data-constraints="@Required @JustLetters" />
                               <span class="empty-message">*This field is required.</span>
                               <span class="error-message">*This is not a valid name.</span>
                             </label>
@@ -1000,10 +1000,10 @@ CONTENT
 				
                  int am=n-m;
 				 if(productPlan1 !=null && productPlan1.equalsIgnoreCase("Basic")){
-				 cost = "1100";
+				 cost = "0";
 				 
 				 }else if(productPlan1 !=null && productPlan1.equalsIgnoreCase("Silver")){
-				 cost = "1100";
+				 cost = "999";
 				 
 				 }else if(productPlan1 !=null && productPlan1.equalsIgnoreCase("Gold")){
 				 cost = "3999";
@@ -1095,7 +1095,7 @@ CONTENT
                             </label>
 							<label class="phone form-div-6" align="left">
 							<span id="Ncreditno" style="color: red;"></span>
-                              <input type="text" name="credit_card_no" id="credit_card_no" placeholder="Card No:" value="" data-constraints="@Required @JustNumbers" />
+                              <input type="text" name="credit_card_no" id="credit_card_no" placeholder="Credit Card No:" value="" data-constraints="@Required @JustNumbers" />
                               <span class="empty-message">*This field is required.</span>
                               <span class="error-message">*This is not a valid phone.</span>
                             </label>
@@ -1150,7 +1150,7 @@ CONTENT
                             </label>
 							<label class="phone form-div-6" align="left">
 							<span id="Ncreditno" style="color: red;"></span>
-                              <input type="text" name="credit_card_no" id="credit_card_no" placeholder="Card No:" value="" data-constraints="@Required @JustNumbers" />
+                              <input type="text" name="credit_card_no" id="credit_card_no" placeholder="Credit Card No:" value="" data-constraints="@Required @JustNumbers" />
                               <span class="empty-message">*This field is required.</span>
                               <span class="error-message">*This is not a valid phone.</span>
                             </label>
@@ -1237,24 +1237,24 @@ CONTENT
 
 							<strong>1.	Payment and pricing:</strong><br/>
 							&nbsp;&nbsp;Pricing of all products are stated in digiBlitz’s relevant product or platform websites. Pricing page of our product(s) and platform(s) can be changed at any time without notice. digiBlitz Inc. may limit on the number that may be purchased per order, per account, per credit card, per person or per CPU. Pricing shown in the website will include all tax and charges of the product.<br/>
-						<!-- 	<strong>2.	AUTO RENEWAL OF THE PRODUCTS</strong><br/>
-							&nbsp;&nbsp;All products of digiBlitz Inc.  will be renewed automatically at the end of each month on a prorate basis or depending up on the date of purchase (depending upon individual cases). We will also inform you about the renewal through email before the subscription of the product. Once we informed you about the auto renewal, we will charge automatically for the product. The intimation will be given before one week from the renewal to digiBlitz Inc. by the customer .We will provide you with instruction on cancelling the product service or for suspending the product. However, no intimation will be given to you for subscription renewal of any dB store components. You must cancel the services before the renewal date to avoid being billed for the renewal.<br/> -->
-							<strong>2.	Return, Refund and Exchange</strong><br/>
+							<strong>2.	AUTO RENEWAL OF THE PRODUCTS</strong><br/>
+							&nbsp;&nbsp;All products of digiBlitz Inc.  will be renewed automatically at the end of each month on a prorate basis or depending up on the date of purchase (depending upon individual cases). We will also inform you about the renewal through email before the subscription of the product. Once we informed you about the auto renewal, we will charge automatically for the product. The intimation will be given before one week from the renewal to digiBlitz Inc. by the customer .We will provide you with instruction on cancelling the product service or for suspending the product. However, no intimation will be given to you for subscription renewal of any dB store components. You must cancel the services before the renewal date to avoid being billed for the renewal.<br/>
+							<strong>3.	Return, Refund and Exchange</strong><br/>
 							&nbsp;&nbsp;The return policy is provided in addition to any legal return rights that you may have under law. digiBlitz Inc. will accept returns, refunds and exchanges within 30 day after purchasing of product. We have rights to refuse any refund, return or exchange if it fails to meet our norm. For Return, Refund and Exchange the intimation should be given before one week from the renewal to digiBlitz Inc. by the customer and it will be processed within 30 days. We may occasionally extend the 15-day return period during holiday or other periods. If a longer return period was advertised through a promotional campaign on the Website when you made your purchase, that applies within the clause mentioned in the promotional campaign.<br/>
-							<strong>3.	Trial-period</strong><br/> 
+							<strong>4.	Trial-period</strong><br/> 
 							&nbsp;&nbsp;If you are taking part in any trial-period, you must cancel the service before the end of the trial period to avoid incurring new charges unless we notify you otherwise. Your trial subscription will be automatically upgraded to basic pack at the end of this free subscription period. This implies that your credit card will be charged for the basic pack. However, you could unsubscribe the product any time before the trial expiry through the Master account management link that is accessible when you login into the product.<br/>
 
-							<strong>4.	Customer support</strong><br/>
+							<strong>5.	Customer support</strong><br/>
 							&nbsp;&nbsp;Please visit our Knowledge base site for Customer support and Assistance relating to the product.<br/>
-							<strong>5.	CHANGING TERMS</strong><br/>
+							<strong>6.	CHANGING TERMS</strong><br/>
 							&nbsp;&nbsp;digiBlitz Inc. may change the Terms of Return, Refund and Exchange at any time and without notice to you. The Terms of Return, Refund and Exchange in force at the time you place your order will govern your purchase and serve as the purchase contract between us. Before your next purchase, digiBlitz Inc. may change their policies. We advise you to visit the digiBlitz Inc. website, to review the current terms and condition, Refund and Return policy each time. <br/>
-							<strong>6.	PROTECTION OF INDIVIDUAL INFORMATION</strong><br/>
+							<strong>7.	PROTECTION OF INDIVIDUAL INFORMATION</strong><br/>
 							&nbsp;&nbsp;Your privacy is important to us. We may use certain information for the purpose of your product according to your need. <br/>
-							<strong>7.	LIMITATION OF LIABILITY</strong><br/>
+							<strong>8.	LIMITATION OF LIABILITY</strong><br/>
 							&nbsp;&nbsp;In this section of Contract, digiBlitz Inc. is found liable to you for any loss or damage that arises out of or is in any way connected with your use of the dB Store, the Services, or any product or service offered, you agree that your exclusive remedy is to recover from digiBlitz Inc.  or any affiliates, and vendors direct damages up to (1) an amount equal to the price or fee for one month of any service or subscription or (2) US $100 if there was no service, subscription or similar fee.<br/>
 							&nbsp;&nbsp;YOU AGREE THAT YOU CAN'T RECOVER ANY OTHER DAMAGES OR LOSSES, INCLUDING, WITHOUT LIMITATION, CONSEQUENTIAL, LOST PROFITS, SPECIAL, INDIRECT, INCIDENTAL, OR CONCERNING PUNISHMENT. THESE LIMITATIONS AND EXCLUSIONS APPLY EVEN IF YOU INCUR DAMAGES AND EVEN IF WE KNEW OR SHOULD HAVE KNOWN ABOUT THE POSSIBILITY OF THE DAMAGES. THESE LIMITATIONS AND EXCLUSIONS APPLY TO ANYTHING RELATED TO THE WEBSITE OWNED AND CONTROLLED BY DIGIBLITZ INC., ITS PRODUCT (S), PLATFORM(S) OR ANY COMPONENTS OF DB STORE, OR SERVICE OFFERED<br/>
 
-							<strong>8.	Interpreting the Contract</strong><br/>
+							<strong>9.	Interpreting the Contract</strong><br/>
 							&nbsp;&nbsp;All parts of this Contract apply to the maximum extent permitted by the relevant law of the United States.<br/>
 
 							</div>
@@ -1325,24 +1325,24 @@ CONTENT
 
 							<strong>1.	Payment and pricing:</strong><br/>
 							&nbsp;&nbsp;Pricing of all products are stated in digiBlitz’s relevant product or platform websites. Pricing page of our product(s) and platform(s) can be changed at any time without notice. digiBlitz Inc. may limit on the number that may be purchased per order, per account, per credit card, per person or per CPU. Pricing shown in the website will include all tax and charges of the product.<br/>
-							<!--  <strong>2.	AUTO RENEWAL OF THE PRODUCTS</strong><br/>
-							&nbsp;&nbsp;All products of digiBlitz Inc.  will be renewed automatically at the end of each month on a prorate basis or depending up on the date of purchase (depending upon individual cases). We will also inform you about the renewal through email before the subscription of the product. Once we informed you about the auto renewal, we will charge automatically for the product. The intimation will be given before one week from the renewal to digiBlitz Inc. by the customer .We will provide you with instruction on cancelling the product service or for suspending the product. However, no intimation will be given to you for subscription renewal of any dB store components. You must cancel the services before the renewal date to avoid being billed for the renewal.<br/>-->
-							<strong>2.	Return, Refund and Exchange</strong><br/>
+							<strong>2.	AUTO RENEWAL OF THE PRODUCTS</strong><br/>
+							&nbsp;&nbsp;All products of digiBlitz Inc.  will be renewed automatically at the end of each month on a prorate basis or depending up on the date of purchase (depending upon individual cases). We will also inform you about the renewal through email before the subscription of the product. Once we informed you about the auto renewal, we will charge automatically for the product. The intimation will be given before one week from the renewal to digiBlitz Inc. by the customer .We will provide you with instruction on cancelling the product service or for suspending the product. However, no intimation will be given to you for subscription renewal of any dB store components. You must cancel the services before the renewal date to avoid being billed for the renewal.<br/>
+							<strong>3.	Return, Refund and Exchange</strong><br/>
 							&nbsp;&nbsp;The return policy is provided in addition to any legal return rights that you may have under law. digiBlitz Inc. will accept returns, refunds and exchanges within 30 day after purchasing of product. We have rights to refuse any refund, return or exchange if it fails to meet our norm. For Return, Refund and Exchange the intimation should be given before one week from the renewal to digiBlitz Inc. by the customer and it will be processed within 30 days. We may occasionally extend the 15-day return period during holiday or other periods. If a longer return period was advertised through a promotional campaign on the Website when you made your purchase, that applies within the clause mentioned in the promotional campaign.<br/>
-							<strong>3.	Trial-period</strong><br/> 
+							<strong>4.	Trial-period</strong><br/> 
 							&nbsp;&nbsp;If you are taking part in any trial-period, you must cancel the service before the end of the trial period to avoid incurring new charges unless we notify you otherwise. Your trial subscription will be automatically upgraded to basic pack at the end of this free subscription period. This implies that your credit card will be charged for the basic pack. However, you could unsubscribe the product any time before the trial expiry through the Master account management link that is accessible when you login into the product.<br/>
 
-							<strong>4.	Customer support</strong><br/>
+							<strong>5.	Customer support</strong><br/>
 							&nbsp;&nbsp;Please visit our Knowledge base site for Customer support and Assistance relating to the product.<br/>
-							<strong>5.	CHANGING TERMS</strong><br/>
+							<strong>6.	CHANGING TERMS</strong><br/>
 							&nbsp;&nbsp;digiBlitz Inc. may change the Terms of Return, Refund and Exchange at any time and without notice to you. The Terms of Return, Refund and Exchange in force at the time you place your order will govern your purchase and serve as the purchase contract between us. Before your next purchase, digiBlitz Inc. may change their policies. We advise you to visit the digiBlitz Inc. website, to review the current terms and condition, Refund and Return policy each time. <br/>
-							<strong>6.	PROTECTION OF INDIVIDUAL INFORMATION</strong><br/>
+							<strong>7.	PROTECTION OF INDIVIDUAL INFORMATION</strong><br/>
 							&nbsp;&nbsp;Your privacy is important to us. We may use certain information for the purpose of your product according to your need. <br/>
-							<strong>7.	LIMITATION OF LIABILITY</strong><br/>
+							<strong>8.	LIMITATION OF LIABILITY</strong><br/>
 							&nbsp;&nbsp;In this section of Contract, digiBlitz Inc. is found liable to you for any loss or damage that arises out of or is in any way connected with your use of the dB Store, the Services, or any product or service offered, you agree that your exclusive remedy is to recover from digiBlitz Inc.  or any affiliates, and vendors direct damages up to (1) an amount equal to the price or fee for one month of any service or subscription or (2) US $100 if there was no service, subscription or similar fee.<br/>
 							&nbsp;&nbsp;YOU AGREE THAT YOU CAN'T RECOVER ANY OTHER DAMAGES OR LOSSES, INCLUDING, WITHOUT LIMITATION, CONSEQUENTIAL, LOST PROFITS, SPECIAL, INDIRECT, INCIDENTAL, OR CONCERNING PUNISHMENT. THESE LIMITATIONS AND EXCLUSIONS APPLY EVEN IF YOU INCUR DAMAGES AND EVEN IF WE KNEW OR SHOULD HAVE KNOWN ABOUT THE POSSIBILITY OF THE DAMAGES. THESE LIMITATIONS AND EXCLUSIONS APPLY TO ANYTHING RELATED TO THE WEBSITE OWNED AND CONTROLLED BY DIGIBLITZ INC., ITS PRODUCT (S), PLATFORM(S) OR ANY COMPONENTS OF DB STORE, OR SERVICE OFFERED<br/>
 
-							<strong>8.	Interpreting the Contract</strong><br/>
+							<strong>9.	Interpreting the Contract</strong><br/>
 							&nbsp;&nbsp;All parts of this Contract apply to the maximum extent permitted by the relevant law of the United States.<br/>
 
 							</div>

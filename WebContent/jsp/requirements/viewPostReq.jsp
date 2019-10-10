@@ -1,16 +1,22 @@
-<!--
-Copyright: 2018 Menschforce Foundation www.menschforce.org/copyright/
-
-License: digiBlitz Public License 1.0 (DPL) administered by digiBlitz Foundation. www.digiblitz.org/dpl/
-
-Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
-
-Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
-
-"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
- --> 
+#-------------------------------------------------------------------------------
+# /*******************************************************************************
+# * Copyright: 2019 digiBlitz Foundation
+# * 
+# * License: digiBlitz Public License 1.0 (DPL) 
+# * Administered by digiBlitz Foundation. www.digiblitz.org/dpl/
+# * 
+# * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
+# * 
+# * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
+# * 
+# * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
+#-------------------------------------------------------------------------------
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+   
+   
+   <%@ page import = "java.util.Base64" %>
+   
    
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -118,8 +124,20 @@ jobStatus =(String) request.getAttribute("jobStatus");%>
 								String jobPostDate = s[29];
 								String JobTitle = s[30];
 								String maxExperience = s[32];
-							
+								System.out.println("Company Category====in jsp"+RecruiterEmail);
 				System.out.println("Company Category====in jsp"+jobPostCompanyCategory);
+				
+				
+				 Base64.Encoder encoder = Base64.getUrlEncoder();  
+			        // Encoding URL  
+			        String encode = encoder.encodeToString(RecruiterEmail.getBytes());  
+			        System.out.println("Encoded URL: "+encode);  
+				
+				
+				
+				
+			    
+				
 		                %>
 		 
 		<form name="postReq" id="postReq" method="post" action="#" class="formcss" onsubmit="return validate();" >
@@ -143,8 +161,12 @@ jobStatus =(String) request.getAttribute("jobStatus");%>
 							<div class="col-lg-4 col-md-4 col-sm-4 col-sm-offset-1 ">
 							<label class="name form-div-6">
 							<%if(RequirementStatus!=null && (RequirementStatus.equalsIgnoreCase("open") || RequirementStatus.equalsIgnoreCase("onhold"))){%>
-								<font color="#018dce"><a href="ViewApplyJobVacancy.html?RID=<%=requirementId%>"" class="btn-default btn3">Apply To This Job</a></font>
-							<%}else{%>
+								<font color="#018dce"><a href="ViewApplyJobVacancy.html?RID=<%=requirementId%>&User=<%=encode%>" class="btn-default btn3">Apply To This Job</a></font>
+							<%
+							System.out.println("encode kdebug0 "+RecruiterEmail);
+							System.out.println("encode kdebug1 "+encode);
+							
+							}else{%>
 							<font color="#018dce"><a href="" class="btn-default btn3">Job Closed</a></font>
 							<%}%>
 							</label>
@@ -159,13 +181,6 @@ jobStatus =(String) request.getAttribute("jobStatus");%>
 							<div class="col-lg-1 col-md-1 col-sm-1">
 								<button  type="button"class="btn-default btn3" value="Edit" onclick="window.location.href='RepostPostRequirementByUniquePostId.html?uniqueId=<%=postReqUniqueId%>&jobStatus=<%=jobStatus %>'"> Repost</button>
 							</div>
-							<div class="col-lg-1 col-md-1 col-sm-1">
-								&nbsp;
-							</div>
-							<div class="col-lg-1 col-md-1 col-sm-1">
-								<button  type="button"class="btn-default btn3" value="Delete" onclick="window.location.href='DeletePostRequirementByUniqueID.html?uniqueId=<%=postReqUniqueId%>&requirementId=<%=requirementId %>'"> Delete</button>
-							</div>
-							
 						<%}%>
 						 </div>
 		

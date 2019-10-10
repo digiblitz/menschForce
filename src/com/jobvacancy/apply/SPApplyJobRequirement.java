@@ -1,15 +1,18 @@
 /*******************************************************************************
- * Copyright: 2018 Menschforce Foundation www.menschforce.org/copyright/
- * 
- * License: digiBlitz Public License 1.0 (DPL) administered by digiBlitz Foundation. www.digiblitz.org/dpl/
- * 
- * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
- * 
- * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
- * 
- * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
+ * /*******************************************************************************
+ * * Copyright: 2019 digiBlitz Foundation
+ * * 
+ * * License: digiBlitz Public License 1.0 (DPL) 
+ * * Administered by digiBlitz Foundation. www.digiblitz.org/dpl/
+ * * 
+ * * Inventor: Suresh Kannan (Maya Suresh Kannan Balabisegan ) (www.sureshkannan.org)
+ * * 
+ * * Authors: Suresh Kannan (Maya Suresh Kannan Balabisegan )& digiBlitz.
+ * * 
+ * * "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software in accordance to the rules & restrictions of the digiBlitz Public License."
  ******************************************************************************/
 package com.jobvacancy.apply;
+import java.util.Base64;  
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -86,6 +89,8 @@ import com.oreilly.servlet.multipart.ParamPart;
 import com.oreilly.servlet.multipart.Part;
 import com.user.action.Crypt;
 import com.user.action.SharePointEncrypt;
+import com.util.email.EmailContent;
+import com.util.email.MailMail;
 import com.user.action.OfbizWebservices;
 import com.jobvacancy.requirements.*;
 
@@ -107,9 +112,9 @@ GeneralDBAction db = new GeneralDBAction();
 		
 		  private InfusionSessionBean obj1;
 			{
-				try{
-					obj1 = new InfusionSessionBean();
-				}catch(Exception e){
+			try{
+				obj1 = new InfusionSessionBean();
+			}catch(Exception e){
 					 throw new RuntimeException(e);
 				}
 			}
@@ -171,6 +176,7 @@ GeneralDBAction db = new GeneralDBAction();
 		
 		String RID = null;
 		String userId = null;
+		String email =null;
 		userId = (String) session.getAttribute("jobPostUserId");
 		try {
 			objUserMaster = db.getUserMasterDetailsByUserId(userId);
@@ -182,11 +188,19 @@ GeneralDBAction db = new GeneralDBAction();
             throw new CustomGenericException(e.getErrorCode(),e.getMessage().toString());
         }
 		RID = request.getParameter("RID");
+		
+		email = request.getParameter("User");
+		
+		
+		System.out.println("email  >>> "+email);
+		
 		request.setAttribute("RID", RID);
+		request.setAttribute("email", email);
 		request.setAttribute("applyStatus", "init");
 		request.setAttribute("objUserMaster", objUserMaster);
 		request.setAttribute("objContact", objContact);
 		System.out.println("RID===========in ViewApplyJobVacancy.html======"+RID);
+		//System.out.println("RID===========in ViewApplyJobVacancy.html======"+RID);
 		return new ModelAndView("requirements/ApplyJobVacancy"); 
 	}
 	
@@ -199,6 +213,12 @@ GeneralDBAction db = new GeneralDBAction();
 		HttpSession session=request.getSession(true);
 		MFAppliedCandidateBean objApplyCand = new MFAppliedCandidateBean();
 		String RID = null;
+		String email = null;
+		
+String recEmail = request.getParameter("email");
+		
+		
+		System.out.println("email  1>>> "+recEmail);
 		RID = request.getParameter("RID");
 		System.out.println("RID===========in GetApplyJobVacancy.html======"+RID);
 		
@@ -330,7 +350,7 @@ GeneralDBAction db = new GeneralDBAction();
 		request.setAttribute("txtempcontactnumber",txtempcontactnumber);
 		request.setAttribute("txtcontactperson",txtcontactperson);
 		request.setAttribute("txtempcompany",txtempcompany);
-		
+		request.setAttribute("recEmail",recEmail);
 		return new ModelAndView("requirements/PostApplyJobToSP"); 
 		}else{
 			request.setAttribute("RID", RID);
@@ -367,6 +387,8 @@ GeneralDBAction db = new GeneralDBAction();
 		String req_uniqueID=null;
 		String txtempmailID=null;
 		String jobPostUserEmailID=null;
+		String recuterEmail = null;
+		String email = null;
 		ArrayList PostReqList=new ArrayList();
 		
 		HttpSession session=request.getSession(true);
@@ -391,11 +413,21 @@ GeneralDBAction db = new GeneralDBAction();
 		                if(_part.isParam()){
 		                	System.out.println("Inside paramPart");
 		                	ParamPart paramPart = (ParamPart)_part;
+		    /*-----------------------------------------------------------------------------------------------------*/  
+		    /*-----------------------------------------------------------------------------------------------------*/
+		    /*-----------------------------------------------------------------------------------------------------*/
+		                	if(parmName.equals("email")){
+		                		email = paramPart.getStringValue();
+		                		System.out.println("Inside email :::: "+paramPart.getStringValue());
+		                		
+		                	}
+		                	
 		                	if(parmName.equals("txtemailaddress")){
 		                		txtemailaddress = paramPart.getStringValue();
 		                		System.out.println("Inside param :::: "+paramPart.getStringValue());
 		                		
 		                	}
+		                	
 		                	if(parmName.equals("txtfirstname")){
 		                		txtfirstname = paramPart.getStringValue();
 		                		System.out.println("Inside param :::: "+paramPart.getStringValue());
@@ -454,9 +486,17 @@ GeneralDBAction db = new GeneralDBAction();
 	            }
 	            
 	           
+	            System.out.println("debug keshav "+ email);
 	            
 	            
-	            if(fileLocation != null && txtemailaddress != null && RID != null){
+	            Base64.Decoder decoder = Base64.getUrlDecoder();  
+		        // Decoding URl  
+		        String email_recuiter = new String(decoder.decode(email));  
+		        System.out.println("Decoded URL: "+email_recuiter);  
+	            
+	            
+	            
+	            if(fileLocation != null && txtemailaddress != null && RID != null && email != null ){
 	            	boolean resUpdatedStatus = false;
 	            	resUpdatedStatus = db.updateResumeToCandidate(txtemailaddress,RID,fileLocation);
 	            	if(resUpdatedStatus){
@@ -496,6 +536,9 @@ GeneralDBAction db = new GeneralDBAction();
 	                        OutputStream outputStream = conn.getOutputStream();
 	                        FileInputStream inputStream = new FileInputStream(filePath);
 	             
+	                        
+	                        
+	                        System.out.println("keshava debug1");
 	                        byte[] buffer = new byte[BUFFER_SIZE];
 	                        int bytesRead = -1;
 	                        while ((bytesRead = inputStream.read(buffer)) != -1) {
@@ -525,13 +568,26 @@ GeneralDBAction db = new GeneralDBAction();
 	                    
 	                    //code for storing resume to database server ends here
 	                    
-	            		
+	                    System.out.println("keshava debug2");
 	            		
 	            		
 	            		request.setAttribute("resumeUpdateStatus", "success");
 	            		request.setAttribute("reqid", RID);
 	            		
 	            		 req_uniqueID = (String)db.getuniqueID(RID);
+	            		 /*------------------------------------------------------*/
+	  /*-------------Status mail sent start here---------------------------------------------------------------------------*/   
+	            		 /*-------------------------------------------------------*/
+	            		
+	            		 /*keshav email config*/
+	            			String emailid1 = txtemailaddress;  
+	        				String toMailIds1[] = { emailid1 };// instance toMailds1
+	        				EmailContent email1 = new EmailContent();// instance email1
+	        				email1.setTo(toMailIds1);
+	        				email1.setFrom("requirement@menschforce.com");
+	        				email1.setSubject("You have successfully submitted your candidate with us");
+	        				 
+	        				            		 
 	     	            
 	     	        		
 	            		/*String htmlbodytocandidate = "<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important;\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;" +
@@ -554,6 +610,21 @@ GeneralDBAction db = new GeneralDBAction();
 	        					"<td><strong>Rate</strong></td> <td>"+txtrate+"</td> </tr></tbody></table><table width=\"95%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tr style=\"line-height:20px;\"><td style=\"padding-top:30px;\">Regards<br>Menschforce Team</td></tr></table>"+	
 	        					"</tbody></table></td></tr></tbody></table></div></div></body></html>";
 	            	
+	            		
+	            		email1.setBody(htmlbodytocandidate);// content=htmlBoady
+	    				
+	    				MailMail mail = new MailMail();
+	    				boolean emailFlag1 = mail.sendMimeEmail(email1);
+	    				Debug.print("Email sent sucessfully :" + emailFlag1);  
+/*-------------------------------candidate-status upda--email sent to recruiter start here------------------------------------------------------------------------------------------------*/
+	            	
+	    				String emailid2 = email_recuiter ;
+        				String toMailIds2[] = { emailid2 };// instance toMailds1
+        				EmailContent email2 = new EmailContent();// instance email1
+        				email2.setTo(toMailIds2);
+        				email2.setFrom("hr@menschforce.com");
+        				email2.setSubject("Your Username");
+	            		
 	        			 String htmlBodytoAccountManager = "<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;text-align: center;vertical-align: top; width: 100%\">" +
 	        					"<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody><tr><td align=\"center\" valign=\"top\" style=\" background-color: #333;border-radius: 4px 4px 0 0;padding-bottom: 25px; text-align: center\"><table width=\"100%\"  border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"padding-top: 16px\"><a href=\"#\"><img style=\"height: auto; max-width: 156px\" src=\"https://www.digiblitzonline.com:8843/menschforce/img/menschForce_logo.png\" alt=\"Logo\"/></a>" +
 	        					"</td></tr>	</tbody> </table></td> </tr> </tbody></table><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>	<tr><td align=\"right\" valign=\"top\" style=\"background-color: #fff; width: 937px\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"padding: 16px;text-align: center; vertical-align: top\"><h4 style=\"font-size: 20px;font-weight: 700;line-height: 30px; margin: 16px 0 8px;padding: 0;color: #383d42;text-align: left\">Dear Staffing partner, </h4>" +
@@ -566,38 +637,21 @@ GeneralDBAction db = new GeneralDBAction();
 	        					"<td><strong>RID</strong></td> <td>"+RID+"</td> </tr><tr style=\"line-height:25px\">" +
 	        					"<td><strong>Rate</strong></td> <td>"+txtrate+"</td> </tr></tbody></table><table width=\"95%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tr style=\"line-height:20px;><td style=\"padding-top:30px;\">Regards<br>Menschforce Team</td></tr></table>"+	
 	        					"</tbody></table></td></tr></tbody></table></div></div></body></html>";
-	            		try {
-	            			
-	            			//System.out.println("jobPostUserEmailID====="+jobPostUserEmailID);
-	            			obj1.sendEmail("recruitment@menschforce.com",txtempmailID , "", "priya.karunanidhi@digiblitz.in", "Html", "Candidate Profile Submitted",htmlbodytocandidate,"" );
-	            			
-	            			PostReqList = (ArrayList)db.getPostReqByUniqueId(req_uniqueID);
-	            			String Recruiter_mail=null;
-		     	            Iterator itr = PostReqList.iterator();
-		     	            while (itr.hasNext()) {    
-		     	                String TempList[] = (String[])itr.next();
-		     	        		 Recruiter_mail=TempList[14];
-		     	        		
-		     	           }  
-		     	            
-		     	           obj1.sendEmail(txtempmailID,Recruiter_mail,"jeyaprakash.sankarraj@digiblitz.com", "sureshkb@digiblitz.com", "Html", "Applicant Details",htmlBodytoAccountManager,"" );
-		     	           
-		     	           /*ArrayList AccountManagerMailId = new ArrayList();
-							AccountManagerMailId = db.getAllUserEmailBasedOnRoleName("Account Manager");
-							   Iterator itr1 = AccountManagerMailId.iterator();
-							    while (itr1.hasNext()) {    
-							        String TempList[] = (String[])itr1.next();
-							        String ManagerEmailId= TempList[2];
-							       
-							        obj1.sendEmail(jobPostUserEmailID,ManagerEmailId,Recruiter_mail, "", "Html", "Applicant Details",htmlBodytoAccountManager,"" );
-							   }*/
-							    
-							    
-							    
-						} catch (XmlRpcException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+	        			 
+	        			 
+	        			  email2.setBody(htmlBodytoAccountManager);// content=htmlBoady
+		    				
+		    				MailMail mail1 = new MailMail();
+		    				boolean emailFlag2 = mail1.sendMimeEmail(email2);
+		    				Debug.print("Email sent sucessfully1 :" + emailFlag2);
+
+	        			 
+	        			 
+	        			 
+	/*-----------------------------------candidate-status upda--email sent to recruiter End here--------------------------------------------------------------------------------------------*/        			 
+	        			 
+	            		
+		     	       
 	            		
 	            		String jobPostCompanyUniqueId = null;
 	            		String companyJobPostCategory = null;
@@ -1208,7 +1262,11 @@ GeneralDBAction db = new GeneralDBAction();
 		return new ModelAndView("requirements/ViewCandidateStatus");
 	}
 	
-	@RequestMapping("/UpdateCandidateStatus.html")
+	/*------------------------------------------------------------------------------------------*/
+/*-----------------------candidate status..status update details starting here----------------------------------------------------------------------------------------------*/
+	/*------------------------------------------------------------------------------------------*/
+	
+	 @RequestMapping("/UpdateCandidateStatus.html")
 	public ModelAndView UpdateCandidateStatusByUniqueId(HttpServletRequest request,
 			HttpServletResponse response) throws  Exception{
 		
@@ -1277,6 +1335,7 @@ GeneralDBAction db = new GeneralDBAction();
 		ArrayList PostReqList = new ArrayList();
 		
 		if(candidateStatus.equalsIgnoreCase("Joined")){
+			
 		//empMaritalStatus = request.getParameter("empMaritalStatus");
 		empSSNNo = request.getParameter("empSSNNo");
 		empPassportNo = request.getParameter("empPassportNo");
@@ -1290,8 +1349,6 @@ GeneralDBAction db = new GeneralDBAction();
 		empStateTaxWHFormLocation = "";
 		empJoiningDate = request.getParameter("empJoiningDate");
 		empJobLocation = request.getParameter("empJobLocation");
-		
-		
 		
 		
 		
@@ -1314,87 +1371,274 @@ GeneralDBAction db = new GeneralDBAction();
 		 Iterator itr = PostReqList.iterator();
 		 while (itr.hasNext()) {  
 		 String TempList[] = (String[])itr.next();   
-		  can_jobtitle=TempList[30];       
-		 
+		  can_jobtitle=TempList[30]; 
+  /*--------------------------------connecting mail----------------------------------------------------------------*/
+		 		
+		  /*-----------------------------------------------connecting mail to recruiter--------------------------------------------------------------------------------------*/
+		  /*-----------------------------connecting mail ----------------------------------------------------------------*/
+	 		
+          System.out.println("debug jithina mail start to recruiter");
+          
+            String emailid4 = employerMailID;
+			  String toMailIds4[] = { emailid4 };// instance toMailds1
+			  EmailContent email4 = new EmailContent();// instance email1
+			  email4.setTo(toMailIds4);
+			  email4.setFrom("requirement@menschforce.com");
+			  email4.setSubject("Status of your Candidate");
+	                 
+	      			
+	
+	if(candidateStatus.equalsIgnoreCase("Accepted By Client") || candidateStatus == "Accepted By Client"){
+					
 		
+		
+		htmlbody = "<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important;\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;" +
+              "text-align: center;vertical-align: top; width: 100%;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody><tr><td align=\"center\" valign=\"top\" style=\" background-color: #2f68b4;border-radius: 4px 4px 0 0;padding-bottom: 16px; text-align: center;\">" +
+              "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"padding-top: 16px;\"><a href=\"#\"><img style=\"height: auto; max-width: 156px;\" src=\"https://www.digiblitzonline.com:8843/menschforce/img/menschForce_logo.png\" alt=\"Logo\"/></a></td>" +
+              " </tr></tbody></table></td></tr></tbody></table><div ><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"background-color: #fff;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>" +
+              "<tr><td  valign=\"top\" style=\"  padding: 0px 10px;text-align: center; vertical-align: top;\"><h4 style=\"font-size: 18px;font-weight: 400;line-height: 25px; margin: 16px 0 8px;padding: 0;text-align: left;\">Dear Staffing Partner,</h4></td> </tr><tr></tr> <tr><td style=\"padding:0px 10px\"><p style=\"margin: 20px 0 10px;text-align:left;\">"+
+              "Your recent application for Job title <strong>' "+can_jobtitle+ "'</strong>.Your Candidate status has been updated by the menschForce Hiring Team.<br> Here are the Details:</td></tr><table style=\"width:85%;margin:0 auto\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody style=\"width:85%\"><tr  align=\"center\" valign=\"top\" style=\"padding: 16px;text-align: center; vertical-align: top\"><tr style=\"line-height:30px\">" +
+				"<td><strong>Candidate Name</strong></td> <td>"+candidateName+"</td> </tr><tr style=\"line-height:25px\">" +
+				"<td><strong>Candidate Status</strong></td> <td>"+candidateStatus+"</td> </tr><tr style=\"line-height:25px\">" +
+				"<td><strong>Candidate ID</strong></td> <td>"+CANID+"</td> </tr><tr style=\"line-height:25px\">" +
+				"<td><strong>JobTitle</strong></td> <td>"+can_jobtitle+"</td> </tr><tr style=\"line-height:25px\">" +
+				"<td><strong>Reqirement ID</strong></td> <td>"+RequirementID+"</td> </tr><tr style=\"line-height:25px\">" +
+				"<td><strong>Candidate Email</strong></td> <td>"+candidateEmail+"</td> </tr>" +
+				"</tbody></table><table style=\"width:95%;margin:0 auto\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tr><td style=\"padding:30px 0px;background-color: #fff;\"><p style=\"line-height: 20px;text-align:left;\">Regards,<br>Menchforce Sourcing Team,<br>hr@menschforce.com"+
+				"</td></tr></table></tbody></table></td></tr></tbody></table></div></div></div></body></html>";
+		 			
+	}
+	
+	
+	else if(candidateStatus.equalsIgnoreCase("Rejected By Rate") || candidateStatus == "Rejected By Rate"){
+		
+								
+		htmlbody ="<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important;\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;" +
+              "text-align: center;vertical-align: top; width: 100%;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody><tr><td align=\"center\" valign=\"top\" style=\" background-color: #2f68b4;border-radius: 4px 4px 0 0;padding-bottom: 16px; text-align: center;\">" +
+              "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"padding-top: 16px;\"><a href=\"#\"><img style=\"height: auto; max-width: 156px;\" src=\"https://www.digiblitzonline.com:8843/menschforce/img/menschForce_logo.png\" alt=\"Logo\"/></a></td>" +
+              " </tr></tbody></table></td></tr></tbody></table><div ><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"background-color: #fff;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>" +
+              "<tr><td  valign=\"top\" style=\"  padding: 0px 10px;text-align: center; vertical-align: top;\"><h4 style=\"font-size: 18px;font-weight: 400;line-height: 25px; margin: 16px 0 8px;padding: 0;text-align: left;\">Dear Staffing Partner,</h4></td> </tr><tr></tr> <tr><td style=\"padding:0px 10px\"><p style=\"margin: 20px 0 10px;text-align:left;\">"+
+              "Your recent application for Job title <strong>' "+can_jobtitle+ "'</strong>.Thank You for submitting your candidate's resume.Your Candidate status has been updated by the menschForce Hiring Team. Please re-submit the candidate profile with a acceptable rate . Click the link <a href=\"http://www.menschforce.com\">www.menschforce.com</a><br><br> Here are the Details:</td></tr><table style=\"width:85%;margin:0 auto\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody style=\"width:85%\"><tr  align=\"center\" valign=\"top\" style=\"padding: 16px;text-align: center; vertical-align: top\"><tr style=\"line-height:30px\">" +
+				"<td><strong>Candidate Name</strong></td> <td>"+candidateName+"</td> </tr><tr style=\"line-height:25px\">" +
+				"<td><strong>Candidate Status</strong></td> <td>"+candidateStatus+"</td> </tr><tr style=\"line-height:25px\">" +
+				"<td><strong>Candidate ID</strong></td> <td>"+CANID+"</td> </tr><tr style=\"line-height:25px\">" +
+				"<td><strong>JobTitle</strong></td> <td>"+can_jobtitle+"</td> </tr><tr style=\"line-height:25px\">" +
+				"<td><strong>Reqirement ID</strong></td> <td>"+RequirementID+"</td> </tr><tr style=\"line-height:25px\">" +
+				"<td><strong>Candidate Email</strong></td> <td>"+candidateEmail+"</td> </tr>" +
+				"</tbody></table><table style=\"width:95%;margin:0 auto\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tr><td style=\"padding:30px 0px;background-color: #fff;\"><p style=\"line-height: 20px;text-align:left;\">Regards,<br>Menchforce Sourcing Team,<br>hr@menschforce.com"+
+				"</td></tr></table></tbody></table></td></tr></tbody></table></div></div></div></body></html>";
+		
+		
+	}
+	
+	else if(candidateStatus.equalsIgnoreCase("Rejected") || candidateStatus == "Rejected"){
+		
+		
+		
+		htmlbody="<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important;\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;" +
+              "text-align: center;vertical-align: top; width: 100%;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody><tr><td align=\"center\" valign=\"top\" style=\" background-color: #2f68b4;border-radius: 4px 4px 0 0;padding-bottom: 16px; text-align: center;\">" +
+              "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"padding-top: 16px;\"><a href=\"#\"><img style=\"height: auto; max-width: 156px;\" src=\"https://www.digiblitzonline.com:8843/menschforce/img/menschForce_logo.png\" alt=\"Logo\"/></a></td>" +
+              " </tr></tbody></table></td></tr></tbody></table><div ><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"background-color: #fff;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>" +
+              "<tr><td  valign=\"top\" style=\"  padding: 0px 10px;text-align: center; vertical-align: top;\"><h4 style=\"font-size: 18px;font-weight: 400;line-height: 25px; margin: 16px 0 8px;padding: 0;text-align: left;\">Dear Staffing Partner,</h4></td> </tr><tr></tr> <tr><td style=\"padding:0px 10px\"><p style=\"margin: 20px 0 10px;text-align:left;\">"+
+              "Thank You for submitting your candidate's resume.Your Candidate status has been updated by the menschForce Hiring Team. The candidate does not currently meet the necessary requirements. You can submit more candidates here. <a href=\"http://www.menschforce.com\">www.menschforce.com</a><br><br>Here are the Details:</td></tr><table style=\"width:85%;margin:0 auto\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody style=\"width:85%\"><tr  align=\"center\" valign=\"top\" style=\"padding: 16px;text-align: center; vertical-align: top\"><tr style=\"line-height:30px\">" +
+				"<td><strong>Candidate Name</strong></td> <td>"+candidateName+"</td> </tr><tr style=\"line-height:25px\">" +
+				"<td><strong>Candidate Status</strong></td> <td>"+candidateStatus+"</td> </tr><tr style=\"line-height:25px\">" +
+				"<td><strong>Candidate ID</strong></td> <td>"+CANID+"</td> </tr><tr style=\"line-height:25px\">" +
+				"<td><strong>JobTitle</strong></td> <td>"+can_jobtitle+"</td> </tr><tr style=\"line-height:25px\">" +
+				"<td><strong>Reqirement ID</strong></td> <td>"+RequirementID+"</td> </tr><tr style=\"line-height:25px\">" +
+				"<td><strong>Candidate Email</strong></td> <td>"+candidateEmail+"</td> </tr>" +
+				"</tbody></table><table style=\"width:95%;margin:0 auto\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tr><td style=\"padding:30px 0px;background-color: #fff;\"><p style=\"line-height: 20px;text-align:left;\">Regards,<br>Menchforce Sourcing Team,<br>hr@menschforce.com"+
+				"</td></tr></table></tbody></table></td></tr></tbody></table></div></div></div></body></html>";
+	
+		
+	}
+     
+
+else if(candidateStatus.equalsIgnoreCase("Shortlisted") || candidateStatus == "Shortlisted"){
+		
+		htmlbody="<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important;\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;" +
+              "text-align: center;vertical-align: top; width: 100%;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody><tr><td align=\"center\" valign=\"top\" style=\" background-color: #2f68b4;border-radius: 4px 4px 0 0;padding-bottom: 16px; text-align: center;\">" +
+              "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"padding-top: 16px;\"><a href=\"#\"><img style=\"height: auto; max-width: 156px;\" src=\"https://www.digiblitzonline.com:8843/menschforce/img/menschForce_logo.png\" alt=\"Logo\"/></a></td>" +
+              " </tr></tbody></table></td></tr></tbody></table><div ><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"background-color: #fff;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>" +
+              "<tr><td  valign=\"top\" style=\"  padding: 0px 10px;text-align: center; vertical-align: top;\"><h4 style=\"font-size: 18px;font-weight: 400;line-height: 25px; margin: 16px 0 8px;padding: 0;text-align: left;\">Dear Staffing Partner,</h4></td> </tr><tr></tr> <tr><td style=\"padding:0px 10px\"><p style=\"margin: 20px 0 10px;text-align:left;\">"+
+              "Your recent application for Job title <strong>' "+can_jobtitle+ "'</strong>. Your Candidate status has been updated by the menschForce Hiring Team.<br>Here are the Details:</td></tr><table style=\"width:85%;margin:0 auto\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody style=\"width:85%\"><tr  align=\"center\" valign=\"top\" style=\"padding: 16px;text-align: center; vertical-align: top\"><tr style=\"line-height:30px\">" +
+				"<td><strong>Candidate Name</strong></td> <td>"+candidateName+"</td> </tr><tr style=\"line-height:25px\">" +
+				"<td><strong>Candidate Status</strong></td> <td>"+candidateStatus+"</td> </tr><tr style=\"line-height:25px\">" +
+				"<td><strong>Candidate ID</strong></td> <td>"+CANID+"</td> </tr><tr style=\"line-height:25px\">" +
+				"<td><strong>JobTitle</strong></td> <td>"+can_jobtitle+"</td> </tr><tr style=\"line-height:25px\">" +
+				"<td><strong>Reqirement ID</strong></td> <td>"+RequirementID+"</td> </tr><tr style=\"line-height:25px\">" +
+				"<td><strong>Candidate Email</strong></td> <td>"+candidateEmail+"</td> </tr>" +
+				"</tbody></table><table style=\"width:95%;margin:0 auto\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tr><td style=\"padding:30px 0px;background-color: #fff;\"><p style=\"line-height: 20px;text-align:left;\">Regards,<br>Menchforce Sourcing Team,<br>hr@menschforce.com"+
+				"</td></tr></table></tbody></table></td></tr></tbody></table></div></div></div></body></html>";
+	
+      }
+	boolean updateCanStatus = false;
+	
+	updateCanStatus = db.updateCandidateStatusByUniqueId(CanDetailsByUniqueId,candidateStatus);
+	
+	if(updateCanStatus){
+		System.out.println("debug jithina updateCanStatus-recruiter");
+		
+		try{
+			email4.setBody(htmlbody);// content=htmlBoady
+			MailMail mail4 = new MailMail();
+			boolean emailFlag4 = mail4.sendMimeEmail(email4);
+			Debug.print("Email sent sucessfully to recruiter:" + emailFlag4);
+	 }
+		catch (Exception ex) {
+			System.err.println("Caught an exception.");
+			request.setAttribute("response_status", "fail");
+			ex.printStackTrace();
+
+		} 
+	
+	}
+		 
+
+
+			
+			/*----------------------------------------------------------- mail starts to candidate-------------------------------------------------------------------------------------*/
+					
+		  		  
+		  
+	            System.out.println("debug jithina mail start to candidate ");
+	            
+	              String emailid3 = candidateEmail;
+    			  String toMailIds3[] = { emailid3 };// instance toMailds1
+    			  EmailContent email3 = new EmailContent();// instance email1
+    			  email3.setTo(toMailIds3);
+    			  email3.setFrom("hr@menschforce.com");
+    			  email3.setSubject("candidate::Status");
+		                 
+		      			
 		
 		if(candidateStatus.equalsIgnoreCase("Accepted By Client") || candidateStatus == "Accepted By Client"){
+						
+			
+			
 			htmlbody = "<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important;\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;" +
                     "text-align: center;vertical-align: top; width: 100%;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody><tr><td align=\"center\" valign=\"top\" style=\" background-color: #2f68b4;border-radius: 4px 4px 0 0;padding-bottom: 16px; text-align: center;\">" +
                     "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"padding-top: 16px;\"><a href=\"#\"><img style=\"height: auto; max-width: 156px;\" src=\"https://www.digiblitzonline.com:8843/menschforce/img/menschForce_logo.png\" alt=\"Logo\"/></a></td>" +
                     " </tr></tbody></table></td></tr></tbody></table><div ><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"background-color: #fff;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>" +
-                    "<tr><td  valign=\"top\" style=\"  padding: 0px 10px;text-align: center; vertical-align: top;\"><h4 style=\"font-size: 18px;font-weight: 400;line-height: 25px; margin: 16px 0 8px;padding: 0;text-align: left;\">Dear Staffing Partner,</h4></td> </tr><tr></tr> <tr><td style=\"padding:0px 10px\"><p style=\"margin: 20px 0 10px;text-align:left;\">"+
-                    "Your recent application for Job title <strong>' "+can_jobtitle+ "'</strong> has been reviewed and accepted by the Human Resource Department. We wish to inform you that we will call your candidate for next screening shortly. Please take a look on this website to check the candidate status updates.</td></tr><table style=\"width:85%;margin:0 auto\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody style=\"width:85%\"><tr  align=\"center\" valign=\"top\" style=\"padding: 16px;text-align: center; vertical-align: top\"><tr style=\"line-height:30px\">" +
+                    "<tr><td  valign=\"top\" style=\"  padding: 0px 10px;text-align: center; vertical-align: top;\"><h4 style=\"font-size: 18px;font-weight: 400;line-height: 25px; margin: 16px 0 8px;padding: 0;text-align: left;\">Dear " +candidateName+",</h4></td> </tr><tr></tr> <tr><td style=\"padding:0px 10px\"><p style=\"margin: 20px 0 10px;text-align:left;\">"+
+                    "Your recent application for Job title <strong>' "+can_jobtitle+ ".'</strong>Your status has been updated by the menschForce Hiring Team.<br><br>Here are the details:</td></tr><table style=\"width:85%;margin:0 auto\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody style=\"width:85%\"><tr  align=\"center\" valign=\"top\" style=\"padding: 16px;text-align: center; vertical-align: top\"><tr style=\"line-height:30px\">" +
 					"<td><strong>Candidate Name</strong></td> <td>"+candidateName+"</td> </tr><tr style=\"line-height:25px\">" +
+					"<td><strong>Candidate Status</strong></td> <td>"+candidateStatus+"</td> </tr><tr style=\"line-height:25px\">" +
 					"<td><strong>Candidate ID</strong></td> <td>"+CANID+"</td> </tr><tr style=\"line-height:25px\">" +
 					"<td><strong>JobTitle</strong></td> <td>"+can_jobtitle+"</td> </tr><tr style=\"line-height:25px\">" +
 					"<td><strong>Reqirement ID</strong></td> <td>"+RequirementID+"</td> </tr><tr style=\"line-height:25px\">" +
 					"<td><strong>Candidate Email</strong></td> <td>"+candidateEmail+"</td> </tr>" +
-					"</tbody></table><table style=\"width:95%;margin:0 auto\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tr><td style=\"padding:30px 0px;background-color: #fff;\"><p style=\"line-height: 20px;text-align:left;\">Regards,<br>HR Department."+
+					"</tbody></table><table style=\"width:95%;margin:0 auto\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tr><td style=\"padding:30px 0px;background-color: #fff;\"><p style=\"line-height: 20px;text-align:left;\">Regards,<br>Menchforce Sourcing Team,<br>hr@menschforce.com"+
 					"</td></tr></table></tbody></table></td></tr></tbody></table></div></div></div></body></html>";
+			 			
 		}
+		 
+		
 		else if(candidateStatus.equalsIgnoreCase("Rejected By Rate") || candidateStatus == "Rejected By Rate"){
+			
+									
 			htmlbody ="<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important;\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;" +
                     "text-align: center;vertical-align: top; width: 100%;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody><tr><td align=\"center\" valign=\"top\" style=\" background-color: #2f68b4;border-radius: 4px 4px 0 0;padding-bottom: 16px; text-align: center;\">" +
                     "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"padding-top: 16px;\"><a href=\"#\"><img style=\"height: auto; max-width: 156px;\" src=\"https://www.digiblitzonline.com:8843/menschforce/img/menschForce_logo.png\" alt=\"Logo\"/></a></td>" +
                     " </tr></tbody></table></td></tr></tbody></table><div ><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"background-color: #fff;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>" +
-                    "<tr><td  valign=\"top\" style=\"  padding: 0px 10px;text-align: center; vertical-align: top;\"><h4 style=\"font-size: 18px;font-weight: 400;line-height: 25px; margin: 16px 0 8px;padding: 0;text-align: left;\">Dear Staffing Partner,</h4></td> </tr><tr></tr> <tr><td style=\"padding:0px 10px\"><p style=\"margin: 20px 0 10px;text-align:left;\">"+
-                    "Thank You for submitting your candidate's resume. Please re-submit the candidate profile with a acceptable rate . Click the link <a href=\"http://www.menschforce.com\">www.menschforce.com</a></td></tr><table style=\"width:85%;margin:0 auto\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody style=\"width:85%\"><tr  align=\"center\" valign=\"top\" style=\"padding: 16px;text-align: center; vertical-align: top\"><tr style=\"line-height:30px\">" +
+                    "<tr><td  valign=\"top\" style=\"  padding: 0px 10px;text-align: center; vertical-align: top;\"><h4 style=\"font-size: 18px;font-weight: 400;line-height: 25px; margin: 16px 0 8px;padding: 0;text-align:left;\">Dear " +candidateName+",</h4></td> </tr><tr></tr> <tr><td style=\"padding:0px 10px\"><p style=\"margin: 20px 0 10px;text-align:left;\">"+
+                    "Your recent application for Job title <strong>' "+can_jobtitle+ ".'</strong>Your status has been updated by the menschForce Hiring Team . Click the link <a href=\"http://www.menschforce.com\">www.menschforce.com</a> <br> Here are the details:</td></tr><table style=\"width:85%;margin:0 auto\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody style=\"width:85%\"><tr  align=\"center\" valign=\"top\" style=\"padding: 16px;text-align: center; vertical-align: top\"><tr style=\"line-height:30px\">" +
 					"<td><strong>Candidate Name</strong></td> <td>"+candidateName+"</td> </tr><tr style=\"line-height:25px\">" +
+					"<td><strong>Candidate Status</strong></td> <td>"+candidateStatus+"</td> </tr><tr style=\"line-height:25px\">" +
 					"<td><strong>Candidate ID</strong></td> <td>"+CANID+"</td> </tr><tr style=\"line-height:25px\">" +
 					"<td><strong>JobTitle</strong></td> <td>"+can_jobtitle+"</td> </tr><tr style=\"line-height:25px\">" +
 					"<td><strong>Reqirement ID</strong></td> <td>"+RequirementID+"</td> </tr><tr style=\"line-height:25px\">" +
 					"<td><strong>Candidate Email</strong></td> <td>"+candidateEmail+"</td> </tr>" +
-					"</tbody></table><table style=\"width:95%;margin:0 auto\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tr><td style=\"padding:30px 0px;background-color: #fff;\"><p style=\"line-height: 20px;text-align:left;\">Regards,<br>HR Department."+
+					"</tbody></table><table style=\"width:95%;margin:0 auto\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tr><td style=\"padding:30px 0px;background-color: #fff;\"><p style=\"line-height: 20px;text-align:left;\">Regards,<br>Menchforce Sourcing Team,<br>hr@menschforce.com"+
 					"</td></tr></table></tbody></table></td></tr></tbody></table></div></div></div></body></html>";
-		}
-		else if(candidateStatus.equalsIgnoreCase("Rejected") || candidateStatus == "Rejected"){
-			htmlbody="<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important;\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;" +
-                    "text-align: center;vertical-align: top; width: 100%;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody><tr><td align=\"center\" valign=\"top\" style=\" background-color: #2f68b4;border-radius: 4px 4px 0 0;padding-bottom: 16px; text-align: center;\">" +
-                    "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"padding-top: 16px;\"><a href=\"#\"><img style=\"height: auto; max-width: 156px;\" src=\"https://www.digiblitzonline.com:8843/menschforce/img/menschForce_logo.png\" alt=\"Logo\"/></a></td>" +
-                    " </tr></tbody></table></td></tr></tbody></table><div ><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"background-color: #fff;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>" +
-                    "<tr><td  valign=\"top\" style=\"  padding: 0px 10px;text-align: center; vertical-align: top;\"><h4 style=\"font-size: 18px;font-weight: 400;line-height: 25px; margin: 16px 0 8px;padding: 0;text-align: left;\">Dear Staffing Partner,</h4></td> </tr><tr></tr> <tr><td style=\"padding:0px 10px\"><p style=\"margin: 20px 0 10px;text-align:left;\">"+
-                    "Thank You for submitting your candidate's resume. The candidate does not currently meet the necessary requirements. You can submit more candidate here. <a href=\"http://www.menschforce.com\">www.menschforce.com</a></td></tr><table style=\"width:85%;margin:0 auto\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody style=\"width:85%\"><tr  align=\"center\" valign=\"top\" style=\"padding: 16px;text-align: center; vertical-align: top\"><tr style=\"line-height:30px\">" +
-					"<td><strong>Candidate Name</strong></td> <td>"+candidateName+"</td> </tr><tr style=\"line-height:25px\">" +
-					"<td><strong>Candidate ID</strong></td> <td>"+CANID+"</td> </tr><tr style=\"line-height:25px\">" +
-					"<td><strong>JobTitle</strong></td> <td>"+can_jobtitle+"</td> </tr><tr style=\"line-height:25px\">" +
-					"<td><strong>Reqirement ID</strong></td> <td>"+RequirementID+"</td> </tr><tr style=\"line-height:25px\">" +
-					"<td><strong>Candidate Email</strong></td> <td>"+candidateEmail+"</td> </tr>" +
-					"</tbody></table><table style=\"width:95%;margin:0 auto\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tr><td style=\"padding:30px 0px;background-color: #fff;\"><p style=\"line-height: 20px;text-align:left;\">Regards,<br>HR Department."+
-					"</td></tr></table></tbody></table></td></tr></tbody></table></div></div></div></body></html>";
-		}
-		else if(candidateStatus.equalsIgnoreCase("Shortlisted") || candidateStatus == "Shortlisted"){
-			htmlbody="<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important;\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;" +
-                    "text-align: center;vertical-align: top; width: 100%;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody><tr><td align=\"center\" valign=\"top\" style=\" background-color: #2f68b4;border-radius: 4px 4px 0 0;padding-bottom: 16px; text-align: center;\">" +
-                    "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"padding-top: 16px;\"><a href=\"#\"><img style=\"height: auto; max-width: 156px;\" src=\"https://www.digiblitzonline.com:8843/menschforce/img/menschForce_logo.png\" alt=\"Logo\"/></a></td>" +
-                    " </tr></tbody></table></td></tr></tbody></table><div ><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"background-color: #fff;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>" +
-                    "<tr><td  valign=\"top\" style=\"  padding: 0px 10px;text-align: center; vertical-align: top;\"><h4 style=\"font-size: 18px;font-weight: 400;line-height: 25px; margin: 16px 0 8px;padding: 0;text-align: left;\">Dear Staffing Partner,</h4></td> </tr><tr></tr> <tr><td style=\"padding:0px 10px\"><p style=\"margin: 20px 0 10px;text-align:left;\">"+
-                    "Your Candidate has been shortlisted for next level screening process.Click here to find the candidate status. <a href=\"http://www.menschforce.com\">www.menschforce.com</a></td></tr><table style=\"width:85%;margin:0 auto\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody style=\"width:85%\"><tr  align=\"center\" valign=\"top\" style=\"padding: 16px;text-align: center; vertical-align: top\"><tr style=\"line-height:30px\">" +
-					"<td><strong>Candidate Name</strong></td> <td>"+candidateName+"</td> </tr><tr style=\"line-height:25px\">" +
-					"<td><strong>Candidate ID</strong></td> <td>"+CANID+"</td> </tr><tr style=\"line-height:25px\">" +
-					"<td><strong>JobTitle</strong></td> <td>"+can_jobtitle+"</td> </tr><tr style=\"line-height:25px\">" +
-					"<td><strong>Reqirement ID</strong></td> <td>"+RequirementID+"</td> </tr><tr style=\"line-height:25px\">" +
-					"<td><strong>Candidate Email</strong></td> <td>"+candidateEmail+"</td> </tr>" +
-					"</tbody></table><table style=\"width:95%;margin:0 auto\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tr><td style=\"padding:30px 0px;background-color: #fff;\"><p style=\"line-height: 20px;text-align:left;\">Regards,<br>HR Department."+
-					"</td></tr></table></tbody></table></td></tr></tbody></table></div></div></div></body></html>";
+			
+			
 		}
 		
+		else if(candidateStatus.equalsIgnoreCase("Rejected") || candidateStatus == "Rejected"){
+			
+			System.out.println("debug jithina rejected-candidate ");
+			htmlbody="<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important;\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;" +
+                    "text-align: center;vertical-align: top; width: 100%;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody><tr><td align=\"center\" valign=\"top\" style=\" background-color: #2f68b4;border-radius: 4px 4px 0 0;padding-bottom: 16px; text-align: center;\">" +
+                    "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"padding-top: 16px;\"><a href=\"#\"><img style=\"height: auto; max-width: 156px;\" src=\"https://www.digiblitzonline.com:8843/menschforce/img/menschForce_logo.png\" alt=\"Logo\"/></a></td>" +
+                    " </tr></tbody></table></td></tr></tbody></table><div ><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"background-color: #fff;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>" +
+                    "<tr><td  valign=\"top\" style=\"  padding: 0px 10px;text-align: center; vertical-align: top;\"><h4 style=\"font-size: 18px;font-weight: 400;line-height: 25px; margin: 16px 0 8px;padding: 0;text-align: left;\">Dear   " +candidateName+" ,</h4></td> </tr><tr></tr> <tr><td style=\"padding:0px 10px\"><p style=\"margin: 20px 0 10px;text-align:left;\">"+
+                    "Your status has been updated by the menschForce Hiring Team.<br>Here are the Details:  </td></tr><table style=\"width:85%;margin:0 auto\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody style=\"width:85%\"><tr  align=\"center\" valign=\"top\" style=\"padding: 16px;text-align: center; vertical-align: top\"><tr style=\"line-height:30px\">" +
+					"<td><strong>Candidate Name</strong></td> <td>"+candidateName+"</td> </tr><tr style=\"line-height:25px\">" +
+					"<td><strong>Candidate Status</strong></td> <td>"+candidateStatus+"</td> </tr><tr style=\"line-height:25px\">" +
+					"<td><strong>Candidate ID</strong></td> <td>"+CANID+"</td> </tr><tr style=\"line-height:25px\">" +
+					"<td><strong>JobTitle</strong></td> <td>"+can_jobtitle+"</td> </tr><tr style=\"line-height:25px\">" +
+					"<td><strong>Reqirement ID</strong></td> <td>"+RequirementID+"</td> </tr><tr style=\"line-height:25px\">" +
+					"<td><strong>Candidate Email</strong></td> <td>"+candidateEmail+"</td> </tr>" +
+					"</tbody></table><table style=\"width:95%;margin:0 auto\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tr><td style=\"padding:30px 0px;background-color: #fff;\"><p style=\"line-height: 20px;text-align:left;\">Regards,<br>Menchforce Sourcing Team,<br>hr@menschforce.com"+
+					"</td></tr></table></tbody></table></td></tr></tbody></table></div></div></div></body></html>";
+		
+			
+		}
+            else if(candidateStatus.equalsIgnoreCase("Shortlisted") || candidateStatus == "Shortlisted"){
+			System.out.println("debug jithina enterd");
+			htmlbody="<html><body><div style=\" background-color: #d8dde4;  padding: 32px 10px;text-align: center!important;\"><div style=\"max-width: 580px; text-align: center;margin: 0 auto;width: 100%; display: inline-block;" +
+                    "text-align: center;vertical-align: top; width: 100%;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"> <tbody><tr><td align=\"center\" valign=\"top\" style=\" background-color: #2f68b4;border-radius: 4px 4px 0 0;padding-bottom: 16px; text-align: center;\">" +
+                    "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"padding-top: 16px;\"><a href=\"#\"><img style=\"height: auto; max-width: 156px;\" src=\"https://www.digiblitzonline.com:8843/menschforce/img/menschForce_logo.png\" alt=\"Logo\"/></a></td>" +
+                    " </tr></tbody></table></td></tr></tbody></table><div ><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"center\" valign=\"top\" style=\"background-color: #fff;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>" +
+                    "<tr><td  valign=\"top\" style=\"  padding: 0px 10px;text-align: center; vertical-align: top;\"><h4 style=\"font-size: 18px;font-weight: 400;line-height: 25px; margin: 16px 0 8px;padding: 0;text-align: left;\">Dear " +candidateName+" ,</h4></td> </tr><tr></tr> <tr><td style=\"padding:0px 10px\"><p style=\"margin: 20px 0 10px;text-align:left;\">"+
+                    "Your recent application for Job title <strong>' "+can_jobtitle+ ".'</strong>Your status has been updated by the menschForce Hiring Team.<br> Here are the details:</td></tr><table style=\"width:85%;margin:0 auto\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody style=\"width:85%\"><tr  align=\"center\" valign=\"top\" style=\"padding: 16px;text-align: center; vertical-align: top\"><tr style=\"line-height:30px\">" +
+					"<td><strong>Candidate Name</strong></td> <td>"+candidateName+"</td> </tr><tr style=\"line-height:25px\">" +
+					"<td><strong>Candidate Status</strong></td> <td>"+candidateStatus+"</td> </tr><tr style=\"line-height:25px\">" +
+					"<td><strong>Candidate ID</strong></td> <td>"+CANID+"</td> </tr><tr style=\"line-height:25px\">" +
+					"<td><strong>JobTitle</strong></td> <td>"+can_jobtitle+"</td> </tr><tr style=\"line-height:25px\">" +
+					"<td><strong>Reqirement ID</strong></td> <td>"+RequirementID+"</td> </tr><tr style=\"line-height:25px\">" +
+					"<td><strong>Candidate Email</strong></td> <td>"+candidateEmail+"</td> </tr>" +
+					"</tbody></table><table style=\"width:95%;margin:0 auto\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tr><td style=\"padding:30px 0px;background-color: #fff;\"><p style=\"line-height: 20px;text-align:left;\">Regards,<br>Menchforce Sourcing Team,<br>hr@menschforce.com"+
+					"</td></tr></table></tbody></table></td></tr></tbody></table></div></div></div></body></html>";
+		
+            }
+
+		
+		updateCanStatus = db.updateCandidateStatusByUniqueId(CanDetailsByUniqueId,candidateStatus);
+		
+		if(updateCanStatus){
+			System.out.println("debug jithina updateCanStatus-candidate");
+			
+			try{
+				email3.setBody(htmlbody);// content=htmlBoady
+    			MailMail mail3 = new MailMail();
+    			boolean emailFlag3 = mail3.sendMimeEmail(email3);
+    			Debug.print("Email sent sucessfully to candidate :" + emailFlag3);
 		 }
+			catch (Exception ex) {
+				System.err.println("Caught an exception.");
+				request.setAttribute("response_status", "fail");
+				ex.printStackTrace();
+
+			} 
+			
+		}
+		
+		}
 		boolean updateCanStatus = false;
 		
 		updateCanStatus = db.updateCandidateStatusByUniqueId(CanDetailsByUniqueId,candidateStatus);
 		
-		String fromAddress=null;
+		//String fromAddress=null;
 			if(updateCanStatus){
+				System.out.println("debug jithina updateCanStatus");
 				
 				try{
-					obj1.createAndCheckDuplicateContact(txtempname, txtempname, employerMailID);
-					obj1.optin_outEmail(employerMailID);
-					obj1.sendEmail("info@menschforce.com", employerMailID, "priya.karunanidhi@digiblitz.in", "", "Html","Candidate Status",htmlbody,"" );
-				}catch (XmlRpcException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+						      			  
+					//obj1.createAndCheckDuplicateContact(txtempname, txtempname, employerMailID);
+					//obj1.optin_outEmail(employerMailID);
+					//obj1.sendEmail("jprakaz593@gmail.com", employerMailID, "jprakazjp@gmail.com", "", "Html","Candidate Status",htmlbody,"" );
+	      		
+				
+				}catch (Exception ex) {
+					//System.err.println("Caught an exception.");
+					//request.setAttribute("response_status", "fail");
+					//ex.printStackTrace();
+
+				} 
+				
+				
 				if(candidateStatus.equalsIgnoreCase("Joined") || candidateStatus == "Joined"){
 				
 				
@@ -1529,8 +1773,10 @@ GeneralDBAction db = new GeneralDBAction();
 		        request.setAttribute("pageStatus","Update");
 				return new ModelAndView("requirements/listCandidateStatus");
 			}
-	}
+		 }
+			
 	
+/*-----------------------------------------------------status end here------------------------------------------------------------------*/	
 	
 	@RequestMapping("/initJoinedCandidateList.html")
 	public ModelAndView initJoinedCandidateList(HttpServletRequest request,
@@ -1735,6 +1981,7 @@ GeneralDBAction db = new GeneralDBAction();
 			 
 			 
 	}
+	/*----------------------------------------------------------------------------------------------------------------------------------*/
 	
 	@RequestMapping("/PostCandidateStatus.html")
 	public ModelAndView PostCandidateStatus(HttpServletRequest request,

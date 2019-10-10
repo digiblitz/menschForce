@@ -110,6 +110,45 @@
         <servlet-name>cometd</servlet-name>
         <url-pattern>/cometd/*</url-pattern>
     </servlet-mapping>
+    
+    <listener>
+        <listener-class>
+        com.sun.xml.ws.transport.http.servlet.WSServletContextListener
+        </listener-class>
+    </listener>
+    <servlet>
+        <servlet-name>DOSStagesService</servlet-name>
+        <servlet-class>
+        com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DOSStagesService</servlet-name>
+        <url-pattern>/DOS/DOSService</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>USCISStagesService</servlet-name>
+        <servlet-class>
+        com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>USCISStagesService</servlet-name>
+        <url-pattern>/USCIS/USCISService</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DOLStagesService</servlet-name>
+        <servlet-class>
+        com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DOLStagesService</servlet-name>
+        <url-pattern>/DOL/DOLService</url-pattern>
+    </servlet-mapping>
 <!--  <listener>
     <listener-class>ThreadSample</listener-class>
 </listener> -->
